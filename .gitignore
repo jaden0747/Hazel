@@ -1,3 +1,8 @@
 .vscode
 .vs
 build/
+bin
+bin-int
+*.sln
+*.vcxproj
+*.vcxproj.user
