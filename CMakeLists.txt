@@ -5,7 +5,15 @@ add_subdirectory(Hazel/vendor/spdlog)
 
 add_library(hazel SHARED 
     Hazel/src/Hazel/Application.cpp
+    Hazel/src/Hazel/Application.h
     Hazel/src/Hazel/Log.cpp
+    Hazel/src/Hazel/Log.h
+    Hazel/src/Hazel/Core.h
+    Hazel/src/Hazel/EntryPoint.h
+    Hazel/src/Hazel/Events/ApplicationEvent.h
+    Hazel/src/Hazel/Events/Event.h
+    Hazel/src/Hazel/Events/KeyEvent.h
+    Hazel/src/Hazel/Events/MouseEvent.h
 )
 
 target_include_directories(hazel PUBLIC 
@@ -22,6 +30,7 @@ target_link_libraries(hazel PUBLIC spdlog)
 
 add_executable(hazel-app  
     Sandbox/src/SandboxApp.cpp
+    Hazel/Hazel.h
 )
 
 target_include_directories(hazel-app PUBLIC
