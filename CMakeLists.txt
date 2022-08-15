@@ -4,6 +4,7 @@ project(hazel-app)
 add_subdirectory(Hazel/vendor/spdlog)
 
 add_library(hazel SHARED 
+    Hazel/src/hzpch.cpp
     Hazel/src/Hazel/Application.cpp
     Hazel/src/Hazel/Application.h
     Hazel/src/Hazel/Log.cpp
@@ -25,6 +26,8 @@ target_compile_definitions(hazel PRIVATE
     HZ_PLATFORM_WINDOWS 
     HZ_BUILD_DLL
 )
+
+target_precompile_headers(hazel PUBLIC Hazel/src/hzpch.h)
 
 target_link_libraries(hazel PUBLIC spdlog)
 
