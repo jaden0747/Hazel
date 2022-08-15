@@ -4,11 +4,13 @@
 #include "Hazel/Events/ApplicationEvent.h"
 #include "Log.h"
 
+#include <GLFW/glfw3.h>
+
 namespace hazel
 {
 
   Application::Application() {
-
+    m_window = std::unique_ptr<Window>(Window::create());
   }
 
   Application::~Application() {
@@ -16,15 +18,10 @@ namespace hazel
   }
 
   void Application::run() {
-    WindowResizeEvent e(1920, 1080);
-    if (e.isInCategory(EventCategoryApplication)) {
-      HZ_TRACE(e);
-    }
-    if (e.isInCategory(EventCategoryInput)) {
-      HZ_TRACE(e);
-    }
-    while (true) {
-
+    while (m_running) {
+      glClearColor(1, 0, 1, 1);
+      // glClear(GL_COLOR_BUFFET_BIT);
+      m_window->onUpdate();
     }
   }
 

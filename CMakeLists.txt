@@ -3,6 +3,13 @@ project(hazel-app)
 
 add_subdirectory(Hazel/vendor/spdlog)
 
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+add_subdirectory(Hazel/vendor/GLFW)
+
+find_package(OpenGL REQUIRED)
+
 add_library(hazel SHARED 
     Hazel/src/hzpch.cpp
     Hazel/src/Hazel/Application.cpp
@@ -15,11 +22,15 @@ add_library(hazel SHARED
     Hazel/src/Hazel/Events/Event.h
     Hazel/src/Hazel/Events/KeyEvent.h
     Hazel/src/Hazel/Events/MouseEvent.h
+    Hazel/src/Hazel/Window.h
+    Hazel/src/Hazel/Platform/Windows/WindowsWindow.h
+    Hazel/src/Hazel/Platform/Windows/WindowsWindow.cpp
 )
 
 target_include_directories(hazel PUBLIC 
     ${PROJECT_SOURCE_DIR}/Hazel/
     ${PROJECT_SOURCE_DIR}/Hazel/src/
+    ${PROJECT_SOURCE_DIR}/Hazel/vendor/GLFW/include
 )
 
 target_compile_definitions(hazel PRIVATE 
@@ -29,7 +40,7 @@ target_compile_definitions(hazel PRIVATE
 
 target_precompile_headers(hazel PUBLIC Hazel/src/hzpch.h)
 
-target_link_libraries(hazel PUBLIC spdlog)
+target_link_libraries(hazel PUBLIC spdlog glfw OpenGL::GL Dwmapi)
 
 add_executable(hazel-app  
     Sandbox/src/SandboxApp.cpp
