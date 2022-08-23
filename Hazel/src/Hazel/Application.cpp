@@ -20,10 +20,26 @@ namespace hazel
 
   }
 
+
+  void Application::pushLayer(Layer* layer) {
+    m_layerStack.pushLayer(layer);
+  }
+
+
+  void Application::pushOverlay(Layer* layer) {
+    m_layerStack.pushOverlay(layer);
+  }
+
+
   void Application::onEvent(Event& e) {
     EventDispatcher dispatcher(e);
     dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(onWindowClose));
-    HZ_CORE_TRACE("{0}", e);
+    for (auto it = m_layerStack.end(); it != m_layerStack.begin(); ) {
+      (*--it)->onEvent(e);
+      if (e.m_handled) {
+        break;
+      }
+    }
   }
 
 
@@ -31,6 +47,11 @@ namespace hazel
     while (m_running) {
       glClearColor(1, 0, 1, 1);
       // glClear(GL_COLOR_BUFFET_BIT);
+
+      for (Layer* layer : m_layerStack) {
+        layer->onUpdate();
+      }
+
       m_window->onUpdate();
     }
   }

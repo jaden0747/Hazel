@@ -3,6 +3,9 @@
 /* For use by Hazel applications */
 #include "Hazel/Application.h"
 
+/* Layer */
+#include "Hazel/Layer.h"
+
 /* Log */
 #include "Hazel/Log.h"
 
