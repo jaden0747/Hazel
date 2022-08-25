@@ -11,6 +11,7 @@ set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(Hazel/vendor/GLFW)
+add_subdirectory(Hazel/vendor/Glad)
 
 find_package(OpenGL REQUIRED)
 
@@ -39,16 +40,18 @@ target_include_directories(hazel PUBLIC
     ${PROJECT_SOURCE_DIR}/Hazel/
     ${PROJECT_SOURCE_DIR}/Hazel/src/
     ${PROJECT_SOURCE_DIR}/Hazel/vendor/GLFW/include
+    ${PROJECT_SOURCE_DIR}/Hazel/vendor/Glad/include
 )
 
 target_compile_definitions(hazel PRIVATE 
     HZ_PLATFORM_WINDOWS 
     HZ_BUILD_DLL
+    GLFW_INCLUDE_NONE
 )
 
 target_precompile_headers(hazel PUBLIC Hazel/src/hzpch.h)
 
-target_link_libraries(hazel PUBLIC spdlog glfw OpenGL::GL Dwmapi)
+target_link_libraries(hazel PUBLIC spdlog glfw OpenGL::GL Dwmapi Glad)
 
 add_executable(hazel-app  
     Sandbox/src/SandboxApp.cpp
