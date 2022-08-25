@@ -9,5 +9,8 @@
 /* Log */
 #include "Hazel/Log.h"
 
+/* ImGui */
+#include "Hazel/ImGui/ImGuiLayer.h"
+
 /* Entry point */
 #include "Hazel/EntryPoint.h" // keep last

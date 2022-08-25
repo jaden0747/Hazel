@@ -3,6 +3,7 @@ project(hazel-app)
 
 add_subdirectory(Hazel/vendor/spdlog)
 
+set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_FLAGS "/MD")
 set(CMAKE_CXX_FLAGS_DEBUG "/MDd")
 set(CMAKE_CXX_FLAGS_RELEASE "/MD")
@@ -12,6 +13,21 @@ set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(Hazel/vendor/GLFW)
 add_subdirectory(Hazel/vendor/Glad)
+
+add_library(ImGui STATIC 
+    Hazel/vendor/imgui/imconfig.h
+    Hazel/vendor/imgui/imgui.h
+    Hazel/vendor/imgui/imgui.cpp
+    Hazel/vendor/imgui/imgui_draw.cpp
+    Hazel/vendor/imgui/imgui_internal.h
+    Hazel/vendor/imgui/imgui_tables.cpp
+    Hazel/vendor/imgui/imgui_widgets.cpp
+    Hazel/vendor/imgui/imstb_rectpack.h
+    Hazel/vendor/imgui/imstb_textedit.h
+    Hazel/vendor/imgui/imstb_truetype.h
+    Hazel/vendor/imgui/imgui_demo.cpp
+)
+
 
 find_package(OpenGL REQUIRED)
 
@@ -34,6 +50,10 @@ add_library(hazel SHARED
     Hazel/src/Hazel/Layer.h
     Hazel/src/Hazel/LayerStack.cpp
     Hazel/src/Hazel/LayerStack.h
+    Hazel/src/Hazel/ImGui/ImGuiLayer.cpp
+    Hazel/src/Hazel/ImGui/ImGuiLayer.h
+    Hazel/src/Platform/OpenGL/ImGuiOpenGLRenderer.cpp
+    Hazel/src/Platform/OpenGL/ImGuiOpenGLRenderer.h
 )
 
 target_include_directories(hazel PUBLIC 
@@ -51,7 +71,7 @@ target_compile_definitions(hazel PRIVATE
 
 target_precompile_headers(hazel PUBLIC Hazel/src/hzpch.h)
 
-target_link_libraries(hazel PUBLIC spdlog glfw OpenGL::GL Dwmapi Glad)
+target_link_libraries(hazel PUBLIC spdlog glfw OpenGL::GL Dwmapi Glad ImGui)
 
 add_executable(hazel-app  
     Sandbox/src/SandboxApp.cpp
