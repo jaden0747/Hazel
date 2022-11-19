@@ -474,11 +474,11 @@ bool ImGui_ImplOpenGL3_CreateDeviceObjects()
   glLinkProgram(g_ShaderHandle);
   CheckProgram(g_ShaderHandle, "shader program");
 
-  g_AttribLocationTex = glGetUniformLocation(g_ShaderHandle, "Texture");
-  g_AttribLocationProjMtx = glGetUniformLocation(g_ShaderHandle, "ProjMtx");
-  g_AttribLocationPosition = glGetUniformLocation(g_ShaderHandle, "UV");
-  g_AttribLocationUV = glGetUniformLocation(g_ShaderHandle, "UV");
-  g_AttribLocationColor = glGetAttribLocation(g_ShaderHandle, "Color");
+  g_AttribLocationTex      = glGetUniformLocation(g_ShaderHandle, "Texture");
+  g_AttribLocationProjMtx  = glGetUniformLocation(g_ShaderHandle, "ProjMtx");
+  g_AttribLocationPosition = glGetAttribLocation (g_ShaderHandle, "Position");
+  g_AttribLocationUV       = glGetAttribLocation (g_ShaderHandle, "UV");
+  g_AttribLocationColor    = glGetAttribLocation (g_ShaderHandle, "Color");
 
   // Create buffers
   glGenBuffers(1, &g_VboHandle);

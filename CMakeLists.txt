@@ -3,10 +3,10 @@ project(hazel-app)
 
 add_subdirectory(Hazel/vendor/spdlog)
 
-set(CMAKE_BUILD_TYPE Debug)
-set(CMAKE_CXX_FLAGS "/MD")
-set(CMAKE_CXX_FLAGS_DEBUG "/MDd")
-set(CMAKE_CXX_FLAGS_RELEASE "/MD")
+# set(CMAKE_BUILD_TYPE Debug)
+# set(CMAKE_CXX_FLAGS "/MD")
+# set(CMAKE_CXX_FLAGS_DEBUG "/MDd")
+# set(CMAKE_CXX_FLAGS_RELEASE "/MD")
 
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
@@ -44,14 +44,14 @@ add_library(hazel SHARED
     Hazel/src/Hazel/Events/KeyEvent.h
     Hazel/src/Hazel/Events/MouseEvent.h
     Hazel/src/Hazel/Window.h
-    Hazel/src/Hazel/Platform/Windows/WindowsWindow.h
-    Hazel/src/Hazel/Platform/Windows/WindowsWindow.cpp
     Hazel/src/Hazel/Layer.cpp
     Hazel/src/Hazel/Layer.h
     Hazel/src/Hazel/LayerStack.cpp
     Hazel/src/Hazel/LayerStack.h
     Hazel/src/Hazel/ImGui/ImGuiLayer.cpp
     Hazel/src/Hazel/ImGui/ImGuiLayer.h
+    Hazel/src/Platform/Windows/WindowsWindow.h
+    Hazel/src/Platform/Windows/WindowsWindow.cpp
     Hazel/src/Platform/OpenGL/ImGuiOpenGLRenderer.cpp
     Hazel/src/Platform/OpenGL/ImGuiOpenGLRenderer.h
 )

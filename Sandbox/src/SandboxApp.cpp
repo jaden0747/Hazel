@@ -11,7 +11,7 @@ public:
 
 
   void onUpdate() override {
-    HZ_INFO("ExampleLayer::Update");
+    HZ_INFO(__FUNCTION__);
   }
 
 
