@@ -1,16 +1,7 @@
 #pragma once
 
-/* For use by Hazel applications */
-#include "Hazel/Application.h"
-
-/* Layer */
-#include "Hazel/Layer.h"
-
-/* Log */
-#include "Hazel/Log.h"
-
-/* ImGui */
-#include "Hazel/ImGui/ImGuiLayer.h"
-
-/* Entry point */
-#include "Hazel/EntryPoint.h" // keep last
+#include "Hazel/Application.h" /* For use by Hazel applications */
+#include "Hazel/Layer.h" /* Layer */
+#include "Hazel/Log.h" /* Log */
+#include "Hazel/ImGui/ImGuiLayer.h" /* ImGui */
+#include "Hazel/EntryPoint.h" // keep last /* Entry point */
