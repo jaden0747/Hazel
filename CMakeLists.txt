@@ -14,7 +14,7 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(Hazel/vendor/GLFW)
 add_subdirectory(Hazel/vendor/Glad)
 
-add_library(ImGui STATIC 
+add_library(MyImGui STATIC 
     Hazel/vendor/imgui/imconfig.h
     Hazel/vendor/imgui/imgui.h
     Hazel/vendor/imgui/imgui.cpp
@@ -27,6 +27,8 @@ add_library(ImGui STATIC
     Hazel/vendor/imgui/imstb_truetype.h
     Hazel/vendor/imgui/imgui_demo.cpp
 )
+
+target_include_directories(MyImGui PUBLIC Hazel/vendor/imgui/)
 
 
 find_package(OpenGL REQUIRED)
@@ -71,7 +73,7 @@ target_compile_definitions(hazel PRIVATE
 
 target_precompile_headers(hazel PUBLIC Hazel/src/hzpch.h)
 
-target_link_libraries(hazel PUBLIC spdlog glfw OpenGL::GL Dwmapi Glad ImGui)
+target_link_libraries(hazel PUBLIC spdlog glfw OpenGL::GL Dwmapi Glad MyImGui)
 
 add_executable(hazel-app  
     Sandbox/src/SandboxApp.cpp
