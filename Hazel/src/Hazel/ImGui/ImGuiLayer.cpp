@@ -33,7 +33,7 @@ namespace hazel
     ImGuiIO& io = ImGui::GetIO();
     io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
     io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
-    io.Fonts->AddFontFromFileTTF("C:/dev/Hazel/resources/fonts/Roboto-Regular.ttf", 32.0f);
+    io.Fonts->AddFontFromFileTTF("C:/dev/Hazel/resources/fonts/Roboto-Regular.ttf", 24.0f);
 		// TEMPORARY: should eventually use Hazel key codes
 		io.KeyMap[ImGuiKey_Tab]        = GLFW_KEY_TAB;
 		io.KeyMap[ImGuiKey_LeftArrow]  = GLFW_KEY_LEFT;
@@ -175,11 +175,11 @@ namespace hazel
 
   bool ImGuiLayer::onWindowResizeEvent(WindowResizeEvent& e)
   {
-    ImGuiIO& io = ImGui::GetIO();
-    io.DisplaySize = ImVec2(e.getWidth(), e.getHeight());
-    io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
+    ImGuiIO& io                         = ImGui::GetIO();
+             io.DisplaySize             = ImVec2(e.getWidth(), e.getHeight());
+             io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
     glViewport(0, 0, e.getWidth(), e.getHeight());
 
     return false;
   }
-}                
+}

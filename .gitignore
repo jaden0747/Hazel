@@ -1,6 +1,8 @@
 .vscode
 .vs
+.idea/
 build/
+*build/
 bin
 bin-int
 *.sln

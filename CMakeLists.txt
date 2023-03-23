@@ -8,6 +8,8 @@ add_subdirectory(Hazel/vendor/spdlog)
 # set(CMAKE_CXX_FLAGS_DEBUG "/MDd")
 # set(CMAKE_CXX_FLAGS_RELEASE "/MD")
 
+set(CMAKE_CXX_STANDARD 17)
+
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
@@ -35,6 +37,8 @@ find_package(OpenGL REQUIRED)
 
 add_library(hazel SHARED 
     Hazel/src/hzpch.cpp
+    Hazel/src/Hazel/Input.h
+    Hazel/src/Hazel/Input.cpp
     Hazel/src/Hazel/Application.cpp
     Hazel/src/Hazel/Application.h
     Hazel/src/Hazel/Log.cpp
@@ -54,6 +58,8 @@ add_library(hazel SHARED
     Hazel/src/Hazel/ImGui/ImGuiLayer.h
     Hazel/src/Platform/Windows/WindowsWindow.h
     Hazel/src/Platform/Windows/WindowsWindow.cpp
+    Hazel/src/Platform/Windows/WindowsInput.h
+    Hazel/src/Platform/Windows/WindowsInput.cpp
     Hazel/src/Platform/OpenGL/ImGuiOpenGLRenderer.cpp
     Hazel/src/Platform/OpenGL/ImGuiOpenGLRenderer.h
 )
@@ -61,6 +67,7 @@ add_library(hazel SHARED
 target_include_directories(hazel PUBLIC 
     ${PROJECT_SOURCE_DIR}/Hazel/
     ${PROJECT_SOURCE_DIR}/Hazel/src/
+    ${PROJECT_SOURCE_DIR}/Hazel/src/Hazel
     ${PROJECT_SOURCE_DIR}/Hazel/vendor/GLFW/include
     ${PROJECT_SOURCE_DIR}/Hazel/vendor/Glad/include
 )
