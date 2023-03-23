@@ -11,12 +11,19 @@ public:
 
 
   void onUpdate() override {
-    HZ_INFO(__FUNCTION__);
+    if (hazel::Input::isKeyPressed(HZ_KEY_TAB)) {
+      HZ_TRACE("Tab key is pressed (poll)!");
+    }
   }
 
 
   void onEvent(hazel::Event& event) override {
-    HZ_TRACE("{0}", event);
+    if (event.getEventType() == hazel::EventType::KeyPressed) {
+      hazel::KeyPressedEvent& e = (hazel::KeyPressedEvent&)event;
+      if (e.getKeyCode() == HZ_KEY_TAB) {
+        HZ_TRACE("Tab key is pressed (event)!");
+      }
+    }
   }
 
 };
