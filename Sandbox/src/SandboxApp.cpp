@@ -20,9 +20,7 @@ public:
   void onEvent(hazel::Event& event) override {
     if (event.getEventType() == hazel::EventType::KeyPressed) {
       hazel::KeyPressedEvent& e = (hazel::KeyPressedEvent&)event;
-      if (e.getKeyCode() == HZ_KEY_TAB) {
-        HZ_TRACE("Tab key is pressed (event)!");
-      }
+      HZ_TRACE("{0}", (char)e.getKeyCode());
     }
   }
 
@@ -33,8 +31,7 @@ class Sandbox : public hazel::Application
 {
 public:
   Sandbox() {
-    // pushLayer(new ExampleLayer());
-    pushOverlay(new hazel::ImGuiLayer());
+    pushLayer(new ExampleLayer());
   }
 
 

@@ -19,6 +19,9 @@ namespace hazel
     s_instance = this;
     m_window = std::unique_ptr<Window>(Window::create());
     m_window->setEventCallback(BIND_EVENT_FN(onEvent));
+
+    m_ImGuiLayer = new ImGuiLayer();
+		pushOverlay(m_ImGuiLayer);
   }
 
   
@@ -59,9 +62,11 @@ namespace hazel
       for (Layer* layer : m_layerStack) {
         layer->onUpdate();
       }
-
-      // auto [x, y] = Input::getMousePosition();
-      // HZ_CORE_TRACE("{0}, {1}", x, y);
+      
+			m_ImGuiLayer->begin();
+			for (Layer* layer : m_layerStack)
+				layer->onImGuiRender();
+			m_ImGuiLayer->end();
 
       m_window->onUpdate();
     }

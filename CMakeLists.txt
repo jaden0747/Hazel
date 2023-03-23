@@ -23,7 +23,7 @@ add_library(MyImGui STATIC
     Hazel/vendor/imgui/imgui.cpp
     Hazel/vendor/imgui/imgui_draw.cpp
     Hazel/vendor/imgui/imgui_internal.h
-    Hazel/vendor/imgui/imgui_tables.cpp
+    # Hazel/vendor/imgui/imgui_tables.cpp
     Hazel/vendor/imgui/imgui_widgets.cpp
     Hazel/vendor/imgui/imstb_rectpack.h
     Hazel/vendor/imgui/imstb_textedit.h
@@ -57,12 +57,11 @@ add_library(hazel SHARED
     Hazel/src/Hazel/LayerStack.h
     Hazel/src/Hazel/ImGui/ImGuiLayer.cpp
     Hazel/src/Hazel/ImGui/ImGuiLayer.h
+    Hazel/src/Hazel/ImGui/ImGuiBuild.cpp
     Hazel/src/Platform/Windows/WindowsWindow.h
     Hazel/src/Platform/Windows/WindowsWindow.cpp
     Hazel/src/Platform/Windows/WindowsInput.h
     Hazel/src/Platform/Windows/WindowsInput.cpp
-    Hazel/src/Platform/OpenGL/ImGuiOpenGLRenderer.cpp
-    Hazel/src/Platform/OpenGL/ImGuiOpenGLRenderer.h
 )
 
 target_include_directories(hazel PUBLIC 
@@ -72,6 +71,7 @@ target_include_directories(hazel PUBLIC
     ${PROJECT_SOURCE_DIR}/Hazel/vendor/GLFW/include
     ${PROJECT_SOURCE_DIR}/Hazel/vendor/Glad/include
     ${PROJECT_SOURCE_DIR}/Hazel/vendor/glm/
+    Hazel/vendor/imgui/
 )
 
 target_compile_definitions(hazel PRIVATE 
