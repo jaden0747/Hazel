@@ -58,10 +58,13 @@ add_library(hazel STATIC
     Hazel/src/Hazel/ImGui/ImGuiLayer.cpp
     Hazel/src/Hazel/ImGui/ImGuiLayer.h
     Hazel/src/Hazel/ImGui/ImGuiBuild.cpp
+    Hazel/src/Hazel/Renderer/GraphicsContext.h
     Hazel/src/Platform/Windows/WindowsWindow.h
     Hazel/src/Platform/Windows/WindowsWindow.cpp
     Hazel/src/Platform/Windows/WindowsInput.h
     Hazel/src/Platform/Windows/WindowsInput.cpp
+    Hazel/src/Platform/OpenGL/OpenGLContext.h
+    Hazel/src/Platform/OpenGL/OpenGLContext.cpp
 )
 
 target_include_directories(hazel PUBLIC 
