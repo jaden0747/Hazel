@@ -36,7 +36,7 @@ target_include_directories(MyImGui PUBLIC Hazel/vendor/imgui/)
 
 find_package(OpenGL REQUIRED)
 
-add_library(hazel SHARED 
+add_library(hazel STATIC 
     Hazel/src/hzpch.cpp
     Hazel/src/Hazel/Input.h
     Hazel/src/Hazel/Input.cpp
@@ -78,6 +78,7 @@ target_compile_definitions(hazel PRIVATE
     HZ_PLATFORM_WINDOWS 
     HZ_BUILD_DLL
     GLFW_INCLUDE_NONE
+    _CRT_SECURE_NO_WARNINGS
 )
 
 target_precompile_headers(hazel PUBLIC Hazel/src/hzpch.h)
@@ -95,7 +96,8 @@ target_include_directories(hazel-app PUBLIC
 )
 
 target_compile_definitions(hazel-app PRIVATE 
-    HZ_PLATFORM_WINDOWS 
+    HZ_PLATFORM_WINDOWS
+    _CRT_SECURE_NO_WARNINGS
 )
 
 target_link_libraries(hazel-app PRIVATE hazel)
