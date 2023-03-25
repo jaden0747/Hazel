@@ -40,6 +40,8 @@ namespace hazel
 
     ImGui::StyleColorsDark();
 
+    ImFont* customFont = io.Fonts->AddFontFromFileTTF("Hazel/vendor/imgui/misc/fonts/DroidSans.ttf", 26.0f);
+
     ImGuiStyle& style = ImGui::GetStyle();
     if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
     {
