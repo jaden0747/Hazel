@@ -59,6 +59,8 @@ add_library(hazel STATIC
     Hazel/src/Hazel/ImGui/ImGuiLayer.h
     Hazel/src/Hazel/ImGui/ImGuiBuild.cpp
     Hazel/src/Hazel/Renderer/GraphicsContext.h
+    Hazel/src/Hazel/Renderer/Shader.h
+    Hazel/src/Hazel/Renderer/Shader.cpp
     Hazel/src/Platform/Windows/WindowsWindow.h
     Hazel/src/Platform/Windows/WindowsWindow.cpp
     Hazel/src/Platform/Windows/WindowsInput.h
