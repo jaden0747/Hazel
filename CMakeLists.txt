@@ -61,12 +61,18 @@ add_library(hazel STATIC
     Hazel/src/Hazel/Renderer/GraphicsContext.h
     Hazel/src/Hazel/Renderer/Shader.h
     Hazel/src/Hazel/Renderer/Shader.cpp
+    Hazel/src/Hazel/Renderer/Buffer.h
+    Hazel/src/Hazel/Renderer/Buffer.cpp
+    Hazel/src/Hazel/Renderer/Renderer.h
+    Hazel/src/Hazel/Renderer/Renderer.cpp
     Hazel/src/Platform/Windows/WindowsWindow.h
     Hazel/src/Platform/Windows/WindowsWindow.cpp
     Hazel/src/Platform/Windows/WindowsInput.h
     Hazel/src/Platform/Windows/WindowsInput.cpp
     Hazel/src/Platform/OpenGL/OpenGLContext.h
     Hazel/src/Platform/OpenGL/OpenGLContext.cpp
+    Hazel/src/Platform/OpenGL/OpenGLBuffer.h
+    Hazel/src/Platform/OpenGL/OpenGLBuffer.cpp
 )
 
 target_include_directories(hazel PUBLIC 
