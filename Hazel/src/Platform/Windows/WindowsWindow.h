@@ -10,7 +10,7 @@ namespace hazel
   class WindowsWindow : public Window {
   public:
     WindowsWindow(const WindowProps& props);
-		virtual ~WindowsWindow();
+		virtual ~WindowsWindow() = default;
     virtual void onUpdate() override;
     inline unsigned int getWidth() const override { return m_data.width; }    
     inline unsigned int getHeight() const override { return m_data.height; }

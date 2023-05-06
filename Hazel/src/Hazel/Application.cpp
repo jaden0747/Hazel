@@ -70,11 +70,6 @@ namespace hazel
 		m_shader.reset(new Shader(vertexSrc, fragmentSrc));
   }
 
-  
-  Application::~Application() {
-
-  }
-
 
   void Application::pushLayer(Layer* layer) {
     m_layerStack.pushLayer(layer);

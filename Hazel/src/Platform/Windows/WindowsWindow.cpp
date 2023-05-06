@@ -29,11 +29,6 @@ namespace hazel
     init(props);
   }
 
-  
-  WindowsWindow::~WindowsWindow() {
-    shutdown();
-  }
-
 
   void WindowsWindow::init(const WindowProps& props) {
     m_data.title = props.title;

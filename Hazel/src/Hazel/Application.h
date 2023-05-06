@@ -15,7 +15,7 @@ namespace hazel
   class HAZEL_API Application {
   public:
     Application();
-    virtual ~Application();
+    virtual ~Application() = default;
     void run();
     void onEvent(Event& e);
     void pushLayer(Layer* layer);
