@@ -24,6 +24,6 @@ namespace hazel
       glm::mat4 m_viewProjectionMatrix;
     };
 
-    static SceneData* m_sceneData;
+    static SceneData* s_sceneData;
   };
 }
