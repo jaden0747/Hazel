@@ -13,6 +13,7 @@ namespace hazel
   Application* Application::s_instance = nullptr;
 
   Application::Application() 
+    : m_camera(-1.6f, 1.6f, -0.9f, 0.9f)
   {
     HZ_CORE_ASSERT(!s_instance, "Application already exists!");
     s_instance = this;
@@ -79,11 +80,13 @@ namespace hazel
 			out vec3 v_Position;
 			out vec4 v_Color;
 
+      uniform mat4 u_viewProjection;
+
 			void main()
 			{
 				v_Position = a_Position;
 				v_Color = a_Color;
-				gl_Position = vec4(a_Position, 1.0);	
+				gl_Position = u_viewProjection * vec4(a_Position, 1.0);	
 			}
 		)";
 
@@ -109,12 +112,14 @@ namespace hazel
 			
 			layout(location = 0) in vec3 a_Position;
 
+      uniform mat4 u_viewProjection;
+
 			out vec3 v_Position;
 
 			void main()
 			{
 				v_Position = a_Position;
-				gl_Position = vec4(a_Position, 1.0);	
+				gl_Position = u_viewProjection * vec4(a_Position, 1.0);	
 			}
 		)";
 
@@ -164,13 +169,13 @@ namespace hazel
       RenderCommand::setClearColor({ 0.1f, 0.1f, 0.1f, 1 });
       RenderCommand::clear();
 
-      Renderer::beginScene();
+      m_camera.setPosition({0.5f, 0.5f, 0.5f});
+      m_camera.setRotation(45.0f);
+    
+      Renderer::beginScene(m_camera);
 
-      m_blueShader->bind();
-      Renderer::submit(m_squareVertexArray);
-
-      m_shader->bind();
-      Renderer::submit(m_vertexArray);
+      Renderer::submit(m_blueShader, m_squareVertexArray);
+      Renderer::submit(m_shader, m_vertexArray);
 
       Renderer::endScene();
 
