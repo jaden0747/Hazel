@@ -65,6 +65,8 @@ add_library(hazel STATIC
     Hazel/src/Hazel/Renderer/Buffer.cpp
     Hazel/src/Hazel/Renderer/Renderer.h
     Hazel/src/Hazel/Renderer/Renderer.cpp
+    Hazel/src/Hazel/Renderer/VertexArray.h
+    Hazel/src/Hazel/Renderer/VertexArray.cpp
     Hazel/src/Platform/Windows/WindowsWindow.h
     Hazel/src/Platform/Windows/WindowsWindow.cpp
     Hazel/src/Platform/Windows/WindowsInput.h
@@ -73,6 +75,8 @@ add_library(hazel STATIC
     Hazel/src/Platform/OpenGL/OpenGLContext.cpp
     Hazel/src/Platform/OpenGL/OpenGLBuffer.h
     Hazel/src/Platform/OpenGL/OpenGLBuffer.cpp
+    Hazel/src/Platform/OpenGL/OpenGLVertexArray.h
+    Hazel/src/Platform/OpenGL/OpenGLVertexArray.cpp
 )
 
 target_include_directories(hazel PUBLIC 
