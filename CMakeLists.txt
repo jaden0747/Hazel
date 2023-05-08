@@ -73,8 +73,9 @@ add_library(hazel STATIC
     Hazel/src/Hazel/Renderer/RenderCommand.cpp
     Hazel/src/Hazel/Renderer/RendererAPI.h
     Hazel/src/Hazel/Renderer/RendererAPI.cpp
-    # Hazel/src/Hazel/Renderer/OrthographicCamera.h
+    Hazel/src/Hazel/Renderer/OrthographicCamera.h
     Hazel/src/Hazel/Renderer/OrthographicCamera.cpp
+    Hazel/src/Hazel/Core/Timestep.h
     Hazel/src/Platform/Windows/WindowsWindow.h
     Hazel/src/Platform/Windows/WindowsWindow.cpp
     Hazel/src/Platform/Windows/WindowsInput.h

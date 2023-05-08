@@ -3,18 +3,20 @@
 #include "Core.h"
 #include "Window.h"
 #include "Hazel/LayerStack.h"
+#include "Hazel/Core/Timestep.h"
 #include "Hazel/Events/Event.h"
 #include "Hazel/Events/ApplicationEvent.h"
 #include "Hazel/ImGui/ImGuiLayer.h"
-#include "Hazel/Renderer/Shader.h"
-#include "Hazel/Renderer/Buffer.h"
-#include "Hazel/Renderer/VertexArray.h"
-#include "Hazel/Renderer/OrthographicCamera.h"
+
+// #include "Hazel/Renderer/Shader.h"
+// #include "Hazel/Renderer/Buffer.h"
+// #include "Hazel/Renderer/VertexArray.h"
+// #include "Hazel/Renderer/OrthographicCamera.h"
 
 namespace hazel
 {
 
-  class HAZEL_API Application {
+  class Application {
   public:
     Application();
     virtual ~Application() = default;
@@ -33,14 +35,7 @@ namespace hazel
 		ImGuiLayer* m_ImGuiLayer;
     bool m_running = true;
     LayerStack m_layerStack;
-
-    std::shared_ptr<Shader> m_shader;
-    std::shared_ptr<VertexArray> m_vertexArray;
-
-    std::shared_ptr<Shader> m_blueShader;
-    std::shared_ptr<VertexArray> m_squareVertexArray;
-
-    OrthographicCamera m_camera;
+    float m_lastFrameTime = 0.0f;
 
   private:
     static Application* s_instance;

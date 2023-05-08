@@ -2,6 +2,7 @@
 
 #include "Hazel/Core.h"
 #include "Hazel/Events/Event.h"
+#include "Hazel/Core/Timestep.h"
 
 namespace hazel 
 {
@@ -12,7 +13,7 @@ namespace hazel
     virtual ~Layer() = default;
     virtual void onAttach() {}
     virtual void onDetach() {}
-    virtual void onUpdate() {}
+    virtual void onUpdate(Timestep ts) {}
     virtual void onImGuiRender() {}
     virtual void onEvent(Event& event) {}
     inline const std::string& getName() const { return m_debugName; }
