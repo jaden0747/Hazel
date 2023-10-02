@@ -16,6 +16,6 @@ namespace hazel
     float getMilliseconds() const { return m_time * 1000.0f; }
 
   private:
-    float m_time;
+    float m_time = 0.0f;
   };
 }

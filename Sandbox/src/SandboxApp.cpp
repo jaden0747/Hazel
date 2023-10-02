@@ -171,7 +171,13 @@ public:
 	}
 
 
-  void onEvent(hazel::Event& event) override {
+  void onEvent(hazel::Event& event) override 
+  {
+  #ifdef WIN32
+    HZ_INFO("{0}: {1}", __FUNCTION__, event.getName());
+  #else
+    HZ_INFO("{0}: {1}", __func__, event.getName());
+  #endif
   }
 
 private:

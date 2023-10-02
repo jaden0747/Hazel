@@ -67,6 +67,16 @@ namespace hazel
   }
 
 
+  void ImGuiLayer::onEvent(Event& e)
+  {
+  #ifdef WIN32
+    HZ_INFO("{0}: {1}", __FUNCTION__, e.getName());
+  #else
+    HZ_INFO("{0}: {1}", __func__, e.getName());
+  #endif
+  }
+
+
   void ImGuiLayer::end()
   {
     ImGuiIO& io = ImGui::GetIO();
