@@ -54,7 +54,7 @@ public:
     squareIndexBuffer.reset(hazel::IndexBuffer::create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
     m_squareVertexArray->setIndexBuffer(squareIndexBuffer);
 
-    std::string vertexSrc = R"(
+    std::string vertexSrc = R"glsl(
 			#version 330 core
 			
 			layout(location = 0) in vec3 a_Position;
@@ -72,9 +72,9 @@ public:
 				v_Color = a_Color;
 				gl_Position = u_viewProjection * u_transform * vec4(a_Position, 1.0);	
 			}
-		)";
+		)glsl";
 
-		std::string fragmentSrc = R"(
+		std::string fragmentSrc = R"glsl(
 			#version 330 core
 			
 			layout(location = 0) out vec4 color;
@@ -87,11 +87,11 @@ public:
 				color = vec4(v_Position * 0.5 + 0.5, 1.0);
 				color = v_Color;
 			}
-		)";
+		)glsl";
 
 		m_shader.reset(new hazel::Shader(vertexSrc, fragmentSrc));
 
-		std::string blueShaderVertexSrc = R"(
+		std::string blueShaderVertexSrc = R"glsl(
 			#version 330 core
 			
 			layout(location = 0) in vec3 a_Position;
@@ -106,9 +106,9 @@ public:
 				v_Position = a_Position;
 				gl_Position = u_viewProjection * u_transform * vec4(a_Position, 1.0);	
 			}
-		)";
+		)glsl";
 
-		std::string blueShaderFragmentSrc = R"(
+		std::string blueShaderFragmentSrc = R"glsl(
 			#version 330 core
 			
 			layout(location = 0) out vec4 color;
@@ -119,7 +119,7 @@ public:
 			{
 				color = vec4(0.2, 0.3, 0.8, 1.0);
 			}
-		)";
+		)glsl";
 
 		m_blueShader.reset(new hazel::Shader(blueShaderVertexSrc, blueShaderFragmentSrc));
   }
