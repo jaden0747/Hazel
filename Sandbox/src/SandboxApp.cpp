@@ -84,7 +84,7 @@ public:
 
 			void main()
 			{
-				color = vec4(v_Position * 0.5 + 0.5, 1.0);
+				// color = vec4(v_Position * 0.5, 1.0);
 				color = v_Color;
 			}
 		)glsl";
@@ -157,7 +157,7 @@ public:
       {
         glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
-        hazel::Renderer::submit(m_shader, m_vertexArray, transform);
+        hazel::Renderer::submit(m_blueShader, m_vertexArray, transform);
       }
     }
 
