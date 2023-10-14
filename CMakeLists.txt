@@ -38,56 +38,28 @@ find_package(OpenGL REQUIRED)
 
 add_library(hazel STATIC 
     Hazel/src/hzpch.cpp
-    Hazel/src/Hazel/Input.h
     Hazel/src/Hazel/Input.cpp
     Hazel/src/Hazel/Application.cpp
-    Hazel/src/Hazel/Application.h
     Hazel/src/Hazel/Log.cpp
-    Hazel/src/Hazel/Log.h
-    Hazel/src/Hazel/Core.h
-    Hazel/src/Hazel/EntryPoint.h
-    Hazel/src/Hazel/Events/ApplicationEvent.h
-    Hazel/src/Hazel/Events/Event.h
-    Hazel/src/Hazel/Events/KeyEvent.h
-    Hazel/src/Hazel/Events/MouseEvent.h
-    Hazel/src/Hazel/Window.h
     Hazel/src/Hazel/Layer.cpp
-    Hazel/src/Hazel/Layer.h
     Hazel/src/Hazel/LayerStack.cpp
-    Hazel/src/Hazel/LayerStack.h
     Hazel/src/Hazel/ImGui/ImGuiLayer.cpp
-    Hazel/src/Hazel/ImGui/ImGuiLayer.h
     Hazel/src/Hazel/ImGui/ImGuiBuild.cpp
-    Hazel/src/Hazel/Renderer/GraphicsContext.h
-    Hazel/src/Hazel/Renderer/Shader.h
     Hazel/src/Hazel/Renderer/Shader.cpp
-    Hazel/src/Hazel/Renderer/Buffer.h
     Hazel/src/Hazel/Renderer/Buffer.cpp
-    Hazel/src/Hazel/Renderer/Renderer.h
     Hazel/src/Hazel/Renderer/Renderer.cpp
-    Hazel/src/Hazel/Renderer/VertexArray.h
     Hazel/src/Hazel/Renderer/VertexArray.cpp
-    Hazel/src/Hazel/Renderer/RendererAPI.h
     Hazel/src/Hazel/Renderer/RendererAPI.cpp
-    Hazel/src/Hazel/Renderer/RenderCommand.h
     Hazel/src/Hazel/Renderer/RenderCommand.cpp
-    Hazel/src/Hazel/Renderer/RendererAPI.h
     Hazel/src/Hazel/Renderer/RendererAPI.cpp
-    Hazel/src/Hazel/Renderer/OrthographicCamera.h
     Hazel/src/Hazel/Renderer/OrthographicCamera.cpp
-    Hazel/src/Hazel/Core/Timestep.h
-    Hazel/src/Platform/Windows/WindowsWindow.h
     Hazel/src/Platform/Windows/WindowsWindow.cpp
-    Hazel/src/Platform/Windows/WindowsInput.h
     Hazel/src/Platform/Windows/WindowsInput.cpp
-    Hazel/src/Platform/OpenGL/OpenGLContext.h
     Hazel/src/Platform/OpenGL/OpenGLContext.cpp
-    Hazel/src/Platform/OpenGL/OpenGLBuffer.h
     Hazel/src/Platform/OpenGL/OpenGLBuffer.cpp
-    Hazel/src/Platform/OpenGL/OpenGLVertexArray.h
     Hazel/src/Platform/OpenGL/OpenGLVertexArray.cpp
-    Hazel/src/Platform/OpenGL/OpenGLRendererAPI.h
     Hazel/src/Platform/OpenGL/OpenGLRendererAPI.cpp
+    Hazel/src/Platform/OpenGL/OpenGLShader.cpp
 )
 
 target_include_directories(hazel PUBLIC 
