@@ -24,6 +24,7 @@ namespace hazel
 
   void LayerStack::pushOverlay(Layer* overlay) {
     m_layers.emplace_back(overlay);
+    overlay->onAttach();
   }
 
 
