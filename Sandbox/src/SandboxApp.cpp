@@ -21,7 +21,7 @@ public:
        0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f
     };
 
-    std::shared_ptr<hazel::VertexBuffer> vertexBuffer;
+    hazel::Ref<hazel::VertexBuffer> vertexBuffer;
     vertexBuffer.reset(hazel::VertexBuffer::create(vertices, sizeof(vertices)));
     hazel::BufferLayout layout = {
       { hazel::ShaderDataType::Float3, "a_Position" },
@@ -31,28 +31,29 @@ public:
     m_vertexArray->addVertexBuffer(vertexBuffer);
 
     uint32_t indices[3] = { 0, 1, 2 };
-    std::shared_ptr<hazel::IndexBuffer> indexBuffer;
+    hazel::Ref<hazel::IndexBuffer> indexBuffer;
     indexBuffer.reset(hazel::IndexBuffer::create(indices, sizeof(indices) / sizeof(uint32_t)));
     m_vertexArray->setIndexBuffer(indexBuffer);
 
     m_squareVertexArray.reset(hazel::VertexArray::create());
 
-    float squareVertices[3 * 4] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.5f,  0.5f, 0.0f,
-			-0.5f,  0.5f, 0.0f
+    float squareVertices[4 * 5] = {
+			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
     };
 
-    std::shared_ptr<hazel::VertexBuffer> squareVertexBuffer;
+    hazel::Ref<hazel::VertexBuffer> squareVertexBuffer;
     squareVertexBuffer.reset(hazel::VertexBuffer::create(squareVertices, sizeof(squareVertices)));
     squareVertexBuffer->setLayout({
-      { hazel::ShaderDataType::Float3, "a_Position" }
+      { hazel::ShaderDataType::Float3, "a_Position" },
+      { hazel::ShaderDataType::Float2, "a_TexCoord" }
     });
     m_squareVertexArray->addVertexBuffer(squareVertexBuffer);
 
     uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
-    std::shared_ptr<hazel::IndexBuffer> squareIndexBuffer;
+    hazel::Ref<hazel::IndexBuffer> squareIndexBuffer;
     squareIndexBuffer.reset(hazel::IndexBuffer::create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
     m_squareVertexArray->setIndexBuffer(squareIndexBuffer);
 
@@ -125,6 +126,48 @@ public:
 			}
 		)glsl";
 
+    std::string textureShaderVertexSrc = 
+    R"glsl(
+      #version 330 core
+
+      layout(location = 0) in vec3 a_Position;
+      layout(location = 1) in vec2 a_TexCoord;
+
+      uniform mat4 u_viewProjection;
+      uniform mat4 u_transform;
+
+      out vec2 v_TexCoord;
+
+      void main()
+      {
+        v_TexCoord = a_TexCoord;
+        gl_Position = u_viewProjection * u_transform * vec4(a_Position, 1.0);
+      }
+    )glsl";
+
+    std::string textureShaderFragmentSrc = 
+    R"glsl(
+      #version 330 core
+
+      layout(location = 0) out vec4 color;
+
+      in vec2 v_TexCoord;
+
+      uniform sampler2D u_Texture;
+
+      void main()
+      {
+				color = texture(u_Texture, v_TexCoord);
+      }
+    )glsl";
+
+    m_textureShader.reset(hazel::Shader::create(textureShaderVertexSrc, textureShaderFragmentSrc));
+
+    m_texture = hazel::Texture2D::create("Sandbox/assets/textures/Checkerboard.png");
+
+    std::dynamic_pointer_cast<hazel::OpenGLShader>(m_textureShader)->bind();
+    std::dynamic_pointer_cast<hazel::OpenGLShader>(m_textureShader)->uploadUniformInt("u_Texture", 0);
+
 		m_flatColorShader.reset(hazel::Shader::create(flatColorShaderVertexSrc, flatColorShaderFragmentSrc));
   }
   
@@ -167,7 +210,10 @@ public:
       }
     }
 
-    hazel::Renderer::submit(m_shader, m_vertexArray);
+    m_texture->bind();
+    hazel::Renderer::submit(m_textureShader, m_squareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(0.7f)));
+
+    // hazel::Renderer::submit(m_shader, m_vertexArray);
 
     hazel::Renderer::endScene();
   }
@@ -190,11 +236,13 @@ public:
   }
 
 private:
-  std::shared_ptr<hazel::Shader> m_shader;
-  std::shared_ptr<hazel::VertexArray> m_vertexArray;
+  hazel::Ref<hazel::Shader> m_shader;
+  hazel::Ref<hazel::VertexArray> m_vertexArray;
   
-  std::shared_ptr<hazel::Shader> m_flatColorShader;
-  std::shared_ptr<hazel::VertexArray> m_squareVertexArray;
+  hazel::Ref<hazel::Shader> m_flatColorShader, m_textureShader;
+  hazel::Ref<hazel::VertexArray> m_squareVertexArray;
+
+  hazel::Ref<hazel::Texture2D> m_texture;
 
   hazel::OrthographicCamera m_camera;
   glm::vec3 m_cameraPosition;

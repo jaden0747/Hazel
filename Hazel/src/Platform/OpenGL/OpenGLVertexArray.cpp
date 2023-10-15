@@ -66,6 +66,7 @@ namespace hazel
         layout.getStride(),
         (const void*)(intptr_t)element.m_offset
       );
+      index++;
     }
 
     m_vertexBuffers.push_back(vertexBuffer);

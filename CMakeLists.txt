@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.19)
 project(hazel-app)
 
 add_subdirectory(Hazel/vendor/spdlog)
@@ -31,8 +31,14 @@ add_library(MyImGui STATIC
     Hazel/vendor/imgui/imgui_demo.cpp
 )
 
-target_include_directories(MyImGui PUBLIC Hazel/vendor/imgui/)
+target_include_directories(MyImGui PUBLIC Hazel/vendor/imgui)
 
+# add_library(stb_image STATIC
+#     Hazel/vendor/stb_image/stb_image.h
+#     Hazel/vendor/stb_image/stb_image.cpp
+# )
+
+# target_include_directories(stb_image PUBLIC Hazel/src  Hazel/vendor/stb_image)
 
 find_package(OpenGL REQUIRED)
 
@@ -53,6 +59,7 @@ add_library(hazel STATIC
     Hazel/src/Hazel/Renderer/RenderCommand.cpp
     Hazel/src/Hazel/Renderer/RendererAPI.cpp
     Hazel/src/Hazel/Renderer/OrthographicCamera.cpp
+    Hazel/src/Hazel/Renderer/Texture.cpp
     Hazel/src/Platform/Windows/WindowsWindow.cpp
     Hazel/src/Platform/Windows/WindowsInput.cpp
     Hazel/src/Platform/OpenGL/OpenGLContext.cpp
@@ -60,6 +67,9 @@ add_library(hazel STATIC
     Hazel/src/Platform/OpenGL/OpenGLVertexArray.cpp
     Hazel/src/Platform/OpenGL/OpenGLRendererAPI.cpp
     Hazel/src/Platform/OpenGL/OpenGLShader.cpp
+    Hazel/src/Platform/OpenGL/OpenGLTexture.cpp
+    Hazel/vendor/stb_image/stb_image.h
+    Hazel/vendor/stb_image/stb_image.cpp
 )
 
 target_include_directories(hazel PUBLIC 
@@ -69,7 +79,8 @@ target_include_directories(hazel PUBLIC
     ${PROJECT_SOURCE_DIR}/Hazel/vendor/GLFW/include
     ${PROJECT_SOURCE_DIR}/Hazel/vendor/Glad/include
     ${PROJECT_SOURCE_DIR}/Hazel/vendor/glm/
-    Hazel/vendor/imgui/
+    ${PROJECT_SOURCE_DIR}/Hazel/vendor/stb_image/
+    ${PROJECT_SOURCE_DIR}/Hazel/vendor/imgui/
 )
 
 target_compile_definitions(hazel PRIVATE 
