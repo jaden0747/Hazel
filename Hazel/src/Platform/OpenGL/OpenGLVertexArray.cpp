@@ -64,7 +64,7 @@ namespace hazel
         ShaderDataTypeToOpenGLBaseType(element.m_type),
         element.m_normalized ? GL_TRUE : GL_FALSE,
         layout.getStride(),
-        (const void*)element.m_offset
+        (const void*)(intptr_t)element.m_offset
       );
     }
 
