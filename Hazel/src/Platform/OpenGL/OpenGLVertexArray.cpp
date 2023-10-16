@@ -54,19 +54,18 @@ namespace hazel
 
     vertexBuffer->bind();
 
-    uint32_t index = 0;
     const auto& layout = vertexBuffer->getLayout();
     for (const auto& element : layout) {
-      glEnableVertexAttribArray(index);
+      glEnableVertexAttribArray(m_vertexBufferIndex);
       glVertexAttribPointer(
-        index,
+        m_vertexBufferIndex,
         element.getComponentCount(),
         ShaderDataTypeToOpenGLBaseType(element.m_type),
         element.m_normalized ? GL_TRUE : GL_FALSE,
         layout.getStride(),
         (const void*)(intptr_t)element.m_offset
       );
-      index++;
+      m_vertexBufferIndex++;
     }
 
     m_vertexBuffers.push_back(vertexBuffer);
