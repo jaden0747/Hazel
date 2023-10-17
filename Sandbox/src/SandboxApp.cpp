@@ -126,42 +126,7 @@ public:
 			}
 		)glsl";
 
-    std::string textureShaderVertexSrc = 
-    R"glsl(
-      #version 330 core
-
-      layout(location = 0) in vec3 a_Position;
-      layout(location = 1) in vec2 a_TexCoord;
-
-      uniform mat4 u_viewProjection;
-      uniform mat4 u_transform;
-
-      out vec2 v_TexCoord;
-
-      void main()
-      {
-        v_TexCoord = a_TexCoord;
-        gl_Position = u_viewProjection * u_transform * vec4(a_Position, 1.0);
-      }
-    )glsl";
-
-    std::string textureShaderFragmentSrc = 
-    R"glsl(
-      #version 330 core
-
-      layout(location = 0) out vec4 color;
-
-      in vec2 v_TexCoord;
-
-      uniform sampler2D u_Texture;
-
-      void main()
-      {
-				color = texture(u_Texture, v_TexCoord);
-      }
-    )glsl";
-
-    m_textureShader.reset(hazel::Shader::create(textureShaderVertexSrc, textureShaderFragmentSrc));
+    m_textureShader.reset(hazel::Shader::create("Sandbox/assets/shaders/Texture.glsl"));
 
     m_texture = hazel::Texture2D::create("Sandbox/assets/textures/Checkerboard.png");
 
