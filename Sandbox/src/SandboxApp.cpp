@@ -180,8 +180,10 @@ public:
     auto textureShader = m_shaderLibrary.get("Texture");
 
     m_texture->bind();
-    hazel::Renderer::submit(textureShader, m_squareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(0.7f)));
+    hazel::Renderer::submit(textureShader, m_squareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
+    m_chernoLogoTexture->bind();
+    hazel::Renderer::submit(textureShader, m_squareVertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
     // hazel::Renderer::submit(m_shader, m_vertexArray);
 
     hazel::Renderer::endScene();
