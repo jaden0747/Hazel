@@ -64,7 +64,7 @@ namespace hazel
         }
 
         template<typename T, typename F>
-        bool Dispatch(const F& func) {
+        bool dispatch(const F& func) {
             if (m_event.getEventType() == T::getStaticType()) {
                 m_event.m_handled = func(static_cast<T&>(m_event));
                 return true;

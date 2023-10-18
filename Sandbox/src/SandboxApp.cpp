@@ -10,8 +10,7 @@ class ExampleLayer : public hazel::Layer {
 public:
   ExampleLayer()
   : Layer("Example")
-  , m_camera(-1.6f, 1.6f, -0.9f, 0.9f)
-  , m_cameraPosition(0.0f)
+  , m_cameraController({1920.0f / 1080.0f, true})
   {
     m_vertexArray.reset(hazel::VertexArray::create());
 
@@ -140,29 +139,13 @@ public:
 
 
 
-  void onUpdate(hazel::Timestep ts) override {
-    if (hazel::Input::isKeyPressed(HZ_KEY_LEFT))
-      m_cameraPosition.x -= m_cameraMoveSpeed * ts;
-    else if (hazel::Input::isKeyPressed(HZ_KEY_RIGHT))
-      m_cameraPosition.x += m_cameraMoveSpeed * ts;
-
-    if (hazel::Input::isKeyPressed(HZ_KEY_UP))
-      m_cameraPosition.y += m_cameraMoveSpeed * ts;
-    else if (hazel::Input::isKeyPressed(HZ_KEY_DOWN))
-      m_cameraPosition.y -= m_cameraMoveSpeed * ts;
-
-    if (hazel::Input::isKeyPressed(HZ_KEY_A))
-      m_cameraRotation += m_cameraRotationSpeed * ts;
-    else if (hazel::Input::isKeyPressed(HZ_KEY_D))
-      m_cameraRotation -= m_cameraRotationSpeed * ts;
-
+  void onUpdate(hazel::Timestep ts) override 
+  {
+    m_cameraController.onUpdate(ts);
     hazel::RenderCommand::setClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
     hazel::RenderCommand::clear();
 
-    m_camera.setPosition(m_cameraPosition);
-    m_camera.setRotation(m_cameraRotation);
-
-    hazel::Renderer::beginScene(m_camera);
+    hazel::Renderer::beginScene(m_cameraController.getCamera());
 
     std::dynamic_pointer_cast<hazel::OpenGLShader>(m_flatColorShader)->bind();
     std::dynamic_pointer_cast<hazel::OpenGLShader>(m_flatColorShader)->uploadUniformFloat3("u_Color", m_squareColor);
@@ -199,11 +182,7 @@ public:
 
   void onEvent(hazel::Event& event) override
   {
-  #ifdef WIN32
-    // HZ_INFO("{0}: {1}", __FUNCTION__, event.getName());
-  #else
-    // HZ_INFO("{0}: {1}", __func__, event.getName());
-  #endif
+    m_cameraController.onEvent(event);
   }
 
 private:
@@ -217,12 +196,7 @@ private:
   hazel::Ref<hazel::Texture2D> m_texture;
   hazel::Ref<hazel::Texture2D> m_chernoLogoTexture;
 
-  hazel::OrthographicCamera m_camera;
-  glm::vec3 m_cameraPosition;
-  float m_cameraMoveSpeed = 5.0f;
-
-  float m_cameraRotation = 0.0f;
-  float m_cameraRotationSpeed = 180.0f;
+  hazel::OrthographicCameraController m_cameraController;
 
   glm::vec3 m_squareColor = {0.2f, 0.3f, 0.8f};
 };

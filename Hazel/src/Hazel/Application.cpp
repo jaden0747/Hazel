@@ -40,7 +40,7 @@ namespace hazel
 
   void Application::onEvent(Event& e) {
     EventDispatcher dispatcher(e);
-    dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(onWindowClose));
+    dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(onWindowClose));
     for (auto it = m_layerStack.end(); it != m_layerStack.begin(); ) {
       (*--it)->onEvent(e);
       if (e.m_handled) {

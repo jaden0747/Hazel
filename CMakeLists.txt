@@ -49,6 +49,7 @@ add_library(hazel STATIC
     Hazel/src/Hazel/Log.cpp
     Hazel/src/Hazel/Layer.cpp
     Hazel/src/Hazel/LayerStack.cpp
+    Hazel/src/Hazel/OrthographicCameraController.cpp
     Hazel/src/Hazel/ImGui/ImGuiLayer.cpp
     Hazel/src/Hazel/ImGui/ImGuiBuild.cpp
     Hazel/src/Hazel/Renderer/Shader.cpp
