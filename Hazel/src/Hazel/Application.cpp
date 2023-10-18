@@ -41,6 +41,7 @@ namespace hazel
   void Application::onEvent(Event& e) {
     EventDispatcher dispatcher(e);
     dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(onWindowClose));
+    dispatcher.dispatch<WindowResizeEvent>(BIND_EVENT_FN(onWindowResize));
     for (auto it = m_layerStack.end(); it != m_layerStack.begin(); ) {
       (*--it)->onEvent(e);
       if (e.m_handled) {
@@ -57,8 +58,11 @@ namespace hazel
       Timestep timestep = time - m_lastFrameTime;
       m_lastFrameTime = time;
 
-      for (Layer* layer : m_layerStack) {
-        layer->onUpdate(timestep);
+      if (!m_minimized)
+      {
+        for (Layer* layer : m_layerStack) {
+          layer->onUpdate(timestep);
+        }
       }
       
 			m_ImGuiLayer->begin();
@@ -74,6 +78,19 @@ namespace hazel
   bool Application::onWindowClose(WindowCloseEvent& e) {
     m_running = false;
     return true;
+  }
+
+
+  bool Application::onWindowResize(WindowResizeEvent& e) {
+    if (e.getWidth() == 0 || e.getHeight() == 0)
+    {
+      m_minimized = true;
+      return false;
+    }
+
+    m_minimized = false;
+    Renderer::onWindowResize(e.getWidth(), e.getHeight());
+    return false;
   }
 
 }
