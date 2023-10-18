@@ -44,12 +44,12 @@ find_package(OpenGL REQUIRED)
 
 add_library(hazel STATIC 
     Hazel/src/hzpch.cpp
-    Hazel/src/Hazel/Input.cpp
-    Hazel/src/Hazel/Application.cpp
-    Hazel/src/Hazel/Log.cpp
-    Hazel/src/Hazel/Layer.cpp
-    Hazel/src/Hazel/LayerStack.cpp
-    Hazel/src/Hazel/OrthographicCameraController.cpp
+    Hazel/src/Hazel/Core/Input.cpp
+    Hazel/src/Hazel/Core/Application.cpp
+    Hazel/src/Hazel/Core/Log.cpp
+    Hazel/src/Hazel/Core/Layer.cpp
+    Hazel/src/Hazel/Core/LayerStack.cpp
+    Hazel/src/Hazel/Renderer/OrthographicCameraController.cpp
     Hazel/src/Hazel/ImGui/ImGuiLayer.cpp
     Hazel/src/Hazel/ImGui/ImGuiBuild.cpp
     Hazel/src/Hazel/Renderer/Shader.cpp
