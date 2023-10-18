@@ -25,6 +25,6 @@ namespace hazel
       virtual std::pair<float, float> getMousePositionImpl() = 0;
 
     private:
-      static Input* s_instance;
+      static Scope<Input> s_instance;
   };
 }

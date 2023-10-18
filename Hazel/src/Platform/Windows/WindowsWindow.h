@@ -31,7 +31,7 @@ namespace hazel
 
   private:
     GLFWwindow* m_window;
-    GraphicsContext* m_context;
+    Scope<GraphicsContext> m_context;
     struct WindowData {
       std::string title;
       unsigned int width, height;

@@ -5,7 +5,7 @@
 
 namespace hazel
 {
-  Input* Input::s_instance = new WindowsInput();
+  Scope<Input> Input::s_instance = createScope<WindowsInput>();
 
   bool WindowsInput::isKeyPressedImpl(int keycode)
   {
