@@ -5,7 +5,7 @@
 #include "Shader.h"
 #include "RenderCommand.h"
 
-#include "Platform/OpenGL/OpenGLShader.h"
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace hazel
 {
@@ -15,6 +15,7 @@ struct Renderer2DStorage
 {
   Ref<VertexArray> quadVertexArray;
   Ref<Shader> flatColorShader;
+  Ref<Shader> textureShader;
 };
 
 
@@ -26,11 +27,11 @@ void Renderer2D::init()
   s_data = new Renderer2DStorage();
   s_data->quadVertexArray = VertexArray::create();
 
-  float squareVertices[3 * 4] = {
-    -0.5f, -0.5f, 0.0f,
-     0.5f, -0.5f, 0.0f,
-     0.5f,  0.5f, 0.0f,
-    -0.5f,  0.5f, 0.0f
+  float squareVertices[5 * 4] = {
+			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
   };
   
 
@@ -38,7 +39,8 @@ void Renderer2D::init()
 
   squareVB.reset(VertexBuffer::create(squareVertices, sizeof(squareVertices)));
   squareVB->setLayout({
-    { ShaderDataType::Float3, "a_Position" }
+    { ShaderDataType::Float3, "a_Position" },
+    { ShaderDataType::Float2, "a_TexCoord" }
   });
 
   s_data->quadVertexArray->addVertexBuffer(squareVB);
@@ -50,6 +52,9 @@ void Renderer2D::init()
   s_data->quadVertexArray->setIndexBuffer(squareIB);
 
   s_data->flatColorShader = Shader::create("Sandbox/assets/shaders/FlatColor.glsl");
+  s_data->textureShader = Shader::create("Sandbox/assets/shaders/Texture.glsl");
+  s_data->textureShader->bind();
+  s_data->textureShader->setInt("u_Texture", 0);
 }
 
 
@@ -61,9 +66,11 @@ void Renderer2D::shutdown()
 
 void Renderer2D::beginScene(const OrthographicCamera& camera)
 {
-  std::dynamic_pointer_cast<OpenGLShader>(s_data->flatColorShader)->bind();
-  std::dynamic_pointer_cast<OpenGLShader>(s_data->flatColorShader)->uploadUniformMat4("u_ViewProjection", camera.getViewProjectionMatrix());
-  std::dynamic_pointer_cast<OpenGLShader>(s_data->flatColorShader)->uploadUniformMat4("u_Transform", glm::mat4(1.0f));
+  s_data->flatColorShader->bind();
+  s_data->flatColorShader->setMat4("u_ViewProjection", camera.getViewProjectionMatrix());
+
+  s_data->textureShader->bind();
+  s_data->textureShader->setMat4("u_ViewProjection", camera.getViewProjectionMatrix());
 }
 
 
@@ -78,14 +85,39 @@ void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, cons
   drawQuad({ position.x, position.y, 0.0f }, size, color);
 }
 
+
 void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 {
-  std::dynamic_pointer_cast<OpenGLShader>(s_data->flatColorShader)->bind();
-  std::dynamic_pointer_cast<OpenGLShader>(s_data->flatColorShader)->uploadUniformFloat4("u_Color", color);
+  s_data->flatColorShader->bind();
+  s_data->flatColorShader->setFloat4("u_Color", color);
+  
+  glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+  s_data->flatColorShader->setMat4("u_Transform", transform);
 
   s_data->quadVertexArray->bind();
   RenderCommand::drawIndexed(s_data->quadVertexArray);
 }
+
+
+void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture)
+{
+  drawQuad({ position.x, position.y, 0.0f }, size, texture);
+}
+
+
+void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture)
+{
+  s_data->textureShader->bind();;
+  
+  glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+  s_data->textureShader->setMat4("u_Transform", transform);
+  
+  texture->bind();
+
+  s_data->quadVertexArray->bind();
+  RenderCommand::drawIndexed(s_data->quadVertexArray);
+}
+
 
 } // namespace hazel
 
