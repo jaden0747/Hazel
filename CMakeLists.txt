@@ -96,12 +96,14 @@ target_link_libraries(hazel PUBLIC spdlog glfw OpenGL::GL Dwmapi Glad MyImGui gl
 
 add_executable(hazel-app  
     Sandbox/src/SandboxApp.cpp
+    Sandbox/src/Sandbox2D.cpp
     Hazel/Hazel.h
 )
 
 target_include_directories(hazel-app PUBLIC
     ${PROJECT_SOURCE_DIR}/Hazel/
     ${PROJECT_SOURCE_DIR}/Hazel/src/
+    ${PROJECT_SOURCE_DIR}/Hazel/vendor/
 )
 
 target_compile_definitions(hazel-app PRIVATE 
