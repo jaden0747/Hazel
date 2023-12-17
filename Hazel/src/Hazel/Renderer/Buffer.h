@@ -44,7 +44,7 @@ namespace hazel
     std::string m_name;
     ShaderDataType m_type;
     uint32_t m_size;
-    uint32_t m_offset;
+    size_t m_offset;
     bool m_normalized;
 
     BufferElement() = default;
@@ -100,7 +100,7 @@ namespace hazel
   private:
     void calculateOffsetsAndStride()
     {
-      uint32_t offset = 0;
+      size_t offset = 0;
       m_stride = 0;
       for (auto& element : m_elements)
       {
