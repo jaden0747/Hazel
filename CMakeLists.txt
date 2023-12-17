@@ -55,6 +55,7 @@ add_library(hazel STATIC
     Hazel/src/Hazel/Renderer/Shader.cpp
     Hazel/src/Hazel/Renderer/Buffer.cpp
     Hazel/src/Hazel/Renderer/Renderer.cpp
+    Hazel/src/Hazel/Renderer/Renderer2D.cpp
     Hazel/src/Hazel/Renderer/VertexArray.cpp
     Hazel/src/Hazel/Renderer/RendererAPI.cpp
     Hazel/src/Hazel/Renderer/RenderCommand.cpp
