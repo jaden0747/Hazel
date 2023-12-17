@@ -65,7 +65,7 @@ void Sandbox2D::onUpdate(hazel::Timestep ts)
   // m_texture->bind();
   // hazel::Renderer::submit(m_textureShader, m_squareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
   std::dynamic_pointer_cast<hazel::OpenGLShader>(m_flatColorShader)->bind();
-  std::dynamic_pointer_cast<hazel::OpenGLShader>(m_flatColorShader)->uploadUniformFloat3("u_Color", m_squareColor);
+  std::dynamic_pointer_cast<hazel::OpenGLShader>(m_flatColorShader)->uploadUniformFloat4("u_Color", m_squareColor);
 
   hazel::Renderer::submit(m_flatColorShader, m_squareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
