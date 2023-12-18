@@ -4,7 +4,6 @@
 
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
-#include <GL/GL.h>
 
 namespace hazel
 {
@@ -18,7 +17,7 @@ namespace hazel
   void OpenGLContext::init()
   {
     HZ_PROFILE_FUNCTION();
-  
+
     glfwMakeContextCurrent(m_windowHandle);
     int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     HZ_CORE_ASSERT(status, "Failed to initialize Glad!");
@@ -27,7 +26,7 @@ namespace hazel
     HZ_CORE_INFO("  Vendor: {0}", glGetString(GL_VENDOR));
     HZ_CORE_INFO("  Renderer: {0}", glGetString(GL_RENDERER));
     HZ_CORE_INFO("  Version: {0}", glGetString(GL_VERSION));
-    
+
   #ifdef HZ_ENABLE_ASSERTS
     int versionMajor;
     int versionMinor;
@@ -42,7 +41,7 @@ namespace hazel
   void OpenGLContext::swapBuffers()
   {
     HZ_PROFILE_FUNCTION();
-  
+
     glfwSwapBuffers(m_windowHandle);
   }
 }
