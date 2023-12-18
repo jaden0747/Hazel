@@ -32,7 +32,7 @@ namespace hazel
   {
     HZ_PROFILE_FUNCTION();
 
-  #ifdef HZ_DEBUG
+  #ifdef DEBUG
     glEnable(GL_DEBUG_OUTPUT);
     glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 		glDebugMessageCallback(OpenGLMessageCallback, nullptr);

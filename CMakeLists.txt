@@ -90,6 +90,7 @@ target_compile_definitions(hazel PRIVATE
     HZ_BUILD_DLL
     GLFW_INCLUDE_NONE
     _CRT_SECURE_NO_WARNINGS
+    DEBUG
 )
 
 target_precompile_headers(hazel PUBLIC Hazel/src/hzpch.h)

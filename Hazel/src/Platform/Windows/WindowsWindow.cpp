@@ -2,6 +2,7 @@
 
 #include "Platform/Windows/WindowsWindow.h"
 
+#include "Hazel/Core/Input.h"
 #include "Hazel/Events/ApplicationEvent.h"
 #include "Hazel/Events/MouseEvent.h"
 #include "Hazel/Events/KeyEvent.h"
@@ -56,7 +57,7 @@ namespace hazel
     }
     {
       HZ_PROFILE_SCOPE("glfwCreateWindow");
-    #if defined(HZ_DEBUG)
+    #if defined(DEBUG)
       if (Renderer::getAPI() == RendererAPI::API::OpenGL)
         glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
     #endif
@@ -89,17 +90,17 @@ namespace hazel
       WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
       switch (action) {
         case GLFW_PRESS: {
-          KeyPressedEvent event(key, 0);
+          KeyPressedEvent event(static_cast<KeyCode>(key), 0);
           data.eventCallback(event);
           break;
         }
         case GLFW_RELEASE: {
-          KeyReleasedEvent event(key);
+          KeyReleasedEvent event(static_cast<KeyCode>(key));
           data.eventCallback(event);
           break;
         }
         case GLFW_REPEAT: {
-          KeyPressedEvent event(key, 1);
+          KeyPressedEvent event(static_cast<KeyCode>(key), 1);
           data.eventCallback(event);
           break;
         }
@@ -112,7 +113,7 @@ namespace hazel
     glfwSetCharCallback(m_window, [](GLFWwindow* window, unsigned int keycode)
     {
       WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-      KeyTypedEvent event(keycode);
+      KeyTypedEvent event(static_cast<KeyCode>(keycode));
       data.eventCallback(event);
     });
 
@@ -120,12 +121,12 @@ namespace hazel
       WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
       switch (action) {
         case GLFW_PRESS: {
-          MouseButtonPressedEvent event(button);
+          MouseButtonPressedEvent event(static_cast<MouseCode>(button));
           data.eventCallback(event);
           break;
         }
         case GLFW_RELEASE: {
-          MouseButtonReleasedEvent event(button);
+          MouseButtonReleasedEvent event(static_cast<MouseCode>(button));
           data.eventCallback(event);
           break;
         }

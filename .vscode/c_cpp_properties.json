@@ -4,18 +4,11 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/Hazel/src/**",
-                "${workspaceFolder}/Hazel/src/Hazel/**",
-                "${workspaceFolder}/Hazel/src/Hazel/",
-                "${workspaceFolder}/Hazel/vendor/spdlog/include/**",
                 "${vcpkgRoot}/x64-windows/include"
             ],
             "browse": {
                 "path": [
                     "${workspaceFolder}/**",
-                    "${workspaceFolder}/Hazel/src/**",
-                    "${workspaceFolder}/Hazel/src/Hazel/**",
-                    "${workspaceFolder}/Hazel/vendor/spdlog/include/**",
                     "${vcpkgRoot}/x64-windows/include"
                 ]
             },
@@ -27,6 +20,7 @@
                 "_CRT_SECURE_NO_WARNINGS",
                 "HZ_BUILD_DLL",
                 "GLFW_INCLUDE_NONE",
+                "DEBUG"
             ],
             "windowsSdkVersion": "10.0.22000.0",
             "compilerPath": "cl.exe",
@@ -34,8 +28,7 @@
             "cppStandard": "c++17",
             "configurationProvider": "ms-vscode.cmake-tools",
             "forcedInclude": [
-                "Hazel/src/hzpch.h",
-                "Hazel/src/Hazel/Core.h"
+                "Hazel/src/hzpch.h"
             ]
         }
     ],
