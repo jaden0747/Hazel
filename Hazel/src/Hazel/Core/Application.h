@@ -13,14 +13,16 @@
 // #include "Hazel/Renderer/VertexArray.h"
 // #include "Hazel/Renderer/OrthographicCamera.h"
 
+int main(int argc, char** argv);
+
 namespace hazel
 {
-
-  class Application {
+  class Application
+  {
+    friend int ::main(int argc, char** argv);
   public:
     Application();
     virtual ~Application();
-    void run();
     void onEvent(Event& e);
     void pushLayer(Layer* layer);
     void pushOverlay(Layer* layer);
@@ -28,6 +30,7 @@ namespace hazel
     inline static Application& get() { return *s_instance; }
 
   private:
+    void run();
     bool onWindowClose(WindowCloseEvent& e);
     bool onWindowResize(WindowResizeEvent& e);
 

@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <chrono>
 #include <fstream>
+#include <iomanip>
 #include <string>
 #include <fstream>
 #include <thread>
@@ -10,10 +11,13 @@
 namespace hazel
 {
 
+using FloatingPointMicroseconds = std::chrono::duration<double, std::micro>;
+
 struct ProfileResult
 {
   std::string name;
-  long long start, end;
+  FloatingPointMicroseconds start;
+  std::chrono::microseconds elapsedTime;
   std::thread::id threadID;
 };
 
@@ -69,7 +73,7 @@ public:
     std::lock_guard lock(m_mutex);
     if (m_currentSession)
     {
-      if (Log::getCoreLogger())   
+      if (Log::getCoreLogger())
       {
         HZ_CORE_ERROR("Instrumentor::beginSession('{0}') when session '{1}' already open.", name, m_currentSession->name);
       }
@@ -104,16 +108,17 @@ public:
     std::string name = result.name;
     std::replace(name.begin(), name.end(), '"', '\'');
 
+    json << std::setprecision(3) << std::fixed;
     json << ",{";
     json << "\"cat\":\"function\",";
-    json << "\"dur\":" << (result.end - result.start) << ',';
+    json << "\"dur\":" << (result.elapsedTime.count()) << ',';
     json << "\"name\":\"" << name << "\",";
     json << "\"ph\":\"X\",";
     json << "\"pid\":0,";
     json << "\"tid\":" << result.threadID << ",";
-    json << "\"ts\":" << result.start;
+    json << "\"ts\":" << result.start.count();
     json << "}";
-    
+
     std::lock_guard lock(m_mutex);
     if (m_currentSession)
     {
@@ -131,7 +136,7 @@ public:
     : m_name(name)
     , m_stopped(false)
   {
-    m_startTimepoint = std::chrono::high_resolution_clock::now();
+    m_startTimepoint = std::chrono::steady_clock::now();
   }
 
   ~InstrumentationTimer()
@@ -142,12 +147,13 @@ public:
 
   void stop()
   {
-    auto endTimepoint = std::chrono::high_resolution_clock::now();
+    auto endTimepoint = std::chrono::steady_clock::now();
+    auto highResStart = FloatingPointMicroseconds{m_startTimepoint.time_since_epoch()};
+    auto elapsedTime =
+      std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch() -
+      std::chrono::time_point_cast<std::chrono::microseconds>(m_startTimepoint).time_since_epoch();
 
-    long long start = std::chrono::time_point_cast<std::chrono::microseconds>(m_startTimepoint).time_since_epoch().count();
-    long long end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch().count();
-
-    Instrumentor::get().writeProfile({m_name, start, end, std::this_thread::get_id()});
+    Instrumentor::get().writeProfile({m_name, highResStart, elapsedTime, std::this_thread::get_id()});
 
     m_stopped = true;
   }
