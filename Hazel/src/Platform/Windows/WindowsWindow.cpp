@@ -6,7 +6,7 @@
 #include "Hazel/Events/MouseEvent.h"
 #include "Hazel/Events/KeyEvent.h"
 
-#include <glad/glad.h>
+#include "Hazel/Renderer/Renderer.h"
 
 #include "Platform/OpenGL/OpenGLContext.h"
 
@@ -56,6 +56,10 @@ namespace hazel
     }
     {
       HZ_PROFILE_SCOPE("glfwCreateWindow");
+    #if defined(HZ_DEBUG)
+      if (Renderer::getAPI() == RendererAPI::API::OpenGL)
+        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+    #endif
       m_window = glfwCreateWindow((int)props.width, (int)props.height, m_data.title.c_str(), nullptr, nullptr);
       ++s_GLFWWindowCount;
     }
