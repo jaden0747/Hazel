@@ -1,10 +1,10 @@
 #pragma once
 
-#include <string>
-#include <chrono>
 #include <algorithm>
+#include <chrono>
 #include <fstream>
-
+#include <string>
+#include <fstream>
 #include <thread>
 
 namespace hazel
@@ -14,7 +14,7 @@ struct ProfileResult
 {
   std::string name;
   long long start, end;
-  uint32_t threadID;
+  std::thread::id threadID;
 };
 
 struct InstrumentationSession
@@ -25,12 +25,12 @@ struct InstrumentationSession
 class Instrumentor
 {
 private:
+  std::mutex m_mutex;
   InstrumentationSession *m_currentSession;
   std::ofstream m_outputStream;
-  int m_profileCount;
 
   Instrumentor()
-      : m_currentSession(nullptr), m_profileCount(0)
+      : m_currentSession(nullptr)
   {
   }
 
@@ -43,7 +43,7 @@ public:
 
   void writeHeader()
   {
-    m_outputStream << "{\"otherData\": {}, \"traceEvents\":[";
+    m_outputStream << "{\"otherData\": {}, \"traceEvents\":[{}";
     m_outputStream.flush();
   }
 
@@ -53,41 +53,73 @@ public:
     m_outputStream.flush();
   }
 
+  void internalEndSession()
+  {
+    if (m_currentSession)
+    {
+      writeFooter();
+      m_outputStream.close();
+      delete m_currentSession;
+      m_currentSession = nullptr;
+    }
+  }
+
   void beginSession(const std::string& name, const std::string& filepath = "results.json")
   {
+    std::lock_guard lock(m_mutex);
+    if (m_currentSession)
+    {
+      if (Log::getCoreLogger())   
+      {
+        HZ_CORE_ERROR("Instrumentor::beginSession('{0}') when session '{1}' already open.", name, m_currentSession->name);
+      }
+      internalEndSession();
+    }
     m_outputStream.open(filepath);
-    writeHeader();
+    if (m_outputStream.is_open())
+    {
+      m_currentSession = new InstrumentationSession({name});
+      writeHeader();
+    }
+    else
+    {
+      if (Log::getCoreLogger())
+      {
+        HZ_CORE_ERROR("Instrumentor could not open results file '{0}'.", filepath);
+      }
+    }
     m_currentSession = new InstrumentationSession({name});
   }
 
   void endSession()
   {
-    writeFooter();
-    m_outputStream.close();
-    delete m_currentSession;
-    m_currentSession = nullptr;
-    m_profileCount = 0;
+    std::lock_guard lock(m_mutex);
+    internalEndSession();
   }
 
   void writeProfile(const ProfileResult& result)
   {
-    if (m_profileCount++ > 0)
-      m_outputStream << ",";
+    std::stringstream json;
 
     std::string name = result.name;
     std::replace(name.begin(), name.end(), '"', '\'');
 
-    m_outputStream << "{";
-    m_outputStream << "\"cat\":\"function\",";
-    m_outputStream << "\"dur\":" << (result.end - result.start) << ',';
-    m_outputStream << "\"name\":\"" << name << "\",";
-    m_outputStream << "\"ph\":\"X\",";
-    m_outputStream << "\"pid\":0,";
-    m_outputStream << "\"tid\":" << result.threadID << ",";
-    m_outputStream << "\"ts\":" << result.start;
-    m_outputStream << "}";
-
-    m_outputStream.flush();
+    json << ",{";
+    json << "\"cat\":\"function\",";
+    json << "\"dur\":" << (result.end - result.start) << ',';
+    json << "\"name\":\"" << name << "\",";
+    json << "\"ph\":\"X\",";
+    json << "\"pid\":0,";
+    json << "\"tid\":" << result.threadID << ",";
+    json << "\"ts\":" << result.start;
+    json << "}";
+    
+    std::lock_guard lock(m_mutex);
+    if (m_currentSession)
+    {
+      m_outputStream << json.str();
+      m_outputStream.flush();
+    }
   }
 };
 
@@ -115,8 +147,7 @@ public:
     long long start = std::chrono::time_point_cast<std::chrono::microseconds>(m_startTimepoint).time_since_epoch().count();
     long long end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch().count();
 
-    uint32_t threadID = std::hash<std::thread::id>{}(std::this_thread::get_id());
-    Instrumentor::get().writeProfile({m_name, start, end, threadID});
+    Instrumentor::get().writeProfile({m_name, start, end, std::this_thread::get_id()});
 
     m_stopped = true;
   }
