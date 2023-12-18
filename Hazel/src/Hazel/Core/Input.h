@@ -19,6 +19,8 @@ namespace hazel
       inline static float getMouseY() { return s_instance->getMouseYImpl(); }
       inline static std::pair<float, float> getMousePosition() { return s_instance->getMousePositionImpl(); }
 
+      static Scope<Input> create();
+
     protected:
       virtual bool isKeyPressedImpl(KeyCode keycode) = 0;
       virtual bool isMouseButtonPressedImpl(MouseCode button) = 0;

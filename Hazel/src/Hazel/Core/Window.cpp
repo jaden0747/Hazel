@@ -1,22 +1,22 @@
 #include "hzpch.h"
 
-#include "Hazel/Core/Input.h"
+#include "Hazel/Core/Window.h"
 
 #ifdef HZ_PLATFORM_WINDOWS
-  #include "Platform/Windows/WindowsInput.h"
+  #include "Platform/Windows/WindowsWindow.h"
 #endif
 
 namespace hazel
 {
-  Scope<Input> Input::s_instance = Input::create();
 
-  Scope<Input> Input::create()
+  Scope<Window> Window::create(const WindowProps& props)
   {
   #ifdef HZ_PLATFORM_WINDOWS
-    return createScope<WindowsInput>();
+    return createScope<WindowsWindow>(props);
   #else
     HZ_CORE_ASSERT(false, "Unknown platform!");
     return nullptr;
   #endif
   }
+
 }

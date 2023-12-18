@@ -17,7 +17,7 @@ add_subdirectory(Hazel/vendor/GLFW)
 add_subdirectory(Hazel/vendor/Glad)
 add_subdirectory(Hazel/vendor/glm)
 
-add_library(MyImGui STATIC 
+add_library(MyImGui STATIC
     Hazel/vendor/imgui/imconfig.h
     Hazel/vendor/imgui/imgui.h
     Hazel/vendor/imgui/imgui.cpp
@@ -42,13 +42,14 @@ target_include_directories(MyImGui PUBLIC Hazel/vendor/imgui)
 
 find_package(OpenGL REQUIRED)
 
-add_library(hazel STATIC 
+add_library(hazel STATIC
     Hazel/src/hzpch.cpp
     Hazel/src/Hazel/Core/Input.cpp
     Hazel/src/Hazel/Core/Application.cpp
     Hazel/src/Hazel/Core/Log.cpp
     Hazel/src/Hazel/Core/Layer.cpp
     Hazel/src/Hazel/Core/LayerStack.cpp
+    Hazel/src/Hazel/Core/Window.cpp
     Hazel/src/Hazel/Renderer/OrthographicCameraController.cpp
     Hazel/src/Hazel/ImGui/ImGuiLayer.cpp
     Hazel/src/Hazel/ImGui/ImGuiBuild.cpp
@@ -75,7 +76,7 @@ add_library(hazel STATIC
     Hazel/vendor/stb_image/stb_image.cpp
 )
 
-target_include_directories(hazel PUBLIC 
+target_include_directories(hazel PUBLIC
     ${PROJECT_SOURCE_DIR}/Hazel/
     ${PROJECT_SOURCE_DIR}/Hazel/src/
     ${PROJECT_SOURCE_DIR}/Hazel/src/Hazel
@@ -86,7 +87,7 @@ target_include_directories(hazel PUBLIC
     ${PROJECT_SOURCE_DIR}/Hazel/vendor/imgui/
 )
 
-target_compile_definitions(hazel PRIVATE 
+target_compile_definitions(hazel PRIVATE
     HZ_BUILD_DLL
     GLFW_INCLUDE_NONE
     _CRT_SECURE_NO_WARNINGS
@@ -97,7 +98,7 @@ target_precompile_headers(hazel PUBLIC Hazel/src/hzpch.h)
 
 target_link_libraries(hazel PUBLIC spdlog glfw OpenGL::GL Dwmapi Glad MyImGui glm)
 
-add_executable(hazel-app  
+add_executable(hazel-app
     Sandbox/src/SandboxApp.cpp
     Sandbox/src/Sandbox2D.cpp
     Hazel/Hazel.h
@@ -109,7 +110,7 @@ target_include_directories(hazel-app PUBLIC
     ${PROJECT_SOURCE_DIR}/Hazel/vendor/
 )
 
-target_compile_definitions(hazel-app PRIVATE 
+target_compile_definitions(hazel-app PRIVATE
     _CRT_SECURE_NO_WARNINGS
 )
 

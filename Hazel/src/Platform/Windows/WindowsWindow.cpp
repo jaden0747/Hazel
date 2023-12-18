@@ -16,32 +16,28 @@ namespace hazel
   static uint8_t s_GLFWWindowCount = 0u;
 
 
-  static void GLFWErrorCallback(int error, const char* description) {
+  static void GLFWErrorCallback(int error, const char* description)
+  {
     HZ_CORE_ERROR("GLFW Error ({}): {1}", error, description);
-  }
-
-
-  Scope<Window> Window::create(const WindowProps& props) {
-    return createScope<WindowsWindow>(props);
   }
 
 
   WindowsWindow::WindowsWindow(const WindowProps& props) {
     HZ_PROFILE_FUNCTION();
-  
+
     init(props);
   }
 
   WindowsWindow::~WindowsWindow() {
     HZ_PROFILE_FUNCTION();
-  
+
     shutdown();
   }
 
 
   void WindowsWindow::init(const WindowProps& props) {
     HZ_PROFILE_FUNCTION();
-  
+
     m_data.title = props.title;
     m_data.width = props.width;
     m_data.height = props.height;
@@ -64,7 +60,7 @@ namespace hazel
       m_window = glfwCreateWindow((int)props.width, (int)props.height, m_data.title.c_str(), nullptr, nullptr);
       ++s_GLFWWindowCount;
     }
-    
+
     m_context = GraphicsContext::create(m_window);
     m_context->init();
 
@@ -147,12 +143,12 @@ namespace hazel
       MouseMovedEvent event((float)x_pos, (float)y_pos);
       data.eventCallback(event);
     });
-  }  
+  }
 
 
   void WindowsWindow::shutdown() {
     HZ_PROFILE_FUNCTION();
-  
+
     glfwDestroyWindow(m_window);
     --s_GLFWWindowCount;
 
@@ -165,7 +161,7 @@ namespace hazel
 
   void WindowsWindow::onUpdate() {
     HZ_PROFILE_FUNCTION();
-  
+
     glfwPollEvents();
     m_context->swapBuffers();
   }
@@ -173,7 +169,7 @@ namespace hazel
 
   void WindowsWindow::setVSync(bool enabled) {
     HZ_PROFILE_FUNCTION();
-  
+
     if (enabled) {
       glfwSwapInterval(1);
     } else {
