@@ -182,7 +182,7 @@ private:
 		#define HZ_FUNC_SIG "HZ_FUNC_SIG unknown!"
 	#endif
 
-#define HZ_PROFILE 1
+#define HZ_PROFILE 0
 
 #if HZ_PROFILE
   #define HZ_PROFILE_BEGIN_SESSION(name, filepath) ::hazel::Instrumentor::get().beginSession(name, filepath)

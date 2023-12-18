@@ -39,7 +39,7 @@ namespace hazel
 
     glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, NULL, GL_FALSE);
   #endif
-  
+
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -61,9 +61,10 @@ namespace hazel
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   }
 
-  void OpenGLRendererAPI::drawIndexed(const std::shared_ptr<VertexArray>& vertexArray)
+  void OpenGLRendererAPI::drawIndexed(const std::shared_ptr<VertexArray>& vertexArray, uint32_t indexCount)
   {
-    glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
-    glBindTexture(GL_TEXTURE_2D, 0); 
+    uint32_t count = (indexCount) ? vertexArray->getIndexBuffer()->getCount() : indexCount;
+    glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
+    glBindTexture(GL_TEXTURE_2D, 0);
   }
 }
