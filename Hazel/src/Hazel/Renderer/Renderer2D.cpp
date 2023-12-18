@@ -21,9 +21,9 @@ struct QuadVertex
 
 struct Renderer2DData
 {
-  const uint32_t maxQuads = 10000u;
-  const uint32_t maxVertices = maxQuads * 4u;
-  const uint32_t maxIndices = maxQuads * 6u;
+  static const uint32_t maxQuads = 10000u;
+  static const uint32_t maxVertices = maxQuads * 4u;
+  static const uint32_t maxIndices = maxQuads * 6u;
   static const uint32_t maxTextureSlots = 32u; // TODO: RenderCaps
 
   Ref<VertexArray> quadVertexArray;
@@ -39,6 +39,8 @@ struct Renderer2DData
   uint32_t textureSlotIndex = 1; // 0 = white texture
 
   glm::vec4 quadVertexPositions[4];
+
+  Renderer2D::Statistics stats;
 };
 
 
@@ -139,6 +141,18 @@ void Renderer2D::flush()
   for (uint32_t i = 0u; i < s_data.textureSlotIndex; i++)
     s_data.textureSlots[i]->bind(i);
   RenderCommand::drawIndexed(s_data.quadVertexArray, s_data.quadIndexCount);
+  s_data.stats.drawCalls++;
+}
+
+
+void Renderer2D::flushAndReset()
+{
+  endScene();
+
+  s_data.quadIndexCount = 0;
+  s_data.quadVertexBufferPtr = s_data.quadVertexBufferBase;
+
+  s_data.textureSlotIndex = 1;
 }
 
 
@@ -151,6 +165,9 @@ void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, cons
 void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 {
   HZ_PROFILE_FUNCTION();
+
+  if (s_data.quadIndexCount >= Renderer2DData::maxIndices)
+    flushAndReset();
 
   const float textureIndex = 0.0f; // white texture
   const float tilingFactor = 1.0f;
@@ -188,6 +205,7 @@ void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, cons
   s_data.quadVertexBufferPtr++;
 
   s_data.quadIndexCount += 6;
+  s_data.stats.quadCount++;
 
 
   // s_data.textureShader->setFloat4("u_Color", color);
@@ -211,6 +229,9 @@ void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, cons
 void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor)
 {
   HZ_PROFILE_FUNCTION();
+
+  if (s_data.quadIndexCount >= Renderer2DData::maxIndices)
+    flushAndReset();
 
   constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 
@@ -264,6 +285,7 @@ void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, cons
   s_data.quadVertexBufferPtr++;
 
   s_data.quadIndexCount += 6;
+  s_data.stats.quadCount++;
 }
 
 void Renderer2D::drawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const glm::vec4& color)
@@ -274,6 +296,9 @@ void Renderer2D::drawRotatedQuad(const glm::vec2& position, const glm::vec2& siz
 void Renderer2D::drawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const glm::vec4& color)
 {
   HZ_PROFILE_FUNCTION();
+
+  if (s_data.quadIndexCount >= Renderer2DData::maxIndices)
+    flushAndReset();
 
   const float textureIndex = 0.0f; // White Texture
   const float tilingFactor = 1.0f;
@@ -312,6 +337,7 @@ void Renderer2D::drawRotatedQuad(const glm::vec3& position, const glm::vec2& siz
   s_data.quadVertexBufferPtr++;
 
   s_data.quadIndexCount += 6;
+  s_data.stats.quadCount++;
 }
 
 void Renderer2D::drawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor)
@@ -322,6 +348,9 @@ void Renderer2D::drawRotatedQuad(const glm::vec2& position, const glm::vec2& siz
 void Renderer2D::drawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor)
 {
   HZ_PROFILE_FUNCTION();
+
+  if (s_data.quadIndexCount >= Renderer2DData::maxIndices)
+    flushAndReset();
 
   constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 
@@ -375,6 +404,18 @@ void Renderer2D::drawRotatedQuad(const glm::vec3& position, const glm::vec2& siz
   s_data.quadVertexBufferPtr++;
 
   s_data.quadIndexCount += 6;
+  s_data.stats.quadCount++;
+}
+
+
+void Renderer2D::resetStats()
+{
+  memset(&s_data.stats, 0, sizeof(Statistics));
+}
+
+Renderer2D::Statistics Renderer2D::getStats()
+{
+  return s_data.stats;
 }
 
 } // namespace hazel
