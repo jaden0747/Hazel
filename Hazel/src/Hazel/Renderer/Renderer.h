@@ -7,7 +7,7 @@
 
 namespace hazel
 {
- 
+
   class Renderer
   {
   public:
@@ -20,8 +20,8 @@ namespace hazel
 
     static void submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform=glm::mat4(1.0f));
 
-    inline static RendererAPI::API getAPI() { return RendererAPI::getAPI(); }
-  
+    static RendererAPI::API getAPI() { return RendererAPI::getAPI(); }
+
   private:
     struct SceneData
     {

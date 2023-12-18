@@ -13,11 +13,11 @@ namespace hazel
     public:
       Input(const Input&) = delete;
       Input& operator= (const Input&) = delete;
-      inline static bool isKeyPressed(KeyCode keycode) { return s_instance->isKeyPressedImpl(keycode); }
-      inline static float isMouseButtonPressed(MouseCode button) { return s_instance->isMouseButtonPressedImpl(button); }
-      inline static float getMouseX() { return s_instance->getMouseXImpl(); }
-      inline static float getMouseY() { return s_instance->getMouseYImpl(); }
-      inline static std::pair<float, float> getMousePosition() { return s_instance->getMousePositionImpl(); }
+      static bool isKeyPressed(KeyCode keycode) { return s_instance->isKeyPressedImpl(keycode); }
+      static float isMouseButtonPressed(MouseCode button) { return s_instance->isMouseButtonPressedImpl(button); }
+      static float getMouseX() { return s_instance->getMouseXImpl(); }
+      static float getMouseY() { return s_instance->getMouseYImpl(); }
+      static std::pair<float, float> getMousePosition() { return s_instance->getMousePositionImpl(); }
 
       static Scope<Input> create();
 

@@ -89,8 +89,8 @@ namespace hazel
       calculateOffsetsAndStride();
     }
 
-    inline uint32_t getStride() const { return m_stride; }
-    inline const std::vector<BufferElement>& getElements() const { return m_elements; }
+    uint32_t getStride() const { return m_stride; }
+    const std::vector<BufferElement>& getElements() const { return m_elements; }
 
     std::vector<BufferElement>::iterator begin() { return m_elements.begin(); }
     std::vector<BufferElement>::iterator end() { return m_elements.end(); }

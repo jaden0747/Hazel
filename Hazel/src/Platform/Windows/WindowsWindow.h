@@ -5,25 +5,25 @@
 
 #include "GLFW/glfw3.h"
 
-namespace hazel 
+namespace hazel
 {
   class WindowsWindow : public Window {
   public:
     WindowsWindow(const WindowProps& props);
 		virtual ~WindowsWindow();
     virtual void onUpdate() override;
-    inline unsigned int getWidth() const override { return m_data.width; }    
-    inline unsigned int getHeight() const override { return m_data.height; }
+    unsigned int getWidth() const override { return m_data.width; }
+    unsigned int getHeight() const override { return m_data.height; }
 
     //! Window attributes
-    inline void setEventCallback(const EventCallbackFn& callback) override {
+    void setEventCallback(const EventCallbackFn& callback) override {
       m_data.eventCallback = callback;
     }
-    
+
     void setVSync(bool enabled) override;
     bool isVSync() const override;
 
-    inline virtual void* getNativeWindow() const override { return m_window; }
+    virtual void* getNativeWindow() const override { return m_window; }
 
   private:
     virtual void init(const WindowProps& props);

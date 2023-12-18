@@ -8,12 +8,12 @@ namespace hazel
     public:
         WindowResizeEvent(unsigned int width, unsigned int height)
         : m_width(width), m_height(height)
-        {    
+        {
         }
 
-        inline unsigned int getWidth() const { return m_width; }
+        unsigned int getWidth() const { return m_width; }
 
-        inline unsigned int getHeight() const { return m_height; }
+        unsigned int getHeight() const { return m_height; }
 
         std::string toString() const override {
             std::stringstream ss;
@@ -58,11 +58,11 @@ namespace hazel
 
     };
 
-    
+
     class AppRenderEvent : public Event {
     public:
         AppRenderEvent() = default;
-        
+
         EVENT_CLASS_TYPE(AppRender)
         EVENT_CLASS_CATEGORY(EventCategoryApplication)
     };

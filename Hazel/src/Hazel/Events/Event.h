@@ -2,13 +2,13 @@
 
 #include "Hazel/Core/Core.h"
 
-namespace hazel 
+namespace hazel
 {
     /**
-     * @brief Event in hazel are currently blocking, meaning when an event occurs it 
-     * immediately gets dispatched and must be dealt with right then and there. For the 
+     * @brief Event in hazel are currently blocking, meaning when an event occurs it
+     * immediately gets dispatched and must be dealt with right then and there. For the
      * future, a better strategy might be to buffer events in an event bus and process
-     * them during the "event" part of the update stage* 
+     * them during the "event" part of the update stage*
      */
 
     enum class EventType
@@ -49,7 +49,7 @@ namespace hazel
         virtual int getCategoryFlags() const = 0;
         virtual std::string toString() const { return getName(); }
 
-        inline bool isInCategory(EventCategory category){
+        bool isInCategory(EventCategory category){
             return getCategoryFlags() & category;
         }
 

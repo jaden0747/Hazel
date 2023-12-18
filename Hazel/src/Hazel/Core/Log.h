@@ -6,7 +6,7 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/fmt/ostr.h>
 
-namespace hazel 
+namespace hazel
 {
 
 class Log
@@ -14,9 +14,9 @@ class Log
 public:
     static void init();
 
-    inline static Ref<spdlog::logger>& getCoreLogger() { return s_core_logger_; }
-    inline static Ref<spdlog::logger>& getClientLogger() { return s_client_logger_; }
-    
+    static Ref<spdlog::logger>& getCoreLogger() { return s_core_logger_; }
+    static Ref<spdlog::logger>& getClientLogger() { return s_client_logger_; }
+
 private:
     static Ref<spdlog::logger> s_core_logger_;
     static Ref<spdlog::logger> s_client_logger_;
