@@ -1,3 +1,5 @@
+#include "hzpch.h"
+
 #include "Platform/Windows/WindowsInput.h"
 #include "Hazel/Core/Application.h"
 

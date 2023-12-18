@@ -1,5 +1,5 @@
 #include "hzpch.h"
-#include "OpenGLVertexArray.h"
+#include "Platform/OpenGL/OpenGLVertexArray.h"
 
 #include <glad/glad.h>
 
@@ -9,17 +9,17 @@ namespace hazel
 	{
 		switch (type)
 		{
-			case hazel::ShaderDataType::Float:    return GL_FLOAT;
-			case hazel::ShaderDataType::Float2:   return GL_FLOAT;
-			case hazel::ShaderDataType::Float3:   return GL_FLOAT;
-			case hazel::ShaderDataType::Float4:   return GL_FLOAT;
-			case hazel::ShaderDataType::Mat3:     return GL_FLOAT;
-			case hazel::ShaderDataType::Mat4:     return GL_FLOAT;
-			case hazel::ShaderDataType::Int:      return GL_INT;
-			case hazel::ShaderDataType::Int2:     return GL_INT;
-			case hazel::ShaderDataType::Int3:     return GL_INT;
-			case hazel::ShaderDataType::Int4:     return GL_INT;
-			case hazel::ShaderDataType::Bool:     return GL_BOOL;
+			case ShaderDataType::Float:    return GL_FLOAT;
+			case ShaderDataType::Float2:   return GL_FLOAT;
+			case ShaderDataType::Float3:   return GL_FLOAT;
+			case ShaderDataType::Float4:   return GL_FLOAT;
+			case ShaderDataType::Mat3:     return GL_FLOAT;
+			case ShaderDataType::Mat4:     return GL_FLOAT;
+			case ShaderDataType::Int:      return GL_INT;
+			case ShaderDataType::Int2:     return GL_INT;
+			case ShaderDataType::Int3:     return GL_INT;
+			case ShaderDataType::Int4:     return GL_INT;
+			case ShaderDataType::Bool:     return GL_BOOL;
 		}
 
 		HZ_CORE_ASSERT(false, "Unknown ShaderDataType!");
@@ -46,7 +46,7 @@ namespace hazel
     glBindVertexArray(0);
   }
 
-  void OpenGLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer)
+  void OpenGLVertexArray::addVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
   {
     HZ_CORE_ASSERT(vertexBuffer->getLayout().getElements().size(), "Vertex Buffer has no layout!");
 
@@ -71,7 +71,7 @@ namespace hazel
     m_vertexBuffers.push_back(vertexBuffer);
   }
 
-  void OpenGLVertexArray::setIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer)
+  void OpenGLVertexArray::setIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
   {
     glBindVertexArray(m_rendererID);
     indexBuffer->bind();

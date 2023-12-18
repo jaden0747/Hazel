@@ -1,13 +1,11 @@
 #include "hzpch.h"
 
-#include "Texture.h"
-
-#include "Renderer.h"
+#include "Hazel/Renderer/Texture.h"
+#include "Hazel/Renderer/Renderer.h"
 #include "Platform/OpenGL/OpenGLTexture.h"
 
 namespace hazel
 {
-
 
 Ref<Texture2D> Texture2D::create(uint32_t width, uint32_t height)
 {

@@ -1,16 +1,16 @@
 #pragma once
 
 #include "Hazel/Core/Core.h"
-#include "Layer.h"
+#include "Hazel/Core/Layer.h"
 
 #include <vector>
 
 namespace hazel
 {
   
-  class HAZEL_API LayerStack {
+  class LayerStack {
   public:
-    LayerStack();
+    LayerStack() = default;
    ~LayerStack();
     void pushLayer(Layer* layer);
     void pushOverlay(Layer* overlay);

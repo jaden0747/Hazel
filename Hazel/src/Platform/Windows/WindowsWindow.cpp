@@ -1,6 +1,6 @@
 #include "hzpch.h"
 
-#include "WindowsWindow.h"
+#include "Platform/Windows/WindowsWindow.h"
 
 #include "Hazel/Events/ApplicationEvent.h"
 #include "Hazel/Events/MouseEvent.h"
@@ -20,8 +20,8 @@ namespace hazel
   }
 
 
-  Window* Window::create(const WindowProps& props) {
-    return new WindowsWindow(props);
+  Scope<Window> Window::create(const WindowProps& props) {
+    return createScope<WindowsWindow>(props);
   }
 
 
@@ -47,7 +47,7 @@ namespace hazel
     m_window = glfwCreateWindow((int)props.width, (int)props.height, m_data.title.c_str(), nullptr, nullptr);
     ++s_GLFWWindowCount;
     
-    m_context = createScope<OpenGLContext>(m_window);
+    m_context = GraphicsContext::create(m_window);
     m_context->init();
 
     glfwSetWindowUserPointer(m_window, &m_data);
@@ -134,10 +134,10 @@ namespace hazel
 
   void WindowsWindow::shutdown() {
     glfwDestroyWindow(m_window);
+    --s_GLFWWindowCount;
 
-    if (--s_GLFWWindowCount == 0u)
+    if (s_GLFWWindowCount == 0u)
     {
-      HZ_CORE_INFO("Terminating GLFW");
       glfwTerminate();
     }
   }

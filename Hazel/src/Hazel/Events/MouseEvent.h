@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Event.h"
+#include "Hazel/Events/Event.h"
 
 namespace hazel 
 {
-  class HAZEL_API MouseMovedEvent : public Event {
+  class MouseMovedEvent : public Event {
   public:
     MouseMovedEvent(float x, float y)
     : m_mouse_x(x), m_mouse_y(y) {
@@ -30,7 +30,7 @@ namespace hazel
   };
   
   
-  class HAZEL_API MouseScrolledEvent : public Event {
+  class MouseScrolledEvent : public Event {
   public:
     MouseScrolledEvent(float x_offset, float y_offset)
     : m_offset_x(x_offset), m_offset_y(y_offset) {
@@ -56,7 +56,7 @@ namespace hazel
   };
 
 
-  class HAZEL_API MouseButtonEvent : public Event {
+  class MouseButtonEvent : public Event {
   public:
     inline int getMouseButton() const { return m_button; }
 
@@ -71,7 +71,7 @@ namespace hazel
   };
 
 
-  class HAZEL_API MouseButtonPressedEvent : public MouseButtonEvent {
+  class MouseButtonPressedEvent : public MouseButtonEvent {
   public:
     MouseButtonPressedEvent(int button)
       : MouseButtonEvent(button) {
@@ -88,7 +88,7 @@ namespace hazel
   };
 
 
-  class HAZEL_API MouseButtonReleasedEvent : public MouseButtonEvent {
+  class MouseButtonReleasedEvent : public MouseButtonEvent {
   public:
     MouseButtonReleasedEvent(int button)
     : MouseButtonEvent(button) {

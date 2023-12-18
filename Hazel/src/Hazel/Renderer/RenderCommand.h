@@ -1,6 +1,6 @@
 #pragma once
 
-#include "RendererAPI.h"
+#include "Hazel/Renderer/RendererAPI.h"
 
 namespace hazel
 {
@@ -27,7 +27,7 @@ namespace hazel
       s_rendererAPI->clear();
     }
 
-    inline static void drawIndexed(const std::shared_ptr<VertexArray>& vertexArray)
+    inline static void drawIndexed(const Ref<VertexArray>& vertexArray)
     {
       s_rendererAPI->drawIndexed(vertexArray);
     }

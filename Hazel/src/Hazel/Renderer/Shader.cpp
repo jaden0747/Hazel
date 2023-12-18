@@ -1,11 +1,8 @@
 #include "hzpch.h"
-#include "Shader.h"
 
-#include "Renderer.h"
+#include "Hazel/Renderer/Shader.h"
+#include "Hazel/Renderer/Renderer.h"
 #include "Platform/OpenGL/OpenGLShader.h"
-
-#include <glad/glad.h> // access to OpenGL
-#include <glm/gtc/type_ptr.hpp>
 
 namespace hazel
 {
@@ -14,7 +11,7 @@ namespace hazel
     switch (RendererAPI::getAPI())
     {
       case RendererAPI::API::None:    HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supported!"); return nullptr;
-      case RendererAPI::API::OpenGL:  return std::make_shared<OpenGLShader>(filepath);
+      case RendererAPI::API::OpenGL:  return createRef<OpenGLShader>(filepath);
     }
 
     HZ_CORE_ASSERT(false, "Unknown RendererAPI!");
@@ -27,7 +24,7 @@ namespace hazel
     switch (RendererAPI::getAPI())
     {
       case RendererAPI::API::None:   HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supported!"); return nullptr;
-      case RendererAPI::API::OpenGL: return std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc);
+      case RendererAPI::API::OpenGL: return createRef<OpenGLShader>(name, vertexSrc, fragmentSrc);
     }
 
     HZ_CORE_ASSERT(false, "Unkonwn RendererAPI!");

@@ -1,10 +1,10 @@
 #include "hzpch.h"
-#include "Log.h"
+#include "Hazel/Core/Log.h"
 
 namespace hazel 
 {
-    std::shared_ptr<spdlog::logger> Log::s_core_logger_;
-    std::shared_ptr<spdlog::logger> Log::s_client_logger_;
+    Ref<spdlog::logger> Log::s_core_logger_;
+    Ref<spdlog::logger> Log::s_client_logger_;
 
     void Log::init()
     {

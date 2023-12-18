@@ -1,9 +1,9 @@
 #include "hzpch.h"
-#include "Renderer2D.h"
 
-#include "VertexArray.h"
-#include "Shader.h"
-#include "RenderCommand.h"
+#include "Hazel/Renderer/Renderer2D.h"
+#include "Hazel/Renderer/VertexArray.h"
+#include "Hazel/Renderer/Shader.h"
+#include "Hazel/Renderer/RenderCommand.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -36,9 +36,7 @@ void Renderer2D::init()
   };
   
 
-  Ref<VertexBuffer> squareVB;
-
-  squareVB.reset(VertexBuffer::create(squareVertices, sizeof(squareVertices)));
+  Ref<VertexBuffer> squareVB = VertexBuffer::create(squareVertices, sizeof(squareVertices));
   squareVB->setLayout({
     { ShaderDataType::Float3, "a_Position" },
     { ShaderDataType::Float2, "a_TexCoord" }
@@ -47,8 +45,7 @@ void Renderer2D::init()
   s_data->quadVertexArray->addVertexBuffer(squareVB);
 
   uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
-  Ref<IndexBuffer> squareIB;
-  squareIB.reset(IndexBuffer::create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
+  Ref<IndexBuffer> squareIB = IndexBuffer::create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
 
   s_data->quadVertexArray->setIndexBuffer(squareIB);
 

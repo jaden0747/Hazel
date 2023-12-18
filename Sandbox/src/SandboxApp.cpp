@@ -1,14 +1,12 @@
 #include <Hazel.h>
 #include <Hazel/Core/EntryPoint.h>
 
-#include "imgui.h"
-#include "Platform/OpenGL/OpenGLShader.h"
-
-#include "Sandbox2D.h"
+#include <imgui/imgui.h>
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Sandbox2D.h"
 
 class Sandbox : public hazel::Application
 {

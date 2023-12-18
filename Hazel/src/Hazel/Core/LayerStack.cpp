@@ -1,13 +1,8 @@
 #include "hzpch.h"
-#include "LayerStack.h"
+#include "Hazel/Core/LayerStack.h"
 
 namespace hazel
 {
-
-  LayerStack::LayerStack() {
-  }
-
-
   LayerStack::~LayerStack() {
     for (Layer* layer : m_layers) {
       layer->onDetach();

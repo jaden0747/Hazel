@@ -22,7 +22,7 @@ namespace hazel
   };
 
 
-  class HAZEL_API Window {
+  class Window {
   public: 
     using EventCallbackFn = std::function<void(Event&)>;
 
@@ -36,5 +36,6 @@ namespace hazel
     virtual bool isVSync() const = 0;
     virtual void* getNativeWindow() const = 0;
 
-    static Window* create(const WindowProps& props=WindowProps());  };
+    static Scope<Window> create(const WindowProps& props=WindowProps());  
+  };
 }

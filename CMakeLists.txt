@@ -54,6 +54,7 @@ add_library(hazel STATIC
     Hazel/src/Hazel/ImGui/ImGuiBuild.cpp
     Hazel/src/Hazel/Renderer/Shader.cpp
     Hazel/src/Hazel/Renderer/Buffer.cpp
+    Hazel/src/Hazel/Renderer/GraphicsContext.cpp
     Hazel/src/Hazel/Renderer/Renderer.cpp
     Hazel/src/Hazel/Renderer/Renderer2D.cpp
     Hazel/src/Hazel/Renderer/VertexArray.cpp
