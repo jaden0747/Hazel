@@ -18,12 +18,6 @@ public:
 private:
   hazel::OrthographicCameraController m_cameraController;
 
-  // Temp
-  hazel::Ref<hazel::VertexArray> m_squareVA;
-  hazel::Ref<hazel::Shader> m_flatColorShader;
-  hazel::Ref<hazel::Shader> m_textureShader;
-  hazel::Ref<hazel::Texture2D> m_texture;
-
   hazel::Ref<hazel::Texture2D> m_checkerboardTexture;
 
   glm::vec4 m_squareColor = {0.2f, 0.3f, 0.8f, 1.0f};

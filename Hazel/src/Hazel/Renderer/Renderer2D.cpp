@@ -25,6 +25,8 @@ static Renderer2DStorage* s_data;
 
 void Renderer2D::init()
 {
+  HZ_PROFILE_FUNCTION();
+  
   s_data = new Renderer2DStorage();
   s_data->quadVertexArray = VertexArray::create();
 
@@ -61,12 +63,16 @@ void Renderer2D::init()
 
 void Renderer2D::shutdown()
 {
+  HZ_PROFILE_FUNCTION();
+  
   delete s_data;
 }
 
 
 void Renderer2D::beginScene(const OrthographicCamera& camera)
 {
+  HZ_PROFILE_FUNCTION();
+  
   s_data->textureShader->bind();
   s_data->textureShader->setMat4("u_ViewProjection", camera.getViewProjectionMatrix());
 }
@@ -74,6 +80,8 @@ void Renderer2D::beginScene(const OrthographicCamera& camera)
 
 void Renderer2D::endScene()
 {
+  HZ_PROFILE_FUNCTION();
+  
 
 }
 
@@ -86,6 +94,8 @@ void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, cons
 
 void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 {
+  HZ_PROFILE_FUNCTION();
+  
   s_data->textureShader->setFloat4("u_Color", color);
   s_data->whiteTexture->bind();
   
@@ -105,6 +115,8 @@ void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, cons
 
 void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture)
 {
+  HZ_PROFILE_FUNCTION();
+  
   s_data->textureShader->bind();
   s_data->textureShader->setFloat4("u_Color", glm::vec4(1.0f));
   texture->bind();

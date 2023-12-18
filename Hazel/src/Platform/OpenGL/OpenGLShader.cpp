@@ -28,6 +28,8 @@ static GLenum shaderTypeFromString(const std::string& type)
 
 OpenGLShader::OpenGLShader(const std::string& filepath)
 {
+  HZ_PROFILE_FUNCTION();
+  
   std::string source = readFile(filepath);
   auto shaderSources = preProcess(source);
   compile(shaderSources);
@@ -44,6 +46,8 @@ OpenGLShader::OpenGLShader(const std::string& filepath)
 OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
 : m_name(name)
 {
+  HZ_PROFILE_FUNCTION();
+  
   std::unordered_map<GLenum, std::string> sources;
   sources[GL_VERTEX_SHADER] = vertexSrc;
   sources[GL_FRAGMENT_SHADER] = fragmentSrc;
@@ -53,12 +57,16 @@ OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc
 
 OpenGLShader::~OpenGLShader()
 {
+  HZ_PROFILE_FUNCTION();
+  
   glDeleteProgram(m_rendererID);
 }
 
 
 std::string OpenGLShader::readFile(const std::string& filepath)
 {
+  HZ_PROFILE_FUNCTION();
+  
   std::string result;
   std::ifstream inputStream(filepath, std::ios::in | std::ios::binary);
   if (inputStream)
@@ -76,10 +84,6 @@ std::string OpenGLShader::readFile(const std::string& filepath)
     {
       HZ_CORE_ERROR("Could not read from file '{0}'", filepath);
     }
-    result.resize(inputStream.tellg());
-    inputStream.seekg(0, std::ios::beg);
-    inputStream.read(&result[0], result.size());
-    inputStream.close();
   }
   else
   {
@@ -91,6 +95,8 @@ std::string OpenGLShader::readFile(const std::string& filepath)
 
 std::unordered_map<GLenum, std::string> OpenGLShader::preProcess(const std::string& source)
 {
+  HZ_PROFILE_FUNCTION();
+  
   std::unordered_map<GLenum, std::string> shaderSources;
 
   const char* typeToken = "#type";
@@ -117,6 +123,8 @@ std::unordered_map<GLenum, std::string> OpenGLShader::preProcess(const std::stri
 
 void OpenGLShader::compile(const std::unordered_map<GLenum, std::string>& shaderSources)
 {
+  HZ_PROFILE_FUNCTION();
+  
   GLuint program = glCreateProgram();
   HZ_CORE_ASSERT(shaderSources.size() <= 2, "We only support 2 shaders for now");
   std::array<GLenum, 2> glShaderIDs;
@@ -192,31 +200,43 @@ void OpenGLShader::compile(const std::unordered_map<GLenum, std::string>& shader
 
 void OpenGLShader::bind() const
 {
+  HZ_PROFILE_FUNCTION();
+  
   glUseProgram(m_rendererID);
 }
 
 void OpenGLShader::unbind() const
 {
+  HZ_PROFILE_FUNCTION();
+  
   glUseProgram(0);
 }
 
 void OpenGLShader::setInt(const std::string& name, int value)
 {
+  HZ_PROFILE_FUNCTION();
+  
   uploadUniformInt(name, value);
 }
 
 void OpenGLShader::setFloat3(const std::string& name, const glm::vec3& value)
 {
+  HZ_PROFILE_FUNCTION();
+  
   uploadUniformFloat3(name, value);
 }
 
 void OpenGLShader::setFloat4(const std::string& name, const glm::vec4& value)
 {
+  HZ_PROFILE_FUNCTION();
+  
   uploadUniformFloat4(name, value);
 }
 
 void OpenGLShader::setMat4(const std::string& name, const glm::mat4& value)
 {
+  HZ_PROFILE_FUNCTION();
+  
   uploadUniformMat4(name, value);
 }
 

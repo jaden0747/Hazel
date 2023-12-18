@@ -9,6 +9,8 @@ namespace hazel
 
   void Renderer::init()
   {
+    HZ_PROFILE_FUNCTION();
+  
     RenderCommand::init();
     Renderer2D::init();
   }
