@@ -59,7 +59,7 @@ void Sandbox2D::onUpdate(hazel::Timestep ts)
       for (float x = -5.0f; x < 5.0f; x += 0.5f)
       {
         glm::vec4 color = { (x + 5.0f) / 10.0f, 0.4f, (y + 5.0f) / 10.0f, 0.5f };
-        hazel::Renderer2D::drawQuad({ x, y }, { 0.45f, 0.45f }, color);
+        hazel::Renderer2D::drawRotatedQuad({ x, y }, { 0.45f, 0.45f }, rotation, color);
       }
     }
     hazel::Renderer2D::endScene();
