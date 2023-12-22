@@ -108,6 +108,8 @@ void Renderer2D::init()
 void Renderer2D::shutdown()
 {
   HZ_PROFILE_FUNCTION();
+
+  delete[] s_data.quadVertexBufferBase;
 }
 
 
@@ -129,7 +131,7 @@ void Renderer2D::endScene()
 {
   HZ_PROFILE_FUNCTION();
 
-  uint32_t dataSize = (uint8_t*)s_data.quadVertexBufferPtr - (uint8_t*)s_data.quadVertexBufferBase;
+  uint32_t dataSize = (uint32_t)((uint8_t*)s_data.quadVertexBufferPtr - (uint8_t*)s_data.quadVertexBufferBase);
   s_data.quadVertexBuffer->setData(s_data.quadVertexBufferBase, dataSize);
 
   flush();
@@ -220,7 +222,6 @@ void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, cons
   HZ_PROFILE_FUNCTION();
 
   constexpr size_t quadVertexCount = 4u;
-  constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
   constexpr glm::vec2 textureCoords[] = {
     { 0.0f, 0.0f },
     { 1.0f, 0.0f },
@@ -258,7 +259,7 @@ void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, cons
   for (size_t i = 0; i < quadVertexCount; i++)
   {
     s_data.quadVertexBufferPtr->position = transform * s_data.quadVertexPositions[i];
-    s_data.quadVertexBufferPtr->color = color;
+    s_data.quadVertexBufferPtr->color = tintColor;
     s_data.quadVertexBufferPtr->texCoord = textureCoords[i];
     s_data.quadVertexBufferPtr->texIndex = textureIndex;
     s_data.quadVertexBufferPtr->tilingFactor = tilingFactor;
@@ -315,7 +316,6 @@ void Renderer2D::drawRotatedQuad(const glm::vec3& position, const glm::vec2& siz
   HZ_PROFILE_FUNCTION();
 
   constexpr size_t quadVertexCount = 4;
-  constexpr glm::vec4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
   constexpr glm::vec2 textureCoords[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
 
   if (s_data.quadIndexCount >= Renderer2DData::maxIndices)
@@ -347,7 +347,7 @@ void Renderer2D::drawRotatedQuad(const glm::vec3& position, const glm::vec2& siz
   for (size_t i = 0; i < quadVertexCount; i++)
   {
     s_data.quadVertexBufferPtr->position = transform * s_data.quadVertexPositions[i];
-    s_data.quadVertexBufferPtr->color = color;
+    s_data.quadVertexBufferPtr->color = tintColor;
     s_data.quadVertexBufferPtr->texCoord = textureCoords[i];
     s_data.quadVertexBufferPtr->texIndex = textureIndex;
     s_data.quadVertexBufferPtr->tilingFactor = tilingFactor;

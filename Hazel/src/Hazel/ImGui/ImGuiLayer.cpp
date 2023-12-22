@@ -14,7 +14,7 @@
 namespace hazel
 {
   ImGuiLayer::ImGuiLayer()
-    : Layer("ImGuiLayer") 
+    : Layer("ImGuiLayer")
   {
   }
 
@@ -74,18 +74,16 @@ namespace hazel
 
   void ImGuiLayer::onEvent(Event& e)
   {
-  #ifdef WIN32
-    // HZ_INFO("{0}: {1}", __FUNCTION__, e.getName());
-  #else
-    // HZ_INFO("{0}: {1}", __func__, e.getName());
-  #endif
+    ImGuiIO& io = ImGui::GetIO();
+    e.m_handled |= e.isInCategory(EventCategoryMouse) & io.WantCaptureMouse;
+    e.m_handled |= e.isInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
   }
 
 
   void ImGuiLayer::end()
   {
     HZ_PROFILE_FUNCTION();
-    
+
     ImGuiIO& io = ImGui::GetIO();
     Application& app = Application::get();
     io.DisplaySize = ImVec2((float)app.getWindow().getWidth(), (float)app.getWindow().getHeight());
@@ -102,5 +100,5 @@ namespace hazel
       glfwMakeContextCurrent(backup_current_context);
     }
   }
-  
+
 }

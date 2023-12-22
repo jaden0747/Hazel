@@ -55,10 +55,10 @@ namespace hazel
     dispatcher.dispatch<WindowCloseEvent>(HZ_BIND_EVENT_FN(Application::onWindowClose));
     dispatcher.dispatch<WindowResizeEvent>(HZ_BIND_EVENT_FN(Application::onWindowResize));
     for (auto it = m_layerStack.rbegin(); it != m_layerStack.rend(); ++it) {
-      (*it)->onEvent(e);
       if (e.m_handled) {
         break;
       }
+      (*it)->onEvent(e);
     }
   }
 
