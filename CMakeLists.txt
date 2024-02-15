@@ -64,6 +64,7 @@ add_library(hazel STATIC
     Hazel/src/Hazel/Renderer/RendererAPI.cpp
     Hazel/src/Hazel/Renderer/OrthographicCamera.cpp
     Hazel/src/Hazel/Renderer/Texture.cpp
+    Hazel/src/Hazel/Renderer/Framebuffer.cpp
     Hazel/src/Platform/Windows/WindowsWindow.cpp
     Hazel/src/Platform/Windows/WindowsInput.cpp
     Hazel/src/Platform/OpenGL/OpenGLContext.cpp
@@ -72,6 +73,7 @@ add_library(hazel STATIC
     Hazel/src/Platform/OpenGL/OpenGLRendererAPI.cpp
     Hazel/src/Platform/OpenGL/OpenGLShader.cpp
     Hazel/src/Platform/OpenGL/OpenGLTexture.cpp
+    Hazel/src/Platform/OpenGL/OpenGLFramebuffer.cpp
     Hazel/vendor/stb_image/stb_image.h
     Hazel/vendor/stb_image/stb_image.cpp
 )
