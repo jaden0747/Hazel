@@ -11,3 +11,5 @@ bin-int
 *.vcxproj.filters
 *.log
 imgui.ini
+HazelProfile*
+.vscode/settings.json

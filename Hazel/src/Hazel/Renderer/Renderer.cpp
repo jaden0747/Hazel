@@ -10,7 +10,7 @@ namespace hazel
   void Renderer::init()
   {
     HZ_PROFILE_FUNCTION();
-  
+
     RenderCommand::init();
     Renderer2D::init();
   }
@@ -24,7 +24,7 @@ namespace hazel
   {
     RenderCommand::setViewport(0, 0, width, height);
   }
-   
+
   void Renderer::beginScene(OrthographicCamera& camera)
   {
     s_sceneData->m_viewProjectionMatrix = camera.getViewProjectionMatrix();

@@ -140,8 +140,12 @@ void Renderer2D::endScene()
 
 void Renderer2D::flush()
 {
+  if (s_data.quadIndexCount == 0)
+    return;
+
   for (uint32_t i = 0u; i < s_data.textureSlotIndex; i++)
     s_data.textureSlots[i]->bind(i);
+
   RenderCommand::drawIndexed(s_data.quadVertexArray, s_data.quadIndexCount);
   s_data.stats.drawCalls++;
 }

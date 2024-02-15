@@ -2,10 +2,10 @@
 
 #include "hzpch.h"
 
-#include "Hazel/Core/Core.h"
+#include "Hazel/Core/Base.h"
 #include "Hazel/Events/Event.h"
 
-namespace hazel 
+namespace hazel
 {
   struct WindowProps
   {
@@ -16,26 +16,26 @@ namespace hazel
     WindowProps(const std::string& title = "Hazel Engine",
       unsigned int width=1920,
       unsigned int height=1080)
-      : title(title), width(width), height(height) 
+      : title(title), width(width), height(height)
     {
     }
   };
 
 
   class Window {
-  public: 
+  public:
     using EventCallbackFn = std::function<void(Event&)>;
 
     virtual ~Window() = default;
     virtual void onUpdate() = 0;
     virtual unsigned int getWidth() const = 0;
     virtual unsigned int getHeight() const = 0;
-    //! Window attributes    
+    //! Window attributes
     virtual void setEventCallback(const EventCallbackFn& callback) = 0;
     virtual void setVSync(bool enabled) = 0;
     virtual bool isVSync() const = 0;
     virtual void* getNativeWindow() const = 0;
 
-    static Scope<Window> create(const WindowProps& props=WindowProps());  
+    static Scope<Window> create(const WindowProps& props=WindowProps());
   };
 }

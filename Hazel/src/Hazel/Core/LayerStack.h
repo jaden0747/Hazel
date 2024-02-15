@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Hazel/Core/Core.h"
+#include "Hazel/Core/Base.h"
 #include "Hazel/Core/Layer.h"
 
 #include <vector>
 
 namespace hazel
 {
-  
+
   class LayerStack {
   public:
     LayerStack() = default;

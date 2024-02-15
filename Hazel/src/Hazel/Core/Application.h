@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Hazel/Core/Core.h"
+#include "Hazel/Core/Base.h"
 #include "Hazel/Core/Window.h"
 #include "Hazel/Core/LayerStack.h"
 #include "Hazel/Core/Timestep.h"
@@ -28,6 +28,8 @@ namespace hazel
     void pushOverlay(Layer* layer);
     Window& getWindow() { return *m_window; }
     static Application& get() { return *s_instance; }
+
+    void close();
 
   private:
     void run();
