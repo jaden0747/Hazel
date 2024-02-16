@@ -117,3 +117,20 @@ target_compile_definitions(hazel-app PRIVATE
 )
 
 target_link_libraries(hazel-app PRIVATE hazel)
+
+add_executable(hazel-editor
+    Editor/EditorApplication.cpp
+    Editor/EditorLayer.cpp
+)
+
+target_include_directories(hazel-editor PUBLIC
+    ${PROJECT_SOURCE_DIR}/Hazel/
+    ${PROJECT_SOURCE_DIR}/Hazel/src/
+    ${PROJECT_SOURCE_DIR}/Hazel/vendor/
+)
+
+target_compile_definitions(hazel-editor PRIVATE
+    _CRT_SECURE_NO_WARNINGS
+)
+
+target_link_libraries(hazel-editor PRIVATE hazel)

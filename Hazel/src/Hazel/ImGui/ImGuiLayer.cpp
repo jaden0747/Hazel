@@ -13,8 +13,9 @@
 
 namespace hazel
 {
-  ImGuiLayer::ImGuiLayer()
+  ImGuiLayer::ImGuiLayer(const std::string& iniFilename)
     : Layer("ImGuiLayer")
+    , m_iniFilename(iniFilename)
   {
   }
 
@@ -26,6 +27,7 @@ namespace hazel
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
+    io.IniFilename = m_iniFilename.c_str();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;      // Enable Docking

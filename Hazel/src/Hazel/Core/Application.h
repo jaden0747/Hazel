@@ -21,7 +21,7 @@ namespace hazel
   {
     friend int ::main(int argc, char** argv);
   public:
-    Application();
+    Application(const std::string& name = "Hazel App");
     virtual ~Application();
     void onEvent(Event& e);
     void pushLayer(Layer* layer);

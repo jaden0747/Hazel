@@ -12,18 +12,18 @@ namespace hazel
 
   Application* Application::s_instance = nullptr;
 
-  Application::Application()
+  Application::Application(const std::string& name)
   {
     HZ_PROFILE_FUNCTION();
 
     HZ_CORE_ASSERT(!s_instance, "Application already exists!");
     s_instance = this;
-    m_window = (Window::create());
+    m_window = (Window::create(WindowProps(name)));
     m_window->setEventCallback(HZ_BIND_EVENT_FN(Application::onEvent));
 
     Renderer::init();
 
-    m_ImGuiLayer = new ImGuiLayer();
+    m_ImGuiLayer = new ImGuiLayer(name + ".ini");
 		pushOverlay(m_ImGuiLayer);
   }
 

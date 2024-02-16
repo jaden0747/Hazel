@@ -6,12 +6,12 @@
 #include "Hazel/Events/KeyEvent.h"
 #include "Hazel/Events/MouseEvent.h"
 
-namespace hazel 
+namespace hazel
 {
   class ImGuiLayer : public Layer
   {
   public:
-    ImGuiLayer();
+    ImGuiLayer(const std::string& iniFilename = "imgui.ini");
     ~ImGuiLayer() = default;
     virtual void onAttach() override;
     virtual void onDetach() override;
@@ -22,5 +22,6 @@ namespace hazel
 
   private:
     float m_time = 0.0f;
+    std::string m_iniFilename;
   };
 }

@@ -11,7 +11,9 @@
 class Sandbox : public hazel::Application
 {
 public:
-  Sandbox() {
+  Sandbox()
+  : Application("hazel-app")
+  {
     pushLayer(new Sandbox2D());
   }
 
