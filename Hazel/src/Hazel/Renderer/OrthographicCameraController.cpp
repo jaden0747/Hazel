@@ -72,16 +72,22 @@ void OrthographicCameraController::onUpdate(Timestep ts)
 void OrthographicCameraController::onEvent(Event& e)
 {
   HZ_PROFILE_FUNCTION();
-  
+
   EventDispatcher dispatcher(e);
   dispatcher.dispatch<MouseScrolledEvent>(HZ_BIND_EVENT_FN(OrthographicCameraController::onMouseScrolled));
   dispatcher.dispatch<WindowResizeEvent>(HZ_BIND_EVENT_FN(OrthographicCameraController::onWindowResized));
 }
 
+void OrthographicCameraController::onResize(float width, float height)
+{
+  m_aspectRatio = width / height;
+  m_camera.setProjection(-m_aspectRatio * m_zoomLevel, m_aspectRatio * m_zoomLevel, -m_zoomLevel, m_zoomLevel);
+}
+
 bool OrthographicCameraController::onMouseScrolled(MouseScrolledEvent& e)
 {
   HZ_PROFILE_FUNCTION();
-  
+
   m_zoomLevel -= e.getOffsetY() * 0.25f;
   m_zoomLevel = std::max(m_zoomLevel, 0.25f);
   m_camera.setProjection(-m_aspectRatio * m_zoomLevel, m_aspectRatio * m_zoomLevel, -m_zoomLevel, m_zoomLevel);
@@ -91,9 +97,8 @@ bool OrthographicCameraController::onMouseScrolled(MouseScrolledEvent& e)
 bool OrthographicCameraController::onWindowResized(WindowResizeEvent& e)
 {
   HZ_PROFILE_FUNCTION();
-  
-  m_aspectRatio = static_cast<float>(e.getWidth()) / static_cast<float>(e.getHeight());
-  m_camera.setProjection(-m_aspectRatio * m_zoomLevel, m_aspectRatio * m_zoomLevel, -m_zoomLevel, m_zoomLevel);
+
+  onResize((float)e.getWidth(), (float)e.getHeight());
   return false;
 }
 

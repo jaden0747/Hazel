@@ -18,6 +18,8 @@ public:
 
   void unbind() override;
 
+  void resize(uint32_t width, uint32_t height) override;
+
   uint32_t getColorAttachmentRendererID() const override { return m_colorAttachment; }
 
   const FramebufferSpecification& getSpecification() const override { return m_specification; }
