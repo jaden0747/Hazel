@@ -44,7 +44,6 @@ find_package(OpenGL REQUIRED)
 
 add_library(hazel STATIC
     Hazel/src/hzpch.cpp
-    Hazel/src/Hazel/Core/Input.cpp
     Hazel/src/Hazel/Core/Application.cpp
     Hazel/src/Hazel/Core/Log.cpp
     Hazel/src/Hazel/Core/Layer.cpp

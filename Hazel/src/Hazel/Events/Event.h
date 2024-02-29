@@ -40,9 +40,11 @@ namespace hazel
 #define EVENT_CLASS_CATEGORY(category) virtual int getCategoryFlags() const override { return category; }
 
 
-    class Event {
-
+    class Event
+    {
     public:
+        virtual ~Event() = default;
+
         bool m_handled = false;
         virtual EventType getEventType() const = 0;
         virtual const char* getName() const = 0;
