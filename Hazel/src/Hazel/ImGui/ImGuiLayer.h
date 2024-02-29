@@ -20,8 +20,11 @@ namespace hazel
     void begin();
     void end();
 
+    void blockEvents(bool block) { m_blockEvents = block; }
+
   private:
     float m_time = 0.0f;
     std::string m_iniFilename;
+    bool m_blockEvents = true;
   };
 }

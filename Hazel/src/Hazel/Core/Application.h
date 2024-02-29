@@ -31,6 +31,8 @@ namespace hazel
 
     void close();
 
+    ImGuiLayer* getImguiLayer() { return m_imguiLayer; }
+
   private:
     void run();
     bool onWindowClose(WindowCloseEvent& e);
@@ -38,7 +40,7 @@ namespace hazel
 
   private:
     std::unique_ptr<Window> m_window;
-		ImGuiLayer* m_ImGuiLayer;
+		ImGuiLayer* m_imguiLayer;
     bool m_running = true;
     bool m_minimized = false;
     LayerStack m_layerStack;

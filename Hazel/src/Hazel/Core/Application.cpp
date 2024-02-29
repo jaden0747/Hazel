@@ -23,8 +23,8 @@ namespace hazel
 
     Renderer::init();
 
-    m_ImGuiLayer = new ImGuiLayer(name + ".ini");
-		pushOverlay(m_ImGuiLayer);
+    m_imguiLayer = new ImGuiLayer(name + ".ini");
+		pushOverlay(m_imguiLayer);
   }
 
   Application::~Application()
@@ -81,13 +81,13 @@ namespace hazel
             layer->onUpdate(timestep);
           }
         }
-        m_ImGuiLayer->begin();
+        m_imguiLayer->begin();
         {
           HZ_PROFILE_SCOPE("LayerStack OnImGuiRender");
           for (Layer* layer : m_layerStack)
             layer->onImGuiRender();
         }
-        m_ImGuiLayer->end();
+        m_imguiLayer->end();
       }
       m_window->onUpdate();
     }
