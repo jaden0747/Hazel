@@ -37,8 +37,21 @@ void EditorLayer::onUpdate(hazel::Timestep ts)
 {
   HZ_PROFILE_FUNCTION();
 
+  // resize
+  if (hazel::FramebufferSpecification spec = m_framebuffer->getSpecification();
+    m_viewportSize.x > 0.0f &&
+    m_viewportSize.y > 0.0f &&
+    (spec.width != m_viewportSize.x || spec.height != m_viewportSize.y)
+  )
+  {
+    m_framebuffer->resize((uint32_t)m_viewportSize.x, (uint32_t)m_viewportSize.y);
+    m_cameraController.onResize(m_viewportSize.x, m_viewportSize.y);
+  }
+
+
   // update
-  m_cameraController.onUpdate(ts);
+  if (m_viewportFocused)
+    m_cameraController.onUpdate(ts);
 
   // render
   hazel::Renderer2D::resetStats();
@@ -149,13 +162,7 @@ void EditorLayer::onImGuiRender()
       Application::get().getImguiLayer()->blockEvents(!m_viewportFocused || !m_viewportHovered);
 
       ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-      if (m_viewportSize != *(glm::vec2*)&viewportPanelSize)
-      {
-        m_framebuffer->resize((uint32_t)viewportPanelSize.x, (uint32_t)viewportPanelSize.y);
-        m_viewportSize = { viewportPanelSize.x, viewportPanelSize.y };
-        m_cameraController.onResize(viewportPanelSize.x, viewportPanelSize.y);
-      }
-
+      m_viewportSize = { viewportPanelSize.x, viewportPanelSize.y };
       uint32_t textureID = m_framebuffer->getColorAttachmentRendererID();
       ImGui::Image((void*)textureID, ImVec2{ m_viewportSize.x, m_viewportSize.y }, ImVec2{0, 1}, ImVec2{1, 0});
     }

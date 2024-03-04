@@ -11,5 +11,7 @@ bin-int
 *.vcxproj.filters
 *.log
 *.ini
+!hazel-app.ini
+!hazel-editor.ini
 HazelProfile*
 .vscode/settings.json
