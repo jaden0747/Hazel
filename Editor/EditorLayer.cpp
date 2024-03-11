@@ -19,12 +19,21 @@ EditorLayer::EditorLayer()
 void EditorLayer::onAttach()
 {
   HZ_PROFILE_FUNCTION();
-  m_checkerboardTexture = hazel::Texture2D::create("resources/assets/textures/Checkerboard.png");
+  m_checkerboardTexture = Texture2D::create("resources/assets/textures/Checkerboard.png");
 
-  hazel::FramebufferSpecification fbSpec;
+  FramebufferSpecification fbSpec;
   fbSpec.width = 1920;
   fbSpec.height = 1080;
-  m_framebuffer = hazel::Framebuffer::create(fbSpec);
+  m_framebuffer = Framebuffer::create(fbSpec);
+
+  m_activeScene = createRef<Scene>();
+
+  auto square = m_activeScene->createEntity();
+
+  m_activeScene->reg().emplace<TransformComponent>(square, glm::translate(glm::mat4(1.0f), {1.0f, 0.0f, 0.0f}));
+  m_activeScene->reg().emplace<SpriteRendererComponent>(square, glm::vec4{0.2f, 0.3f, 0.8f, 1.0f});
+
+  m_squareEntity = square;
 }
 
 
@@ -33,12 +42,12 @@ void EditorLayer::onDetach()
   HZ_PROFILE_FUNCTION();
 }
 
-void EditorLayer::onUpdate(hazel::Timestep ts)
+void EditorLayer::onUpdate(Timestep ts)
 {
   HZ_PROFILE_FUNCTION();
 
   // resize
-  if (hazel::FramebufferSpecification spec = m_framebuffer->getSpecification();
+  if (FramebufferSpecification spec = m_framebuffer->getSpecification();
     m_viewportSize.x > 0.0f &&
     m_viewportSize.y > 0.0f &&
     (spec.width != m_viewportSize.x || spec.height != m_viewportSize.y)
@@ -54,38 +63,17 @@ void EditorLayer::onUpdate(hazel::Timestep ts)
     m_cameraController.onUpdate(ts);
 
   // render
-  hazel::Renderer2D::resetStats();
-  {
-    HZ_PROFILE_SCOPE("Renderer Prep");
-    m_framebuffer->bind();
-    hazel::RenderCommand::setClearColor({0.1f, 0.1f, 0.1f, 1});
-    hazel::RenderCommand::clear();
-  }
+  Renderer2D::resetStats();
+  m_framebuffer->bind();
+  RenderCommand::setClearColor({0.1f, 0.1f, 0.1f, 1.0f});
+  RenderCommand::clear();
 
-  {
-    static float rotation = 0.0f;
-    rotation += ts * 50.0f;
+  Renderer2D::beginScene(m_cameraController.getCamera());
 
-    HZ_PROFILE_SCOPE("Renderer Draw");
-    hazel::Renderer2D::beginScene(m_cameraController.getCamera());
-    hazel::Renderer2D::drawRotatedQuad({1.0f, 0.0f, 0.1f}, {0.8f, 0.8f}, glm::radians(rotation), m_squareColor);
-    hazel::Renderer2D::drawQuad({-1.0f, 0.0f, 0.1f}, {0.8f, 0.8f}, m_squareColor);
-    hazel::Renderer2D::drawQuad({0.5f, -0.5f, 0.1f}, {0.5f, 0.75f}, m_squareColor);
-    hazel::Renderer2D::drawQuad({0.0f, 0.0f, 0.1f}, {20.0f, 20.0f}, m_checkerboardTexture, 10.0f);
-    hazel::Renderer2D::endScene();
+  m_activeScene->onUpdate(ts);
 
-    hazel::Renderer2D::beginScene(m_cameraController.getCamera());
-    for (float y = -5.0f; y < 5.0f; y+=0.5f)
-    {
-      for (float x = -5.0f; x < 5.0f; x+=0.5f)
-      {
-        glm::vec4 color = {0.8f + 0.1f * x, 0.2f, 0.8f + 0.1f * y, 1.0f};
-        hazel::Renderer2D::drawQuad({x, y, -0.1f}, {0.45f, 0.45f}, color);
-      }
-    }
-    hazel::Renderer2D::endScene();
-    m_framebuffer->unbind();
-  }
+  Renderer2D::endScene();
+  m_framebuffer->unbind();
 }
 
 
@@ -143,14 +131,15 @@ void EditorLayer::onImGuiRender()
 
     ImGui::Begin("Settings");
     {
-      auto stats = hazel::Renderer2D::getStats();
+      auto stats = Renderer2D::getStats();
       ImGui::Text("Renderer2D Stats:");
       ImGui::Text("Draw Calls: %d", stats.drawCalls);
       ImGui::Text("Quads: %d", stats.quadCount);
       ImGui::Text("Vertices: %d", stats.getTotalVertexCount());
       ImGui::Text("Indices: %d", stats.getTotalIndexCount());
 
-      ImGui::ColorEdit4("Square Color", glm::value_ptr(m_squareColor));
+      auto& squareColor = m_activeScene->reg().get<SpriteRendererComponent>(m_squareEntity).m_color;
+      ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
     }
     ImGui::End();
 
@@ -173,7 +162,7 @@ void EditorLayer::onImGuiRender()
 }
 
 
-void EditorLayer::onEvent(hazel::Event& e)
+void EditorLayer::onEvent(Event& e)
 {
   m_cameraController.onEvent(e);
 }

@@ -64,6 +64,7 @@ add_library(hazel STATIC
     Hazel/src/Hazel/Renderer/OrthographicCamera.cpp
     Hazel/src/Hazel/Renderer/Texture.cpp
     Hazel/src/Hazel/Renderer/Framebuffer.cpp
+    Hazel/src/Hazel/Scene/Scene.cpp
     Hazel/src/Platform/Windows/WindowsWindow.cpp
     Hazel/src/Platform/Windows/WindowsInput.cpp
     Hazel/src/Platform/OpenGL/OpenGLContext.cpp
@@ -86,6 +87,7 @@ target_include_directories(hazel PUBLIC
     ${PROJECT_SOURCE_DIR}/Hazel/vendor/glm/
     ${PROJECT_SOURCE_DIR}/Hazel/vendor/stb_image/
     ${PROJECT_SOURCE_DIR}/Hazel/vendor/imgui/
+    ${PROJECT_SOURCE_DIR}/Hazel/vendor/entt/include
 )
 
 target_compile_definitions(hazel PRIVATE

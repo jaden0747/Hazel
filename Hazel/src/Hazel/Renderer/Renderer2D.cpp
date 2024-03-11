@@ -172,6 +172,32 @@ void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, cons
 {
   HZ_PROFILE_FUNCTION();
 
+  glm::mat4 transform =
+    glm::translate(glm::mat4(1.0f), position) *
+    glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+}
+
+
+void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor)
+{
+  drawQuad({ position.x, position.y, 0.0f }, size, texture, tilingFactor, tintColor);
+}
+
+
+void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor)
+{
+  HZ_PROFILE_FUNCTION();
+
+  glm::mat4 transform =
+    glm::translate(glm::mat4(1.0f), position) *
+    glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+}
+
+
+void Renderer2D::drawQuad(const glm::mat4& transform, const glm::vec4& color)
+{
+  HZ_PROFILE_FUNCTION();
+
   constexpr size_t quadVertexCount = 4u;
   const float textureIndex = 0.0f; // white texture
   constexpr glm::vec2 textureCoords[] = {
@@ -185,10 +211,6 @@ void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, cons
   if (s_data.quadIndexCount >= Renderer2DData::maxIndices)
     flushAndReset();
 
-  glm::mat4 transform =
-    glm::translate(glm::mat4(1.0f), position) *
-    glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
-
   for (size_t i = 0; i < quadVertexCount; i++)
   {
     s_data.quadVertexBufferPtr->position = transform * s_data.quadVertexPositions[i];
@@ -201,27 +223,10 @@ void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, cons
 
   s_data.quadIndexCount += 6;
   s_data.stats.quadCount++;
-
-
-  // s_data.textureShader->setFloat4("u_Color", color);
-  // s_data.textureShader->setFloat("u_TilingFactor", 1.0f);
-  // s_data.whiteTexture->bind();
-
-  // glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
-  // s_data.textureShader->setMat4("u_Transform", transform);
-
-  // s_data.quadVertexArray->bind();
-  // RenderCommand::drawIndexed(s_data.quadVertexArray);
 }
 
 
-void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor)
-{
-  drawQuad({ position.x, position.y, 0.0f }, size, texture, tilingFactor, tintColor);
-}
-
-
-void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor)
+void Renderer2D::drawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor)
 {
   HZ_PROFILE_FUNCTION();
 
@@ -255,10 +260,6 @@ void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, cons
     s_data.textureSlots[s_data.textureSlotIndex] = texture;
     s_data.textureSlotIndex++;
   }
-
-  glm::mat4 transform =
-    glm::translate(glm::mat4(1.0f), position) *
-    glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
   for (size_t i = 0; i < quadVertexCount; i++)
   {
