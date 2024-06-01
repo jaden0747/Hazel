@@ -113,6 +113,22 @@ void Renderer2D::shutdown()
 }
 
 
+void Renderer2D::beginScene(const Camera& camera, const glm::mat4& transform)
+{
+  HZ_PROFILE_FUNCTION();
+
+  glm::mat4 viewProj = camera.getProjection() * glm::inverse(transform);
+
+  s_data.textureShader->bind();
+  s_data.textureShader->setMat4("u_ViewProjection", viewProj);
+
+  s_data.quadIndexCount = 0;
+  s_data.quadVertexBufferPtr = s_data.quadVertexBufferBase;
+
+  s_data.textureSlotIndex = 1;
+}
+
+
 void Renderer2D::beginScene(const OrthographicCamera& camera)
 {
   HZ_PROFILE_FUNCTION();

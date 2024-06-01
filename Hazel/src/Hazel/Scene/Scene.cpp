@@ -72,13 +72,36 @@ Entity Scene::createEntity(const std::string& name)
 void Scene::onUpdate(Timestep ts)
 {
 	// Render 2D
-	auto group = m_registry.view<TransformComponent, SpriteRendererComponent>();
-	for (auto entity : group)
+	Camera* mainCamera = nullptr;
+	glm::mat4* cameraTransform = nullptr;
 	{
-		TransformComponent& transform = group.get<TransformComponent>(entity);
-		SpriteRendererComponent& sprite = group.get<SpriteRendererComponent>(entity);
+		auto group = m_registry.view<TransformComponent, CameraComponent>();
+		for (auto entity : group)
+		{
+			auto& [transform, camera] = group.get<TransformComponent, CameraComponent>(entity);
 
-		Renderer2D::drawQuad(transform, sprite.m_color);
+			if (camera.m_primary)
+			{
+				mainCamera = &camera.m_camera;
+				cameraTransform = &transform.m_transform;
+				break;
+			}
+		}
+	}
+	if (mainCamera)
+	{
+		Renderer2D::beginScene(mainCamera->getProjection(), *cameraTransform);
+
+		auto group = m_registry.view<TransformComponent, SpriteRendererComponent>();
+		for (auto entity : group)
+		{
+			TransformComponent& transform = group.get<TransformComponent>(entity);
+			SpriteRendererComponent& sprite = group.get<SpriteRendererComponent>(entity);
+
+			Renderer2D::drawQuad(transform, sprite.m_color);
+		}
+
+		Renderer2D::endScene();
 	}
 
 }

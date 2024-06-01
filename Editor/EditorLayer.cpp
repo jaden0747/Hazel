@@ -33,6 +33,13 @@ void EditorLayer::onAttach()
   square.addComponent<SpriteRendererComponent>(glm::vec4{0.0f, 1.0f, 0.0f, 1.0f});
 
   m_squareEntity = square;
+
+  m_cameraEntity = m_activeScene->createEntity("Camera Entity");
+  m_cameraEntity.addComponent<CameraComponent>(glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+
+  m_secondCamera = m_activeScene->createEntity("Clip-Space Entity");
+  auto& cc = m_secondCamera.addComponent<CameraComponent>(glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f));
+  cc.m_primary = false;
 }
 
 void EditorLayer::onDetach()
@@ -66,11 +73,8 @@ void EditorLayer::onUpdate(Timestep ts)
   RenderCommand::setClearColor({0.1f, 0.1f, 0.1f, 1.0f});
   RenderCommand::clear();
 
-  Renderer2D::beginScene(m_cameraController.getCamera());
-
   m_activeScene->onUpdate(ts);
 
-  Renderer2D::endScene();
   m_framebuffer->unbind();
 }
 
@@ -146,6 +150,14 @@ void EditorLayer::onImGuiRender()
         auto& squareColor = m_squareEntity.getComponent<SpriteRendererComponent>().m_color;
         ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
         ImGui::Separator();
+      }
+
+      ImGui::DragFloat3("Camera Transform", glm::value_ptr(m_cameraEntity.getComponent<TransformComponent>().m_transform[3]));
+
+      if (ImGui::Checkbox("Camera A", &m_primaryCamera))
+      {
+        m_cameraEntity.getComponent<CameraComponent>().m_primary = m_primaryCamera;
+        m_secondCamera.getComponent<CameraComponent>().m_primary = !m_primaryCamera;
       }
     }
     ImGui::End();

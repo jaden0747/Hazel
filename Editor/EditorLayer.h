@@ -32,6 +32,10 @@ private:
 
   Ref<Scene> m_activeScene;
   Entity m_squareEntity;
+  Entity m_cameraEntity;
+  Entity m_secondCamera;
+
+  bool m_primaryCamera = true;
 
   glm::vec2 m_viewportSize = {0.0f, 0.0f};
 

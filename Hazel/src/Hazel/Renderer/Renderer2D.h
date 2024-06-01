@@ -2,6 +2,7 @@
 
 #include "Hazel/Renderer/OrthographicCamera.h"
 #include "Hazel/Renderer/Texture.h"
+#include "Hazel/Renderer/Camera.h"
 
 namespace hazel
 {
@@ -11,7 +12,8 @@ namespace hazel
     static void init();
     static void shutdown();
 
-    static void beginScene(const OrthographicCamera& camera);
+    static void beginScene(const Camera& camera, const glm::mat4& transform);
+    static void beginScene(const OrthographicCamera& camera); // TODO: remove
     static void endScene();
     static void flush();
 
