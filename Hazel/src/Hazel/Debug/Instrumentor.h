@@ -28,44 +28,14 @@ struct InstrumentationSession
 
 class Instrumentor
 {
-private:
-  std::mutex m_mutex;
-  InstrumentationSession *m_currentSession;
-  std::ofstream m_outputStream;
-
-  Instrumentor()
-      : m_currentSession(nullptr)
-  {
-  }
-
 public:
+  Instrumentor(const Instrumentor&) = delete;
+  Instrumentor(Instrumentor&&) = delete;
+
   static Instrumentor& get()
   {
     static Instrumentor instance;
     return instance;
-  }
-
-  void writeHeader()
-  {
-    m_outputStream << "{\"otherData\": {}, \"traceEvents\":[{}";
-    m_outputStream.flush();
-  }
-
-  void writeFooter()
-  {
-    m_outputStream << "]}";
-    m_outputStream.flush();
-  }
-
-  void internalEndSession()
-  {
-    if (m_currentSession)
-    {
-      writeFooter();
-      m_outputStream.close();
-      delete m_currentSession;
-      m_currentSession = nullptr;
-    }
   }
 
   void beginSession(const std::string& name, const std::string& filepath = "results.json")
@@ -123,6 +93,46 @@ public:
       m_outputStream.flush();
     }
   }
+private:
+  Instrumentor()
+    : m_currentSession(nullptr)
+  {
+  }
+
+  ~Instrumentor()
+  {
+    endSession();
+  }
+
+  void writeHeader()
+  {
+    m_outputStream << "{\"otherData\": {}, \"traceEvents\":[{}";
+    m_outputStream.flush();
+  }
+
+  void writeFooter()
+  {
+    m_outputStream << "]}";
+    m_outputStream.flush();
+  }
+
+
+  void internalEndSession()
+  {
+    if (m_currentSession)
+    {
+      writeFooter();
+      m_outputStream.close();
+      delete m_currentSession;
+      m_currentSession = nullptr;
+    }
+  }
+
+
+private:
+  std::mutex m_mutex;
+  InstrumentationSession *m_currentSession;
+  std::ofstream m_outputStream;
 };
 
 
@@ -217,8 +227,10 @@ namespace InstrumentorUtils
 #if HZ_PROFILE
   #define HZ_PROFILE_BEGIN_SESSION(name, filepath) ::hazel::Instrumentor::get().beginSession(name, filepath)
   #define HZ_PROFILE_END_SESSION() ::hazel::Instrumentor::get().endSession()
-  #define HZ_PROFILE_SCOPE(name) constexpr auto fixedName = hazel::InstrumentorUtils::cleanupOutputString(name, "__cdecl "); \
-    ::hazel::InstrumentationTimer timer##__LINE__(fixedName.data);
+	#define HZ_PROFILE_SCOPE_LINE2(name, line) constexpr auto fixedName##line = ::hazel::InstrumentorUtils::cleanupOutputString(name, "__cdecl ");\
+											   ::hazel::InstrumentationTimer timer##line(fixedName##line.data)
+	#define HZ_PROFILE_SCOPE_LINE(name, line) HZ_PROFILE_SCOPE_LINE2(name, line)
+	#define HZ_PROFILE_SCOPE(name) HZ_PROFILE_SCOPE_LINE(name, __LINE__)
   #define HZ_PROFILE_FUNCTION() HZ_PROFILE_SCOPE(HZ_FUNC_SIG)
 #else
   #define HZ_PROFILE_BEGIN_SESSION(name, filepath)
