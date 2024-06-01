@@ -175,6 +175,8 @@ void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, cons
   glm::mat4 transform =
     glm::translate(glm::mat4(1.0f), position) *
     glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+
+  drawQuad(transform, color);
 }
 
 
@@ -191,6 +193,8 @@ void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, cons
   glm::mat4 transform =
     glm::translate(glm::mat4(1.0f), position) *
     glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+
+  drawQuad(transform, texture, tilingFactor, tintColor);
 }
 
 
@@ -275,10 +279,12 @@ void Renderer2D::drawQuad(const glm::mat4& transform, const Ref<Texture2D>& text
   s_data.stats.quadCount++;
 }
 
+
 void Renderer2D::drawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const glm::vec4& color)
 {
   drawRotatedQuad({ position.x, position.y, 0.0f }, size, rotation, color);
 }
+
 
 void Renderer2D::drawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const glm::vec4& color)
 {
@@ -311,10 +317,12 @@ void Renderer2D::drawRotatedQuad(const glm::vec3& position, const glm::vec2& siz
   s_data.stats.quadCount++;
 }
 
+
 void Renderer2D::drawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor)
 {
   drawRotatedQuad({ position.x, position.y, 0.0f }, size, rotation, texture, tilingFactor, tintColor);
 }
+
 
 void Renderer2D::drawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor)
 {

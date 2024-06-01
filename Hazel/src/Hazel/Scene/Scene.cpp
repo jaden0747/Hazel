@@ -66,14 +66,15 @@ entt::entity Scene::createEntity()
 
 void Scene::onUpdate(Timestep ts)
 {
-  // Render 2D
-  auto group = m_registry.view<TransformComponent, SpriteRendererComponent>();
-  for (auto entity : group)
-  {
-    auto& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+	// Render 2D
+	auto group = m_registry.view<TransformComponent, SpriteRendererComponent>();
+	for (auto entity : group)
+	{
+		TransformComponent& transform = group.get<TransformComponent>(entity);
+		SpriteRendererComponent& sprite = group.get<SpriteRendererComponent>(entity);
 
-    Renderer2D::drawQuad(transform, sprite.m_color);
-  }
+		Renderer2D::drawQuad(transform, sprite.m_color);
+	}
 
 }
 

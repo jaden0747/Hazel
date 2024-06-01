@@ -16,7 +16,7 @@ namespace hazel
       pushLayer(new EditorLayer());
     }
 
-    ~HazelEditor()
+    ~HazelEditor() override
     {
     }
   };

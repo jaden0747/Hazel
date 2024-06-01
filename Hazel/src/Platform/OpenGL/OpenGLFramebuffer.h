@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Hazel/Renderer/Framebuffer.h"
+#include <ostream>
 
 namespace hazel
 {
@@ -23,6 +24,8 @@ public:
   uint32_t getColorAttachmentRendererID() const override { return m_colorAttachment; }
 
   const FramebufferSpecification& getSpecification() const override { return m_specification; }
+
+  friend std::ostream &operator<<(std::ostream &os, const OpenGLFramebuffer &rhs);
 
 private:
   uint32_t m_rendererID = 0;

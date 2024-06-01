@@ -82,5 +82,14 @@ void OpenGLFramebuffer::resize(uint32_t width, uint32_t height)
   invalidate();
 }
 
+std::ostream &operator<<(std::ostream &os, const OpenGLFramebuffer &rhs) {
+  os
+     << " m_rendererID: " << rhs.m_rendererID
+     << " m_depthAttachment: " << rhs.m_depthAttachment
+     << " m_colorAttachment: " << rhs.m_colorAttachment
+     << " m_specification: " << rhs.m_specification;
+  return os;
+}
+
 
 }

@@ -13,6 +13,7 @@ EditorLayer::EditorLayer()
   , m_cameraController(1920.0f / 1080.0f, true)
   , m_squareColor({0.2f, 0.3f, 0.8f, 1.0f})
 {
+  int a = 0;
 }
 
 
@@ -30,12 +31,11 @@ void EditorLayer::onAttach()
 
   auto square = m_activeScene->createEntity();
 
-  m_activeScene->reg().emplace<TransformComponent>(square, glm::translate(glm::mat4(1.0f), {1.0f, 0.0f, 0.0f}));
+  m_activeScene->reg().emplace<TransformComponent>(square, glm::translate(glm::mat4(1.0f), { 1.0f, 0.0f, 0.0f}));
   m_activeScene->reg().emplace<SpriteRendererComponent>(square, glm::vec4{0.2f, 0.3f, 0.8f, 1.0f});
 
   m_squareEntity = square;
 }
-
 
 void EditorLayer::onDetach()
 {
@@ -153,7 +153,7 @@ void EditorLayer::onImGuiRender()
       ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
       m_viewportSize = { viewportPanelSize.x, viewportPanelSize.y };
       uint32_t textureID = m_framebuffer->getColorAttachmentRendererID();
-      ImGui::Image((void*)textureID, ImVec2{ m_viewportSize.x, m_viewportSize.y }, ImVec2{0, 1}, ImVec2{1, 0});
+      ImGui::Image((ImTextureID*)textureID, ImVec2{ m_viewportSize.x, m_viewportSize.y }, ImVec2{0, 1}, ImVec2{1, 0});
     }
     ImGui::End();
     ImGui::PopStyleVar();
