@@ -31,7 +31,7 @@ private:
   bool m_viewportHovered = false;
 
   Ref<Scene> m_activeScene;
-  entt::entity m_squareEntity;
+  Entity m_squareEntity;
 
   glm::vec2 m_viewportSize = {0.0f, 0.0f};
 

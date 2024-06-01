@@ -1,6 +1,7 @@
 #include "hzpch.h"
 
 #include "Scene.h"
+#include "Entity.h"
 #include "Components.h"
 #include "Hazel/Renderer/Renderer2D.h"
 
@@ -58,9 +59,13 @@ Scene::~Scene()
 }
 
 
-entt::entity Scene::createEntity()
+Entity Scene::createEntity(const std::string& name)
 {
-  return m_registry.create();
+	Entity entity = { m_registry.create(), this};
+	entity.addComponent<TransformComponent>();
+	auto& tag = entity.addComponent<TagComponent>();
+	tag.m_tag = name.empty() ? "Entity" : name;
+	return entity;
 }
 
 

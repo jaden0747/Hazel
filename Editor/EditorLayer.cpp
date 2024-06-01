@@ -29,10 +29,8 @@ void EditorLayer::onAttach()
 
   m_activeScene = createRef<Scene>();
 
-  auto square = m_activeScene->createEntity();
-
-  m_activeScene->reg().emplace<TransformComponent>(square, glm::translate(glm::mat4(1.0f), { 1.0f, 0.0f, 0.0f}));
-  m_activeScene->reg().emplace<SpriteRendererComponent>(square, glm::vec4{0.2f, 0.3f, 0.8f, 1.0f});
+  auto square = m_activeScene->createEntity("Green Square");
+  square.addComponent<SpriteRendererComponent>(glm::vec4{0.0f, 1.0f, 0.0f, 1.0f});
 
   m_squareEntity = square;
 }
@@ -138,8 +136,17 @@ void EditorLayer::onImGuiRender()
       ImGui::Text("Vertices: %d", stats.getTotalVertexCount());
       ImGui::Text("Indices: %d", stats.getTotalIndexCount());
 
-      auto& squareColor = m_activeScene->reg().get<SpriteRendererComponent>(m_squareEntity).m_color;
-      ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
+      // auto& squareColor = m_activeScene->reg().get<SpriteRendererComponent>(m_squareEntity).m_color;
+      // ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
+      if (m_squareEntity)
+      {
+        ImGui::Separator();
+        auto& tag = m_squareEntity.getComponent<TagComponent>().m_tag;
+        ImGui::Text("%s", tag.c_str());
+        auto& squareColor = m_squareEntity.getComponent<SpriteRendererComponent>().m_color;
+        ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
+        ImGui::Separator();
+      }
     }
     ImGui::End();
 

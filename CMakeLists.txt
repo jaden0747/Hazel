@@ -65,6 +65,7 @@ add_library(hazel STATIC
     Hazel/src/Hazel/Renderer/Texture.cpp
     Hazel/src/Hazel/Renderer/Framebuffer.cpp
     Hazel/src/Hazel/Scene/Scene.cpp
+    Hazel/src/Hazel/Scene/Entity.cpp
     Hazel/src/Platform/Windows/WindowsWindow.cpp
     Hazel/src/Platform/Windows/WindowsInput.cpp
     Hazel/src/Platform/OpenGL/OpenGLContext.cpp
