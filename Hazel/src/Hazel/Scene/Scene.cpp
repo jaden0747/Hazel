@@ -75,10 +75,10 @@ void Scene::onUpdate(Timestep ts)
 	Camera* mainCamera = nullptr;
 	glm::mat4* cameraTransform = nullptr;
 	{
-		auto group = m_registry.view<TransformComponent, CameraComponent>();
-		for (auto entity : group)
+		auto view = m_registry.view<TransformComponent, CameraComponent>();
+		for (auto entity : view)
 		{
-			auto& [transform, camera] = group.get<TransformComponent, CameraComponent>(entity);
+			auto& [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
 
 			if (camera.m_primary)
 			{
@@ -104,6 +104,23 @@ void Scene::onUpdate(Timestep ts)
 		Renderer2D::endScene();
 	}
 
+}
+
+void Scene::onViewportResize(uint32_t width, uint32_t height)
+{
+	m_viewportWidth = width;
+	m_viewportHeight = height;
+
+	// Resize our non-fixedAspectRatio cameras
+	auto view = m_registry.view<CameraComponent>();
+	for (auto entity : view)
+	{
+		auto& cameraComponent = view.get<CameraComponent>(entity);
+		if (!cameraComponent.m_fixedAspectRatio)
+		{
+			cameraComponent.m_camera.setViewportSize(width, height);
+		}
+	}
 }
 
 }
