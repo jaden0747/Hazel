@@ -16,7 +16,12 @@ public:
     void setViewportSize(uint32_t width, uint32_t height);
 
     float getOrthographicSize() const { return m_orthographicSize; }
-    void setOrthographicSize(float size) { m_orthographicSize = size; recalculateProjection(); }
+
+    void setOrthographicSize(float size)
+    {
+        m_orthographicSize = size;
+        recalculateProjection();
+    }
 
 private:
     void recalculateProjection();
@@ -25,8 +30,7 @@ private:
     float m_orthographicSize = 10.0f;
     float m_orthographicNear = -1.0f;
     float m_orthographicFar = 1.0f;
-
     float m_aspectRatio = 0.0f;
 };
 
-}
+}  // namespace hazel

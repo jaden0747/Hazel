@@ -1,17 +1,14 @@
 #pragma once
 
+#include "Hazel/Core/Timestep.h"
 #include "entt.hpp"
 
-#include "Hazel/Core/Timestep.h"
-
-namespace hazel
-{
+namespace hazel {
 
 class Entity;
 
-class Scene
-{
-public:
+class Scene {
+ public:
   Scene();
   ~Scene();
 
@@ -20,7 +17,7 @@ public:
   void onUpdate(Timestep ts);
   void onViewportResize(uint32_t width, uint32_t height);
 
-private:
+ private:
   entt::registry m_registry;
   uint32_t m_viewportWidth = 0;
   uint32_t m_viewportHeight = 0;
@@ -28,4 +25,4 @@ private:
   friend class Entity;
 };
 
-}
+}  // namespace hazel
