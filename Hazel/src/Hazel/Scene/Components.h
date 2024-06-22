@@ -66,26 +66,18 @@ struct CameraComponent
 struct NativeScriptComponent
 {
     ScriptableEntity *m_instance = nullptr;
+    ScriptableEntity *(*instantiateScript)();
 
-    std::function<void()> instantiateFunction;
-    std::function<void()> destroyInstanceFunction;
-
-    std::function<void(ScriptableEntity *)> onCreateFunction;
-    std::function<void(ScriptableEntity *)> onDestroyFunction;
-    std::function<void(ScriptableEntity *, Timestep)> onUpdateFunction;
+    void (*destroyScript)(NativeScriptComponent *);
 
     template <typename T>
     void bind()
     {
-        instantiateFunction = [&]() { m_instance = new T(); };
-        destroyInstanceFunction = [&]() {
-            delete (T *)m_instance;
-            m_instance = nullptr;
+        instantiateScript = []() { return static_cast<ScriptableEntity *>(new T()); };
+        destroyScript = [](NativeScriptComponent *nsc) {
+            delete nsc->m_instance;
+            nsc->m_instance = nullptr;
         };
-
-        onCreateFunction = [](ScriptableEntity *instance) { ((T *)instance)->onCreate(); };
-        onDestroyFunction = [](ScriptableEntity *instance) { ((T *)instance)->onDestroy(); };
-        onUpdateFunction = [](ScriptableEntity *instance, Timestep ts) { ((T *)instance)->onUpdate(ts); };
     }
 };
 

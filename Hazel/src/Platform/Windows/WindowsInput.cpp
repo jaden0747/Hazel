@@ -7,10 +7,10 @@
 
 namespace hazel
 {
-  bool Input::isKeyPressed(KeyCode keycode)
+  bool Input::isKeyPressed(Key Key)
   {
     auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
-    auto state = glfwGetKey(window, static_cast<int32_t>(keycode));
+    auto state = glfwGetKey(window, static_cast<int32_t>(Key));
     return state == GLFW_PRESS || state == GLFW_REPEAT;
   }
 

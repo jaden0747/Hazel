@@ -1,78 +1,89 @@
 #pragma once
 
-#include "Hazel/Events/Event.h"
 #include "Hazel/Core/Input.h"
+#include "Hazel/Events/Event.h"
 
 namespace hazel
 {
-    class KeyEvent : public Event {
-    public:
-        KeyCode getKeyCode() const { return m_keyCode; }
-
-        EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
-
-    protected:
-        KeyEvent(KeyCode keycode) : m_keyCode(keycode) {
-
-        }
-
-        KeyCode m_keyCode;
-    };
-
-
-    class KeyPressedEvent : public KeyEvent {
-    public:
-        KeyPressedEvent(KeyCode keycode, int repeatCount)
-        : KeyEvent(keycode), m_repeatCount(repeatCount) {
-
-        }
-
-        int getRepeatCount() const { return m_repeatCount; }
-
-        std::string toString() const override {
-            std::stringstream ss;
-            ss << "KeyPresedEvent: " << m_keyCode << " (" << m_repeatCount << " repeats)";
-            return ss.str();
-        }
-
-        EVENT_CLASS_TYPE(KeyPressed)
-
-    private:
-        int m_repeatCount;
-    };
-
-
-    class KeyReleasedEvent : public KeyEvent {
-    public:
-        KeyReleasedEvent(KeyCode keycode) : KeyEvent(keycode) {
-
-        }
-
-        std::string toString() const override {
-            std::stringstream ss;
-            ss << "KeyReleasedEvent: " << m_keyCode;
-            return ss.str();
-        }
-
-        EVENT_CLASS_TYPE(KeyReleased)
-    };
-
-
-    class KeyTypedEvent : public KeyEvent
+class KeyEvent : public Event
+{
+public:
+    Key getKey() const
     {
-    public:
-        KeyTypedEvent(KeyCode keycode)
-            : KeyEvent(keycode)
-        {
-        }
+        return m_Key;
+    }
 
-        std::string toString() const override
-        {
-            std::stringstream ss;
-            ss << "KeyTypedEvent: " << m_keyCode;
-            return ss.str();
-        }
+    EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 
-        EVENT_CLASS_TYPE(KeyTyped)
-    };
-}
+protected:
+    KeyEvent(Key Key)
+        : m_Key(Key)
+    {
+    }
+
+    Key m_Key;
+};
+
+class KeyPressedEvent : public KeyEvent
+{
+public:
+    KeyPressedEvent(Key Key, int repeatCount)
+        : KeyEvent(Key),
+          m_repeatCount(repeatCount)
+    {
+    }
+
+    int getRepeatCount() const
+    {
+        return m_repeatCount;
+    }
+
+    std::string toString() const override
+    {
+        std::stringstream ss;
+        ss << "KeyPresedEvent: " << m_Key << " (" << m_repeatCount << " repeats)";
+        return ss.str();
+    }
+
+    EVENT_CLASS_TYPE(KeyPressed)
+
+private:
+    int m_repeatCount;
+};
+
+class KeyReleasedEvent : public KeyEvent
+{
+public:
+    KeyReleasedEvent(Key Key)
+        : KeyEvent(Key)
+    {
+    }
+
+    std::string toString() const override
+    {
+        std::stringstream ss;
+        ss << "KeyReleasedEvent: " << m_Key;
+        return ss.str();
+    }
+
+    EVENT_CLASS_TYPE(KeyReleased)
+};
+
+class KeyTypedEvent : public KeyEvent
+{
+public:
+    KeyTypedEvent(Key Key)
+        : KeyEvent(Key)
+    {
+    }
+
+    std::string toString() const override
+    {
+        std::stringstream ss;
+        ss << "KeyTypedEvent: " << m_Key;
+        return ss.str();
+    }
+
+    EVENT_CLASS_TYPE(KeyTyped)
+};
+}  // namespace hazel

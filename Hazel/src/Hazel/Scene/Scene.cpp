@@ -10,39 +10,8 @@
 namespace hazel
 {
 
-static void doMath(const glm::mat4& transform)
-{
-}
-
-static void onTransformConstruct(entt::registry& registry, entt::entity entity)
-{
-}
-
 Scene::Scene()
 {
-#define ENTT_EXAMPLE_CODE 0
-#if ENTT_EXAMPLE_CODE
-
-    entt::entity entity = m_registry.create();
-    m_registry.emplace<TransformComponent>(entity, glm::mat4(1.0f));
-
-    m_registry.on_construct<TransformComponent>().connect<&onTransformConstruct>();
-
-    if (m_registry.has<TransformComponent>(entity)) TransformComponent& transform = m_registry.get<TransformComponent>(entity);
-
-    auto view = m_registry.view<TransformComponent>();
-    for (auto entity : view)
-    {
-        TransformComponent& transform = view.get<TransformComponent>(entity);
-    }
-
-    // auto group = m_registry.group<TransformComponent>(entt::get<MeshComponent>);
-    // for (auto entity : group)
-    // {
-    // 	auto&[transform, mesh] = group.get<TransformComponent, MeshComponent>(entity);
-    // }
-
-#endif
 }
 
 Scene::~Scene()
@@ -65,19 +34,11 @@ void Scene::onUpdate(Timestep ts)
         m_registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc) {
             if (!nsc.m_instance)
             {
-                nsc.instantiateFunction();
+                nsc.m_instance = nsc.instantiateScript();
                 nsc.m_instance->m_entity = Entity{entity, this};
-
-                if (nsc.onCreateFunction)
-                {
-                    nsc.onCreateFunction(nsc.m_instance);
-                }
+                nsc.m_instance->onCreate();
             }
-
-            if (nsc.onUpdateFunction)
-            {
-                nsc.onUpdateFunction(nsc.m_instance, ts);
-            }
+            nsc.m_instance->onUpdate(ts);
         });
     }
     // Render 2D
@@ -87,7 +48,7 @@ void Scene::onUpdate(Timestep ts)
         auto view = m_registry.view<TransformComponent, CameraComponent>();
         for (auto entity : view)
         {
-            auto& [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
+            auto [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
 
             if (camera.m_primary)
             {
@@ -104,9 +65,7 @@ void Scene::onUpdate(Timestep ts)
         auto group = m_registry.view<TransformComponent, SpriteRendererComponent>();
         for (auto entity : group)
         {
-            TransformComponent& transform = group.get<TransformComponent>(entity);
-            SpriteRendererComponent& sprite = group.get<SpriteRendererComponent>(entity);
-
+            auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
             Renderer2D::drawQuad(transform, sprite.m_color);
         }
 

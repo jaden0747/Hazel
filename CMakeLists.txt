@@ -7,7 +7,6 @@ add_subdirectory(Hazel/vendor/spdlog)
 # set(CMAKE_CXX_FLAGS "/MD")
 # set(CMAKE_CXX_FLAGS_DEBUG "/MDd")
 # set(CMAKE_CXX_FLAGS_RELEASE "/MD")
-
 set(CMAKE_CXX_STANDARD 17)
 
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
@@ -23,6 +22,7 @@ add_library(MyImGui STATIC
     Hazel/vendor/imgui/imgui.cpp
     Hazel/vendor/imgui/imgui_draw.cpp
     Hazel/vendor/imgui/imgui_internal.h
+
     # Hazel/vendor/imgui/imgui_tables.cpp
     Hazel/vendor/imgui/imgui_widgets.cpp
     Hazel/vendor/imgui/imstb_rectpack.h
@@ -34,12 +34,11 @@ add_library(MyImGui STATIC
 target_include_directories(MyImGui PUBLIC Hazel/vendor/imgui)
 
 # add_library(stb_image STATIC
-#     Hazel/vendor/stb_image/stb_image.h
-#     Hazel/vendor/stb_image/stb_image.cpp
+# Hazel/vendor/stb_image/stb_image.h
+# Hazel/vendor/stb_image/stb_image.cpp
 # )
 
 # target_include_directories(stb_image PUBLIC Hazel/src  Hazel/vendor/stb_image)
-
 find_package(OpenGL REQUIRED)
 
 add_library(hazel STATIC
@@ -76,12 +75,14 @@ add_library(hazel STATIC
     Hazel/src/Platform/OpenGL/OpenGLShader.cpp
     Hazel/src/Platform/OpenGL/OpenGLTexture.cpp
     Hazel/src/Platform/OpenGL/OpenGLFramebuffer.cpp
+    Editor/src/Panels/SceneHierarchyPanel.cpp
     Hazel/vendor/stb_image/stb_image.h
     Hazel/vendor/stb_image/stb_image.cpp
 )
 
 target_include_directories(hazel PUBLIC
     ${PROJECT_SOURCE_DIR}/Hazel/
+    ${PROJECT_SOURCE_DIR}/Editor/src/
     ${PROJECT_SOURCE_DIR}/Hazel/src/
     ${PROJECT_SOURCE_DIR}/Hazel/src/Hazel
     ${PROJECT_SOURCE_DIR}/Hazel/vendor/GLFW/include

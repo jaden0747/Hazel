@@ -8,7 +8,10 @@
 namespace hazel
 {
 
-EditorLayer::EditorLayer() : Layer("EditorLayer"), m_cameraController(1920.0f / 1080.0f, true), m_squareColor({0.2f, 0.3f, 0.8f, 1.0f})
+EditorLayer::EditorLayer()
+    : Layer("EditorLayer"),
+      m_cameraController(1920.0f / 1080.0f, true),
+      m_squareColor({0.2f, 0.3f, 0.8f, 1.0f})
 {
     int a = 0;
 }
@@ -42,6 +45,8 @@ void EditorLayer::onAttach()
     public:
         void onCreate()
         {
+            auto& transform = getComponent<TransformComponent>().m_transform;
+            transform[3][0] = rand() % 10 - 5.0f;
         }
 
         void onDestroy()
@@ -53,19 +58,19 @@ void EditorLayer::onAttach()
             auto& transform = getComponent<TransformComponent>().m_transform;
             float speed = 5.0f;
 
-            if (Input::isKeyPressed(KeyCode::A))
+            if (Input::isKeyPressed(Key::A))
             {
                 transform[3][0] -= speed * ts;
             }
-            if (Input::isKeyPressed(KeyCode::D))
+            if (Input::isKeyPressed(Key::D))
             {
                 transform[3][0] += speed * ts;
             }
-            if (Input::isKeyPressed(KeyCode::W))
+            if (Input::isKeyPressed(Key::W))
             {
                 transform[3][1] += speed * ts;
             }
-            if (Input::isKeyPressed(KeyCode::S))
+            if (Input::isKeyPressed(Key::S))
             {
                 transform[3][1] -= speed * ts;
             }
@@ -73,6 +78,9 @@ void EditorLayer::onAttach()
     };
 
     m_cameraEntity.addComponent<NativeScriptComponent>().bind<CameraController>();
+    m_secondCamera.addComponent<NativeScriptComponent>().bind<CameraController>();
+
+    m_sceneHierarchyPanel.setContext(m_activeScene);
 }
 
 void EditorLayer::onDetach()
@@ -156,6 +164,8 @@ void EditorLayer::onImGuiRender()
             }
             ImGui::EndMenuBar();
         }
+
+        m_sceneHierarchyPanel.onImGuiRender();
 
         ImGui::Begin("Settings");
         {
