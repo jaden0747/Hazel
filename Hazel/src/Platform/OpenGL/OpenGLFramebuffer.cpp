@@ -1,95 +1,88 @@
-#include "hzpch.h"
 #include "OpenGLFramebuffer.h"
 
 #include <glad/glad.h>
+
+#include "hzpch.h"
 
 namespace hazel
 {
 
 static const uint32_t s_maxFramebufferSize = 8192;
 
-OpenGLFramebuffer::OpenGLFramebuffer(const FramebufferSpecification& spec)
-  : m_specification(spec)
+OpenGLFramebuffer::OpenGLFramebuffer(const FramebufferSpecification &spec)
+    : m_specification(spec)
 {
-  invalidate();
+    invalidate();
 }
-
 
 OpenGLFramebuffer::~OpenGLFramebuffer()
 {
-  glDeleteFramebuffers(1, &m_rendererID);
-  glDeleteTextures(1, &m_colorAttachment);
-  glDeleteTextures(1, &m_depthAttachment);
-}
-
-
-void OpenGLFramebuffer::invalidate()
-{
-  if (m_rendererID)
-  {
     glDeleteFramebuffers(1, &m_rendererID);
     glDeleteTextures(1, &m_colorAttachment);
     glDeleteTextures(1, &m_depthAttachment);
-  }
-
-  glCreateFramebuffers(1, &m_rendererID);
-  glBindFramebuffer(GL_FRAMEBUFFER, m_rendererID);
-
-  glCreateTextures(GL_TEXTURE_2D, 1, &m_colorAttachment);
-  glBindTexture(GL_TEXTURE_2D, m_colorAttachment);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_specification.width, m_specification.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_colorAttachment, 0);
-
-  glCreateTextures(GL_TEXTURE_2D, 1, &m_depthAttachment);
-  glBindTexture(GL_TEXTURE_2D, m_depthAttachment);
-  glTexStorage2D(GL_TEXTURE_2D, 1, GL_DEPTH24_STENCIL8, m_specification.width, m_specification.height);
-
-  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, m_depthAttachment, 0);
-
-  HZ_CORE_ASSERT(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE, "Framebuffer is incomplete!");
-
-  glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
+void OpenGLFramebuffer::invalidate()
+{
+    if (m_rendererID)
+    {
+        glDeleteFramebuffers(1, &m_rendererID);
+        glDeleteTextures(1, &m_colorAttachment);
+        glDeleteTextures(1, &m_depthAttachment);
+    }
+
+    glCreateFramebuffers(1, &m_rendererID);
+    glBindFramebuffer(GL_FRAMEBUFFER, m_rendererID);
+
+    glCreateTextures(GL_TEXTURE_2D, 1, &m_colorAttachment);
+    glBindTexture(GL_TEXTURE_2D, m_colorAttachment);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_specification.width, m_specification.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_colorAttachment, 0);
+
+    glCreateTextures(GL_TEXTURE_2D, 1, &m_depthAttachment);
+    glBindTexture(GL_TEXTURE_2D, m_depthAttachment);
+    glTexStorage2D(GL_TEXTURE_2D, 1, GL_DEPTH24_STENCIL8, m_specification.width, m_specification.height);
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, m_depthAttachment, 0);
+
+    HZ_CORE_ASSERT(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE, "Framebuffer is incomplete!");
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
 
 void OpenGLFramebuffer::bind()
 {
-  glBindFramebuffer(GL_FRAMEBUFFER, m_rendererID);
-  glViewport(0, 0, m_specification.width, m_specification.height);
+    glBindFramebuffer(GL_FRAMEBUFFER, m_rendererID);
+    glViewport(0, 0, m_specification.width, m_specification.height);
 }
-
 
 void OpenGLFramebuffer::unbind()
 {
-  glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
-
 
 void OpenGLFramebuffer::resize(uint32_t width, uint32_t height)
 {
-  if (width == 0 || height == 0 || width > s_maxFramebufferSize || height > s_maxFramebufferSize)
-  {
-    HZ_CORE_WARN("Attempted to resize framebuffer to {0}, {1}", width, height);
-    return;
-  }
+    if (width == 0 || height == 0 || width > s_maxFramebufferSize || height > s_maxFramebufferSize)
+    {
+        HZ_CORE_WARN("Attempted to resize framebuffer to {0}, {1}", width, height);
+        return;
+    }
 
-  m_specification.width = width;
-  m_specification.height = height;
+    m_specification.width = width;
+    m_specification.height = height;
 
-  invalidate();
+    invalidate();
 }
 
-std::ostream &operator<<(std::ostream &os, const OpenGLFramebuffer &rhs) {
-  os
-     << " m_rendererID: " << rhs.m_rendererID
-     << " m_depthAttachment: " << rhs.m_depthAttachment
-     << " m_colorAttachment: " << rhs.m_colorAttachment
-     << " m_specification: " << rhs.m_specification;
-  return os;
+std::ostream &operator<<(std::ostream &os, const OpenGLFramebuffer &rhs)
+{
+    os << " m_rendererID: " << rhs.m_rendererID << " m_depthAttachment: " << rhs.m_depthAttachment << " m_colorAttachment: " << rhs.m_colorAttachment
+       << " m_specification: " << rhs.m_specification;
+    return os;
 }
 
-
-}
+}  // namespace hazel

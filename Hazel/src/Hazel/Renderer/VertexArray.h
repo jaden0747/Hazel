@@ -1,13 +1,14 @@
 #pragma once
 
 #include <memory>
+
 #include "Hazel/Renderer/Buffer.h"
 
 namespace hazel
 {
-  class VertexArray
-  {
-  public:
+class VertexArray
+{
+public:
     virtual ~VertexArray() = default;
 
     virtual void bind() const = 0;
@@ -20,5 +21,5 @@ namespace hazel
     virtual const Ref<IndexBuffer>& getIndexBuffer() const = 0;
 
     static Ref<VertexArray> create();
-  };
-}
+};
+}  // namespace hazel

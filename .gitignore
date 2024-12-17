@@ -15,3 +15,6 @@ bin-int
 !hazel-editor.ini
 HazelProfile*
 .vscode/settings.json
+.vscode
+!.vscode/launch.json
+!.vscode/c_cpp_properties.json

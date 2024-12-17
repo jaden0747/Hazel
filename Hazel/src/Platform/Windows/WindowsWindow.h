@@ -1,44 +1,55 @@
 #pragma once
 
+#include "GLFW/glfw3.h"
 #include "Hazel/Core/Window.h"
 #include "Hazel/Renderer/GraphicsContext.h"
 
-#include "GLFW/glfw3.h"
-
 namespace hazel
 {
-  class WindowsWindow : public Window {
-  public:
+class WindowsWindow : public Window
+{
+public:
     WindowsWindow(const WindowProps& props);
-		virtual ~WindowsWindow();
+    virtual ~WindowsWindow();
     virtual void onUpdate() override;
-    unsigned int getWidth() const override { return m_data.width; }
-    unsigned int getHeight() const override { return m_data.height; }
+    unsigned int getWidth() const override
+    {
+        return m_data.width;
+    }
+    unsigned int getHeight() const override
+    {
+        return m_data.height;
+    }
 
     //! Window attributes
-    void setEventCallback(const EventCallbackFn& callback) override {
-      m_data.eventCallback = callback;
+    void setEventCallback(const EventCallbackFn& callback) override
+    {
+        m_data.eventCallback = callback;
     }
 
     void setVSync(bool enabled) override;
     bool isVSync() const override;
 
-    virtual void* getNativeWindow() const override { return m_window; }
+    virtual void* getNativeWindow() const override
+    {
+        return m_window;
+    }
 
-  private:
+private:
     virtual void init(const WindowProps& props);
     virtual void shutdown();
 
-  private:
+private:
     GLFWwindow* m_window;
     Scope<GraphicsContext> m_context;
-    struct WindowData {
-      std::string title;
-      unsigned int width, height;
-      bool VSync;
+    struct WindowData
+    {
+        std::string title;
+        unsigned int width, height;
+        bool VSync;
 
-      EventCallbackFn eventCallback;
+        EventCallbackFn eventCallback;
     };
     WindowData m_data;
-  };
-}
+};
+}  // namespace hazel

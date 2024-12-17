@@ -1,7 +1,8 @@
-#include "hzpch.h"
 #include "SceneCamera.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+
+#include "hzpch.h"
 
 namespace hazel
 {
@@ -11,7 +12,6 @@ SceneCamera::SceneCamera()
     recalculateProjection();
 }
 
-
 void SceneCamera::setOrthographic(float size, float nearClip, float farClip)
 {
     m_orthographicSize = size;
@@ -19,7 +19,6 @@ void SceneCamera::setOrthographic(float size, float nearClip, float farClip)
     m_orthographicFar = farClip;
     recalculateProjection();
 }
-
 
 void SceneCamera::setViewportSize(uint32_t width, uint32_t height)
 {
@@ -37,4 +36,4 @@ void SceneCamera::recalculateProjection()
     m_projection = glm::ortho(orthoLeft, orthoRight, orthoBottom, orthoTop, m_orthographicNear, m_orthographicFar);
 }
 
-}
+}  // namespace hazel

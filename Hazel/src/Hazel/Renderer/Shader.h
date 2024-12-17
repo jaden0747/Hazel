@@ -1,14 +1,14 @@
 #pragma once
 
-#include <string>
 #include <glm/glm.hpp>
+#include <string>
 #include <unordered_map>
 
 namespace hazel
 {
-  class Shader
-  {
-  public:
+class Shader
+{
+public:
     virtual ~Shader() = default;
 
     virtual void bind() const = 0;
@@ -25,12 +25,11 @@ namespace hazel
 
     static Ref<Shader> create(const std::string& filepath);
     static Ref<Shader> create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
-  };
+};
 
-
-  class ShaderLibrary
-  {
-  public:
+class ShaderLibrary
+{
+public:
     void add(const std::string& name, const Ref<Shader>& shader);
     void add(const Ref<Shader>& shader);
 
@@ -41,7 +40,7 @@ namespace hazel
 
     bool exists(const std::string& name) const;
 
-  private:
+private:
     std::unordered_map<std::string, Ref<Shader>> m_shaders;
-  };
-}
+};
+}  // namespace hazel

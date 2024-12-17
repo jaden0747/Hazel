@@ -15,7 +15,10 @@ public:
 
     void setViewportSize(uint32_t width, uint32_t height);
 
-    float getOrthographicSize() const { return m_orthographicSize; }
+    float getOrthographicSize() const
+    {
+        return m_orthographicSize;
+    }
 
     void setOrthographicSize(float size)
     {

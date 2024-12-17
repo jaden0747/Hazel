@@ -6,15 +6,15 @@ struct GLFWwindow;
 
 namespace hazel
 {
-  class OpenGLContext : public GraphicsContext
-  {
-  public:
+class OpenGLContext : public GraphicsContext
+{
+public:
     OpenGLContext(GLFWwindow* windowHandle);
 
     virtual void init() override;
     virtual void swapBuffers() override;
 
-  private:
+private:
     GLFWwindow* m_windowHandle;
-  };
-}
+};
+}  // namespace hazel

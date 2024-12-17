@@ -4,9 +4,9 @@
 
 namespace hazel
 {
-  class OpenGLVertexArray : public VertexArray
-  {
-  public:
+class OpenGLVertexArray : public VertexArray
+{
+public:
     OpenGLVertexArray();
     virtual ~OpenGLVertexArray();
 
@@ -16,13 +16,19 @@ namespace hazel
     virtual void addVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) override;
     virtual void setIndexBuffer(const Ref<IndexBuffer>& indexBuffer) override;
 
-    virtual const std::vector<Ref<VertexBuffer>>& getVertexBuffers() const { return m_vertexBuffers; }
-    virtual const Ref<IndexBuffer>& getIndexBuffer() const { return m_indexBuffer; }
+    virtual const std::vector<Ref<VertexBuffer>>& getVertexBuffers() const
+    {
+        return m_vertexBuffers;
+    }
+    virtual const Ref<IndexBuffer>& getIndexBuffer() const
+    {
+        return m_indexBuffer;
+    }
 
-  private:
+private:
     uint32_t m_rendererID;
-		uint32_t m_vertexBufferIndex = 0u;
+    uint32_t m_vertexBufferIndex = 0u;
     std::vector<Ref<VertexBuffer>> m_vertexBuffers;
     Ref<IndexBuffer> m_indexBuffer;
-  };
-}
+};
+}  // namespace hazel

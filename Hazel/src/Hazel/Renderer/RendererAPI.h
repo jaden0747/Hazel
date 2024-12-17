@@ -6,16 +6,16 @@
 
 namespace hazel
 {
-  class RendererAPI
-  {
-  public:
+class RendererAPI
+{
+public:
     enum class API
     {
-      None = 0,
-      OpenGL = 1
+        None = 0,
+        OpenGL = 1
     };
 
-  public:
+public:
     virtual ~RendererAPI() = default;
 
     virtual void init() = 0;
@@ -24,12 +24,15 @@ namespace hazel
     virtual void clear() = 0;
 
     virtual void drawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount = 0u) = 0;
-    static API getAPI() { return s_API; }
+    static API getAPI()
+    {
+        return s_API;
+    }
 
     static Scope<RendererAPI> create();
 
-  private:
+private:
     static API s_API;
-  };
+};
 
-} // namespace hazel
+}  // namespace hazel

@@ -1,11 +1,13 @@
-#include "hzpch.h"
 #include "Hazel/ImGui/ImGuiLayer.h"
 
+// clang-format off
 #include <imgui.h>
 #include <examples/imgui_impl_glfw.h>
 #include <examples/imgui_impl_opengl3.h>
+// clang-format on
 
 #include "Hazel/Core/Application.h"
+#include "hzpch.h"
 
 // TEMP
 #include <GLFW/glfw3.h>
@@ -13,27 +15,27 @@
 
 namespace hazel
 {
-  ImGuiLayer::ImGuiLayer(const std::string& iniFilename)
-    : Layer("ImGuiLayer")
-    , m_iniFilename(iniFilename)
-  {
-  }
+ImGuiLayer::ImGuiLayer(const std::string& iniFilename)
+    : Layer("ImGuiLayer"),
+      m_iniFilename(iniFilename)
+{
+}
 
-
-  void ImGuiLayer::onAttach()
-  {
+void ImGuiLayer::onAttach()
+{
     HZ_PROFILE_FUNCTION();
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    ImGuiIO& io = ImGui::GetIO();
+    (void)io;
     io.IniFilename = m_iniFilename.c_str();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;      // Enable Docking
-    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;    // Enable Multi-Viewport / Platform Windows
-    //io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoTaskBarIcons;
-    //io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoMerge;
+    // io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;    // Enable Docking
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;  // Enable Multi-Viewport / Platform Windows
+    // io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoTaskBarIcons;
+    // io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoMerge;
 
     ImGui::StyleColorsDark();
 
@@ -42,8 +44,8 @@ namespace hazel
     ImGuiStyle& style = ImGui::GetStyle();
     if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
     {
-      style.WindowRounding = 0.0f;
-      style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+        style.WindowRounding = 0.0f;
+        style.Colors[ImGuiCol_WindowBg].w = 1.0f;
     }
 
     Application& app = Application::get();
@@ -51,42 +53,38 @@ namespace hazel
 
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 410");
-  }
+}
 
-
-  void ImGuiLayer::onDetach()
-  {
+void ImGuiLayer::onDetach()
+{
     HZ_PROFILE_FUNCTION();
 
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
-  }
+}
 
-
-  void ImGuiLayer::begin()
-  {
+void ImGuiLayer::begin()
+{
     HZ_PROFILE_FUNCTION();
 
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
-  }
+}
 
-
-  void ImGuiLayer::onEvent(Event& e)
-  {
+void ImGuiLayer::onEvent(Event& e)
+{
     if (m_blockEvents)
     {
-      ImGuiIO& io = ImGui::GetIO();
-      e.m_handled |= e.isInCategory(EventCategoryMouse) & io.WantCaptureMouse;
-      e.m_handled |= e.isInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
+        ImGuiIO& io = ImGui::GetIO();
+        e.m_handled |= e.isInCategory(EventCategoryMouse) & io.WantCaptureMouse;
+        e.m_handled |= e.isInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
     }
-  }
+}
 
-
-  void ImGuiLayer::end()
-  {
+void ImGuiLayer::end()
+{
     HZ_PROFILE_FUNCTION();
 
     ImGuiIO& io = ImGui::GetIO();
@@ -99,11 +97,11 @@ namespace hazel
 
     if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
     {
-      GLFWwindow* backup_current_context = glfwGetCurrentContext();
-      ImGui::UpdatePlatformWindows();
-      ImGui::RenderPlatformWindowsDefault();
-      glfwMakeContextCurrent(backup_current_context);
+        GLFWwindow* backup_current_context = glfwGetCurrentContext();
+        ImGui::UpdatePlatformWindows();
+        ImGui::RenderPlatformWindowsDefault();
+        glfwMakeContextCurrent(backup_current_context);
     }
-  }
-
 }
+
+}  // namespace hazel

@@ -11,7 +11,7 @@ public:
     Camera() = default;
 
     Camera(const glm::mat4& projection)
-    : m_projection(projection)
+        : m_projection(projection)
     {
     }
 
@@ -26,4 +26,4 @@ protected:
     glm::mat4 m_projection = glm::mat4(1.0f);
 };
 
-}
+}  // namespace hazel
