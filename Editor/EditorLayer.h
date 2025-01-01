@@ -17,13 +17,13 @@ public:
 
     void onUpdate(Timestep ts) override;
     void onImGuiRender() override;
-    void onEvent(Event &e) override;
+    void onEvent(Event& e) override;
 
 private:
     hazel::OrthographicCameraController m_cameraController;
 
     Ref<VertexArray> m_squareVA;
-    Ref<Shader> m_flatColorShader;
+    Ref<Shader>      m_flatColorShader;
     Ref<Framebuffer> m_framebuffer;
 
     Ref<Texture2D> m_checkerboardTexture;
@@ -32,9 +32,9 @@ private:
     bool m_viewportHovered = false;
 
     Ref<Scene> m_activeScene;
-    Entity m_squareEntity;
-    Entity m_cameraEntity;
-    Entity m_secondCamera;
+    Entity     m_squareEntity;
+    Entity     m_cameraEntity;
+    Entity     m_secondCamera;
 
     bool m_primaryCamera = true;
 
@@ -46,4 +46,4 @@ private:
     SceneHierarchyPanel m_sceneHierarchyPanel;
 };
 
-}  // namespace hazel
+} // namespace hazel

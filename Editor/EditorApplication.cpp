@@ -7,23 +7,23 @@
 namespace hazel
 {
 
-  class HazelEditor : public Application
-  {
-  public:
+class HazelEditor : public Application
+{
+public:
     HazelEditor()
-    : Application("hazel-editor")
+        : Application("hazel-editor")
     {
-      pushLayer(new EditorLayer());
+        pushLayer(new EditorLayer());
     }
 
     ~HazelEditor() override
     {
     }
-  };
+};
 
-  Application *createApplication()
-  {
+Application* createApplication()
+{
     return new HazelEditor();
-  }
-
 }
+
+} // namespace hazel
