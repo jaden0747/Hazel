@@ -15,4 +15,4 @@ public:
 
     virtual void drawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount = 0u) override;
 };
-}  // namespace hazel
+} // namespace hazel

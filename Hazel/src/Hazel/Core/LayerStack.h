@@ -13,10 +13,10 @@ class LayerStack
 public:
     LayerStack() = default;
     ~LayerStack();
-    void pushLayer(Layer* layer);
-    void pushOverlay(Layer* overlay);
-    void popLayer(Layer* layer);
-    void popOverlay(Layer* overlay);
+    void                          pushLayer(Layer* layer);
+    void                          pushOverlay(Layer* overlay);
+    void                          popLayer(Layer* layer);
+    void                          popOverlay(Layer* overlay);
     std::vector<Layer*>::iterator begin()
     {
         return m_layers.begin();
@@ -53,7 +53,7 @@ public:
 
 private:
     std::vector<Layer*> m_layers;
-    unsigned int m_layerInsertIndex = 0u;
+    unsigned int        m_layerInsertIndex = 0u;
 };
 
-}  // namespace hazel
+} // namespace hazel

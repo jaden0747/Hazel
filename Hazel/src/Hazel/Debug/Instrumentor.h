@@ -14,10 +14,10 @@ using FloatingPointMicroseconds = std::chrono::duration<double, std::micro>;
 
 struct ProfileResult
 {
-    std::string name;
+    std::string               name;
     FloatingPointMicroseconds start;
     std::chrono::microseconds elapsedTime;
-    std::thread::id threadID;
+    std::thread::id           threadID;
 };
 
 struct InstrumentationSession
@@ -29,7 +29,7 @@ class Instrumentor
 {
 public:
     Instrumentor(const Instrumentor&) = delete;
-    Instrumentor(Instrumentor&&) = delete;
+    Instrumentor(Instrumentor&&)      = delete;
 
     static Instrumentor& get()
     {
@@ -44,7 +44,8 @@ public:
         {
             if (Log::getCoreLogger())
             {
-                HZ_CORE_ERROR("Instrumentor::beginSession('{0}') when session '{1}' already open.", name, m_currentSession->name);
+                HZ_CORE_ERROR(
+                    "Instrumentor::beginSession('{0}') when session '{1}' already open.", name, m_currentSession->name);
             }
             internalEndSession();
         }
@@ -128,31 +129,32 @@ private:
     }
 
 private:
-    std::mutex m_mutex;
+    std::mutex              m_mutex;
     InstrumentationSession* m_currentSession;
-    std::ofstream m_outputStream;
+    std::ofstream           m_outputStream;
 };
 
 class InstrumentationTimer
 {
 public:
     InstrumentationTimer(const char* name)
-        : m_name(name),
-          m_stopped(false)
+        : m_name(name)
+        , m_stopped(false)
     {
         m_startTimepoint = std::chrono::steady_clock::now();
     }
 
     ~InstrumentationTimer()
     {
-        if (!m_stopped) stop();
+        if (!m_stopped)
+            stop();
     }
 
     void stop()
     {
         auto endTimepoint = std::chrono::steady_clock::now();
         auto highResStart = FloatingPointMicroseconds{m_startTimepoint.time_since_epoch()};
-        auto elapsedTime = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch() -
+        auto elapsedTime  = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch() -
                            std::chrono::time_point_cast<std::chrono::microseconds>(m_startTimepoint).time_since_epoch();
 
         Instrumentor::get().writeProfile({m_name, highResStart, elapsedTime, std::this_thread::get_id()});
@@ -161,9 +163,9 @@ public:
     }
 
 private:
-    const char* m_name;
+    const char*                                                 m_name;
     std::chrono::time_point<std::chrono::high_resolution_clock> m_startTimepoint;
-    bool m_stopped;
+    bool                                                        m_stopped;
 };
 
 namespace InstrumentorUtils
@@ -184,20 +186,23 @@ constexpr auto cleanupOutputString(const char (&expr)[N], const char (&remove)[K
     while (srcIndex < N)
     {
         size_t matchIndex = 0;
-        while (matchIndex < K - 1 && srcIndex + matchIndex < N - 1 && expr[srcIndex + matchIndex] == remove[matchIndex]) matchIndex++;
+        while (matchIndex < K - 1 && srcIndex + matchIndex < N - 1 && expr[srcIndex + matchIndex] == remove[matchIndex])
+            matchIndex++;
 
-        if (matchIndex == K - 1) srcIndex += matchIndex;
+        if (matchIndex == K - 1)
+            srcIndex += matchIndex;
 
         result.data[dstIndex++] = expr[srcIndex] == '"' ? '\'' : expr[srcIndex];
         srcIndex++;
     }
     return result;
 }
-}  // namespace InstrumentorUtils
+} // namespace InstrumentorUtils
 
-}  // namespace hazel
+} // namespace hazel
 
-#if defined(__GNUC__) || (defined(__MWERKS__) && (__MWERKS__ >= 0x3000)) || (defined(__ICC) && (__ICC >= 600)) || defined(__ghs__)
+#if defined(__GNUC__) || (defined(__MWERKS__) && (__MWERKS__ >= 0x3000)) || (defined(__ICC) && (__ICC >= 600)) ||      \
+    defined(__ghs__)
 #define HZ_FUNC_SIG __PRETTY_FUNCTION__
 #elif defined(__DMC__) && (__DMC__ >= 0x810)
 #define HZ_FUNC_SIG __PRETTY_FUNCTION__
@@ -220,8 +225,8 @@ constexpr auto cleanupOutputString(const char (&expr)[N], const char (&remove)[K
 #if HZ_PROFILE
 #define HZ_PROFILE_BEGIN_SESSION(name, filepath) ::hazel::Instrumentor::get().beginSession(name, filepath)
 #define HZ_PROFILE_END_SESSION() ::hazel::Instrumentor::get().endSession()
-#define HZ_PROFILE_SCOPE_LINE2(name, line)                                                              \
-    constexpr auto fixedName##line = ::hazel::InstrumentorUtils::cleanupOutputString(name, "__cdecl "); \
+#define HZ_PROFILE_SCOPE_LINE2(name, line)                                                                             \
+    constexpr auto                fixedName##line = ::hazel::InstrumentorUtils::cleanupOutputString(name, "__cdecl "); \
     ::hazel::InstrumentationTimer timer##line(fixedName##line.data)
 #define HZ_PROFILE_SCOPE_LINE(name, line) HZ_PROFILE_SCOPE_LINE2(name, line)
 #define HZ_PROFILE_SCOPE(name) HZ_PROFILE_SCOPE_LINE(name, __LINE__)

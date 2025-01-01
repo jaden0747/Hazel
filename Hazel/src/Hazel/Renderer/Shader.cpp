@@ -10,11 +10,11 @@ Ref<Shader> Shader::create(const std::string& filepath)
 {
     switch (RendererAPI::getAPI())
     {
-        case RendererAPI::API::None:
-            HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
-            return nullptr;
-        case RendererAPI::API::OpenGL:
-            return createRef<OpenGLShader>(filepath);
+    case RendererAPI::API::None:
+        HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
+        return nullptr;
+    case RendererAPI::API::OpenGL:
+        return createRef<OpenGLShader>(filepath);
     }
 
     HZ_CORE_ASSERT(false, "Unknown RendererAPI!");
@@ -25,11 +25,11 @@ Ref<Shader> Shader::create(const std::string& name, const std::string& vertexSrc
 {
     switch (RendererAPI::getAPI())
     {
-        case RendererAPI::API::None:
-            HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
-            return nullptr;
-        case RendererAPI::API::OpenGL:
-            return createRef<OpenGLShader>(name, vertexSrc, fragmentSrc);
+    case RendererAPI::API::None:
+        HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
+        return nullptr;
+    case RendererAPI::API::OpenGL:
+        return createRef<OpenGLShader>(name, vertexSrc, fragmentSrc);
     }
 
     HZ_CORE_ASSERT(false, "Unkonwn RendererAPI!");
@@ -72,4 +72,4 @@ bool ShaderLibrary::exists(const std::string& name) const
 {
     return m_shaders.find(name) != m_shaders.end();
 }
-}  // namespace hazel
+} // namespace hazel

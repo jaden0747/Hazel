@@ -29,16 +29,16 @@ OpenGLShader::OpenGLShader(const std::string& filepath)
 {
     HZ_PROFILE_FUNCTION();
 
-    std::string source = readFile(filepath);
-    auto shaderSources = preProcess(source);
+    std::string source        = readFile(filepath);
+    auto        shaderSources = preProcess(source);
     compile(shaderSources);
 
     // extract name from filepath
     auto lastSlash = filepath.find_last_of("/\\");
-    lastSlash = (lastSlash == std::string::npos ? 0 : lastSlash + 1);
-    auto lastDot = filepath.rfind('.');
-    auto count = (lastDot == std::string::npos ? filepath.size() - lastSlash : lastDot - lastSlash);
-    m_name = filepath.substr(lastSlash, count);
+    lastSlash      = (lastSlash == std::string::npos ? 0 : lastSlash + 1);
+    auto lastDot   = filepath.rfind('.');
+    auto count     = (lastDot == std::string::npos ? filepath.size() - lastSlash : lastDot - lastSlash);
+    m_name         = filepath.substr(lastSlash, count);
 }
 
 OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
@@ -47,7 +47,7 @@ OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc
     HZ_PROFILE_FUNCTION();
 
     std::unordered_map<GLenum, std::string> sources;
-    sources[GL_VERTEX_SHADER] = vertexSrc;
+    sources[GL_VERTEX_SHADER]   = vertexSrc;
     sources[GL_FRAGMENT_SHADER] = fragmentSrc;
     compile(sources);
 }
@@ -63,7 +63,7 @@ std::string OpenGLShader::readFile(const std::string& filepath)
 {
     HZ_PROFILE_FUNCTION();
 
-    std::string result;
+    std::string   result;
     std::ifstream inputStream(filepath, std::ios::in | std::ios::binary);
     if (inputStream)
     {
@@ -94,20 +94,21 @@ std::unordered_map<GLenum, std::string> OpenGLShader::preProcess(const std::stri
 
     std::unordered_map<GLenum, std::string> shaderSources;
 
-    const char* typeToken = "#type";
-    size_t typeTokenLength = strlen(typeToken);
-    size_t pos = source.find(typeToken, 0);  // Start of shader type declaration line
+    const char* typeToken       = "#type";
+    size_t      typeTokenLength = strlen(typeToken);
+    size_t      pos             = source.find(typeToken, 0); // Start of shader type declaration line
     while (pos != std::string::npos)
     {
-        size_t eol = source.find_first_of("\r\n", pos);  // End of shader type declaration line
+        size_t eol = source.find_first_of("\r\n", pos); // End of shader type declaration line
         HZ_CORE_ASSERT(eol != std::string::npos, "Syntax error");
-        size_t begin = pos + typeTokenLength + 1;  // Start of shader type name (after "#type " keyword)
-        std::string type = source.substr(begin, eol - begin);
+        size_t      begin = pos + typeTokenLength + 1; // Start of shader type name (after "#type " keyword)
+        std::string type  = source.substr(begin, eol - begin);
         HZ_CORE_ASSERT(shaderTypeFromString(type), "Invalid shader type specified");
 
-        size_t nextLinePos = source.find_first_not_of("\r\n", eol);  // Start of shader code after shader type declaration line
+        size_t nextLinePos =
+            source.find_first_not_of("\r\n", eol); // Start of shader code after shader type declaration line
         HZ_CORE_ASSERT(nextLinePos != std::string::npos, "Syntax error");
-        pos = source.find(typeToken, nextLinePos);  // Start of next shader type declaration line
+        pos = source.find(typeToken, nextLinePos); // Start of next shader type declaration line
 
         shaderSources[shaderTypeFromString(type)] =
             (pos == std::string::npos) ? source.substr(nextLinePos) : source.substr(nextLinePos, pos - nextLinePos);
@@ -123,10 +124,10 @@ void OpenGLShader::compile(const std::unordered_map<GLenum, std::string>& shader
     GLuint program = glCreateProgram();
     HZ_CORE_ASSERT(shaderSources.size() <= 2, "We only support 2 shaders for now");
     std::array<GLenum, 2> glShaderIDs;
-    int glShaderIDIndex = 0;
+    int                   glShaderIDIndex = 0;
     for (auto& kv : shaderSources)
     {
-        GLenum type = kv.first;
+        GLenum             type   = kv.first;
         const std::string& source = kv.second;
 
         GLuint shader = glCreateShader(type);
@@ -177,7 +178,8 @@ void OpenGLShader::compile(const std::unordered_map<GLenum, std::string>& shader
         // We don't need the program anymore.
         glDeleteProgram(program);
 
-        for (auto id : glShaderIDs) glDeleteShader(id);
+        for (auto id : glShaderIDs)
+            glDeleteShader(id);
 
         HZ_CORE_ERROR("{0}", infoLog.data());
         HZ_CORE_ASSERT(false, "Shader link failure!");
@@ -295,4 +297,4 @@ void OpenGLShader::uploadUniformMat4(const std::string& name, const glm::mat4& m
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
-}  // namespace hazel
+} // namespace hazel

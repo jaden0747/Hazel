@@ -25,8 +25,8 @@ public:
     }
 
 private:
-    float m_time = 0.0f;
+    float       m_time = 0.0f;
     std::string m_iniFilename;
-    bool m_blockEvents = true;
+    bool        m_blockEvents = true;
 };
-}  // namespace hazel
+} // namespace hazel

@@ -40,16 +40,16 @@ private:
     virtual void shutdown();
 
 private:
-    GLFWwindow* m_window;
+    GLFWwindow*            m_window;
     Scope<GraphicsContext> m_context;
     struct WindowData
     {
-        std::string title;
+        std::string  title;
         unsigned int width, height;
-        bool VSync;
+        bool         VSync;
 
         EventCallbackFn eventCallback;
     };
     WindowData m_data;
 };
-}  // namespace hazel
+} // namespace hazel

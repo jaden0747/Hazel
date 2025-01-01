@@ -29,4 +29,4 @@ void Log::init()
     s_client_logger_->set_level(spdlog::level::trace);
     s_client_logger_->flush_on(spdlog::level::trace);
 }
-}  // namespace hazel
+} // namespace hazel

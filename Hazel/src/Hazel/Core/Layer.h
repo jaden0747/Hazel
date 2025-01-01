@@ -35,4 +35,4 @@ protected:
     std::string m_debugName;
 };
 
-}  // namespace hazel
+} // namespace hazel

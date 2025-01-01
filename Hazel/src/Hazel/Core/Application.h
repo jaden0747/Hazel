@@ -24,9 +24,9 @@ class Application
 public:
     Application(const std::string& name = "Hazel App");
     virtual ~Application();
-    void onEvent(Event& e);
-    void pushLayer(Layer* layer);
-    void pushOverlay(Layer* layer);
+    void    onEvent(Event& e);
+    void    pushLayer(Layer* layer);
+    void    pushOverlay(Layer* layer);
     Window& getWindow()
     {
         return *m_window;
@@ -50,11 +50,11 @@ private:
 
 private:
     std::unique_ptr<Window> m_window;
-    ImGuiLayer* m_imguiLayer;
-    bool m_running = true;
-    bool m_minimized = false;
-    LayerStack m_layerStack;
-    float m_lastFrameTime = 0.0f;
+    ImGuiLayer*             m_imguiLayer;
+    bool                    m_running   = true;
+    bool                    m_minimized = false;
+    LayerStack              m_layerStack;
+    float                   m_lastFrameTime = 0.0f;
 
 private:
     static Application* s_instance;
@@ -63,4 +63,4 @@ private:
 // to be defined in CLIENT
 Application* createApplication();
 
-}  // namespace hazel
+} // namespace hazel

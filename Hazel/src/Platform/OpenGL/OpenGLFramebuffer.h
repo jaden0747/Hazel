@@ -10,7 +10,7 @@ namespace hazel
 class OpenGLFramebuffer : public Framebuffer
 {
 public:
-    OpenGLFramebuffer(const FramebufferSpecification &spec);
+    OpenGLFramebuffer(const FramebufferSpecification& spec);
 
     virtual ~OpenGLFramebuffer();
 
@@ -27,17 +27,17 @@ public:
         return m_colorAttachment;
     }
 
-    const FramebufferSpecification &getSpecification() const override
+    const FramebufferSpecification& getSpecification() const override
     {
         return m_specification;
     }
 
-    friend std::ostream &operator<<(std::ostream &os, const OpenGLFramebuffer &rhs);
+    friend std::ostream& operator<<(std::ostream& os, const OpenGLFramebuffer& rhs);
 
 private:
-    uint32_t m_rendererID = 0;
-    uint32_t m_colorAttachment = 0, m_depthAttachment = 0;
+    uint32_t                 m_rendererID      = 0;
+    uint32_t                 m_colorAttachment = 0, m_depthAttachment = 0;
     FramebufferSpecification m_specification;
 };
 
-}  // namespace hazel
+} // namespace hazel

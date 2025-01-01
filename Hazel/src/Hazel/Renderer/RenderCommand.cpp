@@ -6,4 +6,4 @@
 namespace hazel
 {
 Scope<RendererAPI> RenderCommand::s_rendererAPI = RendererAPI::create();
-}
+} // namespace hazel

@@ -45,4 +45,4 @@ void LayerStack::popOverlay(Layer* overlay)
     }
 }
 
-}  // namespace hazel
+} // namespace hazel

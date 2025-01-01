@@ -13,7 +13,7 @@ public:
     }
 
     template <typename T>
-    T &getComponent()
+    T& getComponent()
     {
         return m_entity.getComponent<T>();
     }
@@ -34,4 +34,4 @@ private:
     friend class Scene;
 };
 
-}  // namespace hazel
+} // namespace hazel

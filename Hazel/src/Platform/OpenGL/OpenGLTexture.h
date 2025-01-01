@@ -38,10 +38,10 @@ public:
 
 private:
     std::string m_path;
-    uint32_t m_width, m_height;
-    uint32_t m_rendererID;
-    GLenum m_internalFormat;
-    GLenum m_dataFormat;
+    uint32_t    m_width, m_height;
+    uint32_t    m_rendererID;
+    GLenum      m_internalFormat;
+    GLenum      m_dataFormat;
 };
 
-}  // namespace hazel
+} // namespace hazel

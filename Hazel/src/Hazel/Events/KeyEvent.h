@@ -28,8 +28,8 @@ class KeyPressedEvent : public KeyEvent
 {
 public:
     KeyPressedEvent(Key Key, int repeatCount)
-        : KeyEvent(Key),
-          m_repeatCount(repeatCount)
+        : KeyEvent(Key)
+        , m_repeatCount(repeatCount)
     {
     }
 
@@ -86,4 +86,4 @@ public:
 
     EVENT_CLASS_TYPE(KeyTyped)
 };
-}  // namespace hazel
+} // namespace hazel

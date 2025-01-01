@@ -19,4 +19,4 @@ public:
 
     static float getMouseY();
 };
-}  // namespace hazel
+} // namespace hazel

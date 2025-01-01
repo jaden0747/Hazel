@@ -16,8 +16,8 @@
 namespace hazel
 {
 ImGuiLayer::ImGuiLayer(const std::string& iniFilename)
-    : Layer("ImGuiLayer"),
-      m_iniFilename(iniFilename)
+    : Layer("ImGuiLayer")
+    , m_iniFilename(iniFilename)
 {
 }
 
@@ -30,10 +30,10 @@ void ImGuiLayer::onAttach()
     ImGuiIO& io = ImGui::GetIO();
     (void)io;
     io.IniFilename = m_iniFilename.c_str();
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
     // io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;    // Enable Docking
-    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;  // Enable Multi-Viewport / Platform Windows
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;   // Enable Docking
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; // Enable Multi-Viewport / Platform Windows
     // io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoTaskBarIcons;
     // io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoMerge;
 
@@ -44,12 +44,12 @@ void ImGuiLayer::onAttach()
     ImGuiStyle& style = ImGui::GetStyle();
     if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
     {
-        style.WindowRounding = 0.0f;
+        style.WindowRounding              = 0.0f;
         style.Colors[ImGuiCol_WindowBg].w = 1.0f;
     }
 
-    Application& app = Application::get();
-    GLFWwindow* window = static_cast<GLFWwindow*>(app.getWindow().getNativeWindow());
+    Application& app    = Application::get();
+    GLFWwindow*  window = static_cast<GLFWwindow*>(app.getWindow().getNativeWindow());
 
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 410");
@@ -87,9 +87,9 @@ void ImGuiLayer::end()
 {
     HZ_PROFILE_FUNCTION();
 
-    ImGuiIO& io = ImGui::GetIO();
+    ImGuiIO&     io  = ImGui::GetIO();
     Application& app = Application::get();
-    io.DisplaySize = ImVec2((float)app.getWindow().getWidth(), (float)app.getWindow().getHeight());
+    io.DisplaySize   = ImVec2((float)app.getWindow().getWidth(), (float)app.getWindow().getHeight());
 
     // Rendering
     ImGui::Render();
@@ -104,4 +104,4 @@ void ImGuiLayer::end()
     }
 }
 
-}  // namespace hazel
+} // namespace hazel

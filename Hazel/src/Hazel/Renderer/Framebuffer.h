@@ -8,8 +8,8 @@ namespace hazel
 struct FramebufferSpecification
 {
     uint32_t width, height;
-    uint32_t samples = 1;
-    bool swapChainTarget = false;
+    uint32_t samples         = 1;
+    bool     swapChainTarget = false;
 };
 
 class Framebuffer
@@ -30,4 +30,4 @@ public:
     static Ref<Framebuffer> create(const FramebufferSpecification& spec);
 };
 
-}  // namespace hazel
+} // namespace hazel

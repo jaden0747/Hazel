@@ -53,6 +53,6 @@ private:
     glm::mat4 m_viewProjectionMatrix;
 
     glm::vec3 m_position = {0.0f, 0.0f, 0.0f};
-    float m_rotation = 0.0f;
+    float     m_rotation = 0.0f;
 };
-}  // namespace hazel
+} // namespace hazel

@@ -28,7 +28,7 @@ private:
     static Ref<spdlog::logger> s_client_logger_;
 };
 
-}  // namespace hazel
+} // namespace hazel
 
 //! CORE LOG MACRO
 

@@ -32,8 +32,8 @@ private:
 private:
     float m_orthographicSize = 10.0f;
     float m_orthographicNear = -1.0f;
-    float m_orthographicFar = 1.0f;
-    float m_aspectRatio = 0.0f;
+    float m_orthographicFar  = 1.0f;
+    float m_aspectRatio      = 0.0f;
 };
 
-}  // namespace hazel
+} // namespace hazel

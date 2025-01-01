@@ -62,7 +62,7 @@ public:
 
 private:
     entt::entity m_entityHandle{entt::null};
-    Scene* m_scene = nullptr;
+    Scene*       m_scene = nullptr;
 };
 
-}  // namespace hazel
+} // namespace hazel

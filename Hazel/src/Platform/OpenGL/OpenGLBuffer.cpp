@@ -89,4 +89,4 @@ void OpenGLIndexBuffer::unbind() const
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
-}  // namespace hazel
+} // namespace hazel

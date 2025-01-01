@@ -26,7 +26,7 @@ public:
     }
 
 private:
-    uint32_t m_rendererID;
+    uint32_t     m_rendererID;
     BufferLayout m_layout;
 };
 
@@ -36,7 +36,7 @@ public:
     OpenGLIndexBuffer(uint32_t* indices, uint32_t count);
     virtual ~OpenGLIndexBuffer();
 
-    void bind() const override;
+    void         bind() const override;
     virtual void unbind() const;
 
     virtual uint32_t getCount() const
@@ -48,4 +48,4 @@ private:
     uint32_t m_count;
     uint32_t m_rendererID;
 };
-}  // namespace hazel
+} // namespace hazel

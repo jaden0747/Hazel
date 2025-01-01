@@ -9,8 +9,8 @@ class MouseMovedEvent : public Event
 {
 public:
     MouseMovedEvent(float x, float y)
-        : m_mouse_x(x),
-          m_mouse_y(y)
+        : m_mouse_x(x)
+        , m_mouse_y(y)
     {
     }
 
@@ -43,8 +43,8 @@ class MouseScrolledEvent : public Event
 {
 public:
     MouseScrolledEvent(float x_offset, float y_offset)
-        : m_offset_x(x_offset),
-          m_offset_y(y_offset)
+        : m_offset_x(x_offset)
+        , m_offset_y(y_offset)
     {
     }
 
@@ -127,4 +127,4 @@ public:
     EVENT_CLASS_TYPE(MouseButtonReleased)
 };
 
-}  // namespace hazel
+} // namespace hazel

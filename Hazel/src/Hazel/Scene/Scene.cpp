@@ -31,18 +31,20 @@ void Scene::onUpdate(Timestep ts)
 {
     // Update scripts
     {
-        m_registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc) {
-            if (!nsc.m_instance)
+        m_registry.view<NativeScriptComponent>().each(
+            [=](auto entity, auto& nsc)
             {
-                nsc.m_instance = nsc.instantiateScript();
-                nsc.m_instance->m_entity = Entity{entity, this};
-                nsc.m_instance->onCreate();
-            }
-            nsc.m_instance->onUpdate(ts);
-        });
+                if (!nsc.m_instance)
+                {
+                    nsc.m_instance           = nsc.instantiateScript();
+                    nsc.m_instance->m_entity = Entity{entity, this};
+                    nsc.m_instance->onCreate();
+                }
+                nsc.m_instance->onUpdate(ts);
+            });
     }
     // Render 2D
-    Camera* mainCamera = nullptr;
+    Camera*    mainCamera      = nullptr;
     glm::mat4* cameraTransform = nullptr;
     {
         auto view = m_registry.view<TransformComponent, CameraComponent>();
@@ -52,7 +54,7 @@ void Scene::onUpdate(Timestep ts)
 
             if (camera.m_primary)
             {
-                mainCamera = &camera.m_camera;
+                mainCamera      = &camera.m_camera;
                 cameraTransform = &transform.m_transform;
                 break;
             }
@@ -75,7 +77,7 @@ void Scene::onUpdate(Timestep ts)
 
 void Scene::onViewportResize(uint32_t width, uint32_t height)
 {
-    m_viewportWidth = width;
+    m_viewportWidth  = width;
     m_viewportHeight = height;
 
     // Resize our non-fixedAspectRatio cameras
@@ -90,4 +92,4 @@ void Scene::onViewportResize(uint32_t width, uint32_t height)
     }
 }
 
-}  // namespace hazel
+} // namespace hazel

@@ -35,4 +35,4 @@ public:
 private:
     static Scope<RendererAPI> s_rendererAPI;
 };
-}  // namespace hazel
+} // namespace hazel

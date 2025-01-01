@@ -10,4 +10,4 @@ Layer::Layer(const std::string& debugName)
 {
 }
 
-}  // namespace hazel
+} // namespace hazel

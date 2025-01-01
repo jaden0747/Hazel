@@ -26,9 +26,9 @@ public:
     }
 
 private:
-    uint32_t m_rendererID;
-    uint32_t m_vertexBufferIndex = 0u;
+    uint32_t                       m_rendererID;
+    uint32_t                       m_vertexBufferIndex = 0u;
     std::vector<Ref<VertexBuffer>> m_vertexBuffers;
-    Ref<IndexBuffer> m_indexBuffer;
+    Ref<IndexBuffer>               m_indexBuffer;
 };
-}  // namespace hazel
+} // namespace hazel

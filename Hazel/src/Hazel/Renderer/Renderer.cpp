@@ -34,7 +34,10 @@ void Renderer::endScene()
 {
 }
 
-void Renderer::submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray, const glm::mat4& transform)
+void Renderer::submit(
+    const std::shared_ptr<Shader>&      shader,
+    const std::shared_ptr<VertexArray>& vertexArray,
+    const glm::mat4&                    transform)
 {
     shader->bind();
     shader->setMat4("u_ViewProjection", s_sceneData->m_viewProjectionMatrix);
@@ -43,4 +46,4 @@ void Renderer::submit(const std::shared_ptr<Shader>& shader, const std::shared_p
     vertexArray->bind();
     RenderCommand::drawIndexed(vertexArray);
 }
-}  // namespace hazel
+} // namespace hazel

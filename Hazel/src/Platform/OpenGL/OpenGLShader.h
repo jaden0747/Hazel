@@ -43,12 +43,12 @@ public:
     void uploadUniformMat4(const std::string& name, const glm::mat4& matrix);
 
 private:
-    std::string readFile(const std::string& filepath);
+    std::string                             readFile(const std::string& filepath);
     std::unordered_map<GLenum, std::string> preProcess(const std::string& source);
-    void compile(const std::unordered_map<GLenum, std::string>& shaderSources);
+    void                                    compile(const std::unordered_map<GLenum, std::string>& shaderSources);
 
 private:
-    uint32_t m_rendererID;
+    uint32_t    m_rendererID;
     std::string m_name;
 };
-}  // namespace hazel
+} // namespace hazel

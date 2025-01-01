@@ -8,8 +8,8 @@ class WindowResizeEvent : public Event
 {
 public:
     WindowResizeEvent(unsigned int width, unsigned int height)
-        : m_width(width),
-          m_height(height)
+        : m_width(width)
+        , m_height(height)
     {
     }
 
@@ -73,4 +73,4 @@ public:
     EVENT_CLASS_TYPE(AppRender)
     EVENT_CLASS_CATEGORY(EventCategoryApplication)
 };
-}  // namespace hazel
+} // namespace hazel

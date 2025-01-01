@@ -19,4 +19,4 @@ Scope<Window> Window::create(const WindowProps& props)
 #endif
 }
 
-}  // namespace hazel
+} // namespace hazel

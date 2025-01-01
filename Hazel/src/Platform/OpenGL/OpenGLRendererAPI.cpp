@@ -6,22 +6,29 @@
 
 namespace hazel
 {
-void OpenGLMessageCallback(unsigned source, unsigned type, unsigned id, unsigned severity, int length, const char* message, const void* userParam)
+void OpenGLMessageCallback(
+    unsigned    source,
+    unsigned    type,
+    unsigned    id,
+    unsigned    severity,
+    int         length,
+    const char* message,
+    const void* userParam)
 {
     switch (severity)
     {
-        case GL_DEBUG_SEVERITY_HIGH:
-            HZ_CORE_CRITICAL(message);
-            return;
-        case GL_DEBUG_SEVERITY_MEDIUM:
-            HZ_CORE_ERROR(message);
-            return;
-        case GL_DEBUG_SEVERITY_LOW:
-            HZ_CORE_WARN(message);
-            return;
-        case GL_DEBUG_SEVERITY_NOTIFICATION:
-            HZ_CORE_TRACE(message);
-            return;
+    case GL_DEBUG_SEVERITY_HIGH:
+        HZ_CORE_CRITICAL(message);
+        return;
+    case GL_DEBUG_SEVERITY_MEDIUM:
+        HZ_CORE_ERROR(message);
+        return;
+    case GL_DEBUG_SEVERITY_LOW:
+        HZ_CORE_WARN(message);
+        return;
+    case GL_DEBUG_SEVERITY_NOTIFICATION:
+        HZ_CORE_TRACE(message);
+        return;
     }
 
     HZ_CORE_ASSERT(false, "Unknown severity level!");
@@ -66,4 +73,4 @@ void OpenGLRendererAPI::drawIndexed(const std::shared_ptr<VertexArray>& vertexAr
     glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
     glBindTexture(GL_TEXTURE_2D, 0);
 }
-}  // namespace hazel
+} // namespace hazel

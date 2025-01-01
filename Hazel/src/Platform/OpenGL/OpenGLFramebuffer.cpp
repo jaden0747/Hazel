@@ -9,7 +9,7 @@ namespace hazel
 
 static const uint32_t s_maxFramebufferSize = 8192;
 
-OpenGLFramebuffer::OpenGLFramebuffer(const FramebufferSpecification &spec)
+OpenGLFramebuffer::OpenGLFramebuffer(const FramebufferSpecification& spec)
     : m_specification(spec)
 {
     invalidate();
@@ -36,7 +36,16 @@ void OpenGLFramebuffer::invalidate()
 
     glCreateTextures(GL_TEXTURE_2D, 1, &m_colorAttachment);
     glBindTexture(GL_TEXTURE_2D, m_colorAttachment);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_specification.width, m_specification.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+    glTexImage2D(
+        GL_TEXTURE_2D,
+        0,
+        GL_RGBA8,
+        m_specification.width,
+        m_specification.height,
+        0,
+        GL_RGBA,
+        GL_UNSIGNED_BYTE,
+        nullptr);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
@@ -72,17 +81,17 @@ void OpenGLFramebuffer::resize(uint32_t width, uint32_t height)
         return;
     }
 
-    m_specification.width = width;
+    m_specification.width  = width;
     m_specification.height = height;
 
     invalidate();
 }
 
-std::ostream &operator<<(std::ostream &os, const OpenGLFramebuffer &rhs)
+std::ostream& operator<<(std::ostream& os, const OpenGLFramebuffer& rhs)
 {
-    os << " m_rendererID: " << rhs.m_rendererID << " m_depthAttachment: " << rhs.m_depthAttachment << " m_colorAttachment: " << rhs.m_colorAttachment
-       << " m_specification: " << rhs.m_specification;
+    os << " m_rendererID: " << rhs.m_rendererID << " m_depthAttachment: " << rhs.m_depthAttachment
+       << " m_colorAttachment: " << rhs.m_colorAttachment << " m_specification: " << rhs.m_specification;
     return os;
 }
 
-}  // namespace hazel
+} // namespace hazel

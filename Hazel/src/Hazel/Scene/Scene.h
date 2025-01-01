@@ -21,11 +21,11 @@ public:
 
 private:
     entt::registry m_registry;
-    uint32_t m_viewportWidth = 0;
-    uint32_t m_viewportHeight = 0;
+    uint32_t       m_viewportWidth  = 0;
+    uint32_t       m_viewportHeight = 0;
 
     friend class Entity;
     friend class SceneHierarchyPanel;
 };
 
-}  // namespace hazel
+} // namespace hazel
